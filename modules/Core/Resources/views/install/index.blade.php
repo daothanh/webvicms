@@ -53,10 +53,10 @@
             </div>
             <div class="form-group">
                 <label for="">User</label>
-                {{ Form::text('db_user', old('db_user'), ['class' => $errors->has('db_user') ? 'is-invalid form-control' : 'form-control']) }}
-                @if($errors->has('db_user'))
+                {{ Form::text('db_username', old('db_username'), ['class' => $errors->has('db_user') ? 'is-invalid form-control' : 'form-control']) }}
+                @if($errors->has('db_username'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('db_user') }}
+                        {{ $errors->first('db_username') }}
                     </div>
                 @endif
             </div>
