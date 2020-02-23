@@ -8,7 +8,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Modules\Core\Console\Installers\Writers\EnvFileWriter;
+use Modules\Core\Support\EnvFileWriter;
 use Modules\User\Repositories\UserRepository;
 use PDOException;
 
@@ -40,7 +40,7 @@ class InstallController extends Controller
                 'db_host' => 'required',
                 'db_port' => 'required',
                 'db_database' => 'required',
-                'db_user' => 'required',
+                'db_username' => 'required',
                 'db_password' => 'required',
                 'user_name' => 'required',
                 'user_email' => 'required',
@@ -54,13 +54,13 @@ class InstallController extends Controller
                 'db_driver' => 'mysql',
                 'db_host' => $data['db_host'],
                 'db_port' => $data['db_port'],
-                'db_user' => $data['db_user'],
+                'db_username' => $data['db_username'],
                 'db_password' => $data['db_password'],
-                'db_database' => $data['db_database']
+                'db_database' => $data['db_database'],
             ];
             $this->setLaravelConfiguration($databaseConfigs);
             if (!$this->databaseConnectionIsValid()) {
-                return redirect()->back()->withErrors(['db_user' => 'Thông tin kết nối cơ sở dữ liệu không đúng!'])->withInput();
+                return redirect()->back()->withErrors(['db_username' => 'Thông tin kết nối cơ sở dữ liệu không đúng!'])->withInput();
             }
             $this->env->write($databaseConfigs);
 
@@ -93,8 +93,8 @@ class InstallController extends Controller
                 'password' => $data['user_password']
             ];
             $this->createUser($userData);
-            $this->env->write(['app_installed' => 'true', 'app_name' => "{$data['app_name']}", 'app_url' => $data['app_url']]);
-            return redirect()->route('home');
+            $this->env->write(['installed' => 'true', 'app_name' => "{$data['app_name']}", 'app_url' => $data['app_url']]);
+            return redirect()->route('admin');
         }
         $this->seo()->setTitle('Cài đặt ứng dụng');
         return view('core::install.index');
@@ -161,7 +161,7 @@ class InstallController extends Controller
         $this->config['database.connections.' . $driver . '.host'] = $vars['db_host'];
         $this->config['database.connections.' . $driver . '.port'] = $vars['db_port'];
         $this->config['database.connections.' . $driver . '.database'] = $vars['db_database'];
-        $this->config['database.connections.' . $driver . '.username'] = $vars['db_user'];
+        $this->config['database.connections.' . $driver . '.username'] = $vars['db_username'];
         $this->config['database.connections.' . $driver . '.password'] = $vars['db_password'];
 
         app(DatabaseManager::class)->purge($driver);
