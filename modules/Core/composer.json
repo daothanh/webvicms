@@ -1,0 +1,28 @@
+{
+    "name": "webvi/core",
+    "description": "The Core module of Webvi CMS",
+    "type": "webvi-module",
+    "authors": [
+        {
+            "name": "Webvi Việt Nam",
+            "email": "lienhe@webvi.vn"
+        }
+    ],
+    "extra": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Core\\": ""
+        }
+    },
+    "require": {
+        "artesaos/seotools": "^0.16.0",
+        "astrotomic/laravel-translatable": "^11.1",
+        "laravel/slack-notification-channel": "^2.0",
+        "laravelcollective/html": "^6.0",
+        "maatwebsite/laravel-sidebar": "~2.1",
+        "tightenco/ziggy": "^0.8.1",
+        "typicms/nestablecollection": "^1.1",
+        "webvi/installers": "dev-master"
+    }
+}

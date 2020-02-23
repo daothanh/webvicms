@@ -1,0 +1,7 @@
+{
+    "name": "Admin",
+    "code": "admin",
+    "version": "1.0.0",
+    "type": "backend",
+    "description": "A theme is build on Bootstrap"
+}

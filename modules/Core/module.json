@@ -1,0 +1,19 @@
+{
+    "name": "Core",
+    "alias": "core",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Core\\Providers\\CoreServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "composers.php",
+        "helpers.php",
+        "macros.php",
+        "collectionMacros.php"
+    ],
+    "requires": []
+}

@@ -1,0 +1,22 @@
+{
+    "name": "webvi/media",
+    "description": "Mange the media: images, videos, documents, ...",
+    "type": "webvi-module",
+    "authors": [
+        {
+            "name": "Webvi Việt Nam",
+            "email": "lienhe@webvi.vn"
+        }
+    ],
+    "extra": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Media\\": ""
+        }
+    },
+    "require": {
+        "intervention/image": "^2.4",
+        "webvi/installers": "dev-master"
+    }
+}

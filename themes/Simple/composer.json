@@ -1,0 +1,14 @@
+{
+    "name": "webvi/simple",
+    "description": "The Simple theme",
+    "type": "webvi-theme",
+    "authors": [
+        {
+            "name": "Webvi Việt Nam",
+            "email": "lienhe@webvi.vn"
+        }
+    ],
+    "require": {
+        "webvi/installers": "dev-master"
+    }
+}
