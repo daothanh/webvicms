@@ -60,7 +60,7 @@ class InstallController extends Controller
             ];
             $this->setLaravelConfiguration($databaseConfigs);
             if (!$this->databaseConnectionIsValid()) {
-                return redirect()->back()->withErrors(['db_username' => 'Thông tin kết nối cơ sở dữ liệu không đúng!'])->withInput();
+                return redirect()->back()->withErrors(['db_username' => __('User or password is not correct!')])->withInput();
             }
             $this->env->write($databaseConfigs);
 
