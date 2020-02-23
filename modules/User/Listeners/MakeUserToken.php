@@ -28,7 +28,7 @@ class MakeUserToken
     public function handle(UserWasCreated $event)
     {
         $user = $event->getEntity();
-        $data = $event->submissionData();
+        $data = $event->getSubmissionData();
 
         app(\Modules\User\Repositories\UserRepository::class)->generateTokenFor($user);
         $role = Arr::get($data, 'role', 'user');
