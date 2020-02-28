@@ -13,7 +13,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Modules\User\Http\Controllers';
+    protected $moduleNamespace = 'Modules\User\Http\Controllers';
 
     protected $modulePath = __DIR__."/..";
 }
