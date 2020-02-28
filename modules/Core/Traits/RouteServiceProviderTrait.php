@@ -1,33 +1,11 @@
 <?php
 
-namespace Modules\Page\Providers;
+namespace Modules\Core\Traits;
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Core\Traits\RouteServiceProviderTrait;
 
-class RouteServiceProvider extends ServiceProvider
+trait RouteServiceProviderTrait
 {
-    use RouteServiceProviderTrait;
-    /**
-     * The root namespace to assume when generating URLs to actions.
-     *
-     * @var string
-     */
-    protected $namespace = 'Modules\Page\Http\Controllers';
-
-    /**
-     * Called before routes are registered.
-     *
-     * Register any model bindings or pattern based filters.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
-
     /**
      * Define the routes for the application.
      *
@@ -61,18 +39,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(__DIR__ . '/../Routes/web.php');
+        Route::middleware(['web'])
+            ->namespace($this->moduleNamespace)
+            ->group(realpath($this->modulePath . '/Routes/web.php'));
     }
 
     protected function mapWebAdminRoutes()
     {
-        Route::prefix('admin')
-            ->middleware(['web', 'admin'])
-            ->namespace($this->namespace.'\Admin')
-            ->group(__DIR__ . '/../Routes/admin.php');
+        $adminRoutesFile = realpath($this->modulePath . '/Routes/admin.php');
+        if (\File::exists($adminRoutesFile)) {
+            Route::prefix('admin')
+                ->middleware(['web', 'admin'])
+                ->namespace($this->moduleNamespace . '\Admin')
+                ->group($adminRoutesFile);
+        }
     }
+
     /**
      * Define the "api" routes for the application.
      *
@@ -84,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware(['api'])
-            ->namespace($this->namespace.'\Api')
-            ->group(__DIR__ . '/../Routes/api.php');
+            ->namespace($this->moduleNamespace . '\Api')
+            ->group(realpath($this->modulePath . '/Routes/api.php'));
     }
 }
