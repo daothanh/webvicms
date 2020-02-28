@@ -82,6 +82,15 @@ class MenuSidebarExtender extends AdminSidebar
                         $this->auth->hasRole('admin')
                     );
                 });
+
+                $item->item(trans('core::core.Clear cache'), function (Item $item) {
+                    $item->weight(0);
+                    $item->icon('icon ion-md-cache');
+                    $item->route('admin.settings.clear_cache');
+                    $item->authorize(
+                        $this->auth->hasRole('admin')
+                    );
+                });
             });
         });
         return $menu;

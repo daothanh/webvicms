@@ -83,4 +83,19 @@ class SettingsController extends BaseAdminController
 
         return $this->view('core::admin.settings.company', compact('company'));
     }
+
+    public function clearCache(Request $request)
+    {
+        \Artisan::call("cache:clear");
+        \Artisan::call('view:clear');
+        \Artisan::call('route:clear');
+        \Artisan::call('optimize:clear');
+        \Artisan::call('event:clear');
+        \Artisan::call('config:clear');
+
+        $this->seo()->setTitle(trans('core::core.Clear cache'));
+        $this->breadcrumb->addItem(trans('core::core.Clear cache'));
+
+        return $this->view('core::admin.settings.clear-cache');
+    }
 }

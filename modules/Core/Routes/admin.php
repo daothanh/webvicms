@@ -10,5 +10,6 @@ Route::group(['prefix' => 'settings', 'middleware' => 'role:admin'], function ()
     Route::match(['get', 'post'], '/account', ['uses' => 'SettingsController@account', 'as' => 'admin.settings.account']);
     Route::match(['get', 'post'], '/company', ['uses' => 'SettingsController@company', 'as' => 'admin.settings.company']);
     Route::get('languages', 'LanguageController@index')->name('admin.languages');
+    Route::get('clear-cache', 'SettingsController@clearCache')->name('admin.settings.clear_cache');
 });
 
