@@ -94,6 +94,7 @@ class InstallController extends Controller
             ];
             $this->createUser($userData);
             $this->env->write(['installed' => 'true', 'app_name' => "{$data['app_name']}", 'app_url' => $data['app_url']]);
+            Artisan::call('storage:link');
             return redirect()->route('admin');
         }
         $this->seo()->setTitle('Cài đặt ứng dụng');
