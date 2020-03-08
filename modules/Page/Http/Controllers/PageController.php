@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Page\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Modules\Core\Http\Controllers\Controller;
 use Modules\Page\Repositories\PageRepository;
 
@@ -29,7 +30,7 @@ class PageController extends Controller
             $this->seo()->metatags()->setKeywords(explode(',', $seo->keywords));
         } else {
             $this->seo()->setTitle($page->title);
-            $this->seo()->setDescription(str_limit(clean_html($page->body)));
+            $this->seo()->setDescription(Str::limit(clean_html($page->body)));
         }
         $this->seo()->setCanonical($page->getUrl());
 
