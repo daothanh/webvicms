@@ -76,6 +76,8 @@ class InstallController extends Controller
                 'Page',
                 'Tag',
                 'User',
+                'Blog',
+                'Commerce'
             ];
             foreach ($modules as $module) {
                 Artisan::call('module:migrate', ['module' => $module]);
