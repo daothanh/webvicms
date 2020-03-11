@@ -20,7 +20,7 @@
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.0",
         "maatwebsite/laravel-sidebar": "~2.1",
-        "nwidart/laravel-modules": "^5.0",
+        "nwidart/laravel-modules": "^6.0",
         "spatie/laravel-permission": "^3.6.0",
         "tightenco/ziggy": "^0.8.1"
     },

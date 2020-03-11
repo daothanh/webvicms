@@ -1,0 +1,9 @@
+{
+    "Core": true,
+    "Blog": true,
+    "Commerce": true,
+    "Media": true,
+    "Page": true,
+    "Tag": true,
+    "User": true
+}
