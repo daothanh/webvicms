@@ -34,6 +34,9 @@
                             $seo = $seo->translate($lang);
                         }
                     @endphp
+                    @if($seo)
+                        {{ Form::hidden("seo[{$lang}][id]", $seo->id) }}
+                    @endif
                     @if($hasMoreLanguages)
                         <div class="pt-3 tab-pane fade show @if($lang === $l) active @endif"
                              id="stab-{{ $lang }}" role="tabpanel" aria-labelledby="{{ $lang }}-stab">

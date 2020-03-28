@@ -32,43 +32,29 @@ class HandleEntityChange
             if (!empty($data)) {
                 $entity = $event->getEntity();
                 $entityType = $event->getEntityClass();
-
-                $locales = locales();
-                $isMultipleLocale = false;
-                foreach ($locales as $locale) {
-                    if (isset($data[$locale])) {
-                        $isMultipleLocale = true;
-                        $seoData = $data[$locale];
-                        if ($this->isNotEmpty($seoData)) {
-                            $seoData['entity_id'] = $entity->id;
-                            $seoData['entity_type'] = $entityType;
-                            $seoData['locale'] = $locale;
-                            $seo = Seo::query()
-                                ->where('entity_id', '=', $entity->id)
-                                ->where('entity_type', '=', $entityType)
-                                ->where('locale', '=', $locale)
-                                ->first();
-                            if ($seo) {
-                                $seo->update($seoData);
-                            } else {
-                                $seo = Seo::create($seoData);
-                            }
+                foreach ($data as $locale => $seoData) {
+                    if ($this->isNotEmpty($seoData)) {
+                        $seoData = array_merge($seoData, [
+                            'entity_id' => $entity->id,
+                            'entity_type' => $entityType,
+                            'locale' => $locale
+                        ]);
+                        $seo = Seo::query()
+                            ->where('entity_id', '=', $entity->id)
+                            ->where('entity_type', '=', $entityType)
+                            ->where('locale', '=', $locale)
+                            ->first();
+                        if ($seo) {
+                            $seo->update($seoData);
+                        } else {
+                            Seo::create($seoData);
                         }
-                    }
-                }
-
-                if (!$isMultipleLocale && $this->isNotEmpty($data)) {
-                    $data['entity_id'] = $entity->id;
-                    $data['entity_type'] = $entityType;
-                    $data['locale'] = locale();
-                    $seo = Seo::query()
-                        ->where('entity_id', '=', $entity->id)
-                        ->where('entity_type', '=', $entityType)
-                        ->first();
-                    if ($seo) {
-                        $seo->update($data);
                     } else {
-                        $seo = Seo::create($data);
+                        Seo::query()
+                            ->where('entity_id', '=', $entity->id)
+                            ->where('entity_type', '=', $entityType)
+                            ->where('locale', '=', $locale)
+                            ->delete();
                     }
                 }
             }
@@ -78,8 +64,8 @@ class HandleEntityChange
     protected function isNotEmpty($data)
     {
         $isEmpty = true;
-        foreach ($data as $v) {
-            if (!empty($v)) {
+        foreach ($data as $key => $v) {
+            if ($key !== 'id' && !empty($v)) {
                 $isEmpty = false;
                 break;
             }
