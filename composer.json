@@ -22,7 +22,8 @@
         "maatwebsite/laravel-sidebar": "~2.1",
         "nwidart/laravel-modules": "^6.0",
         "spatie/laravel-permission": "^3.6.0",
-        "tightenco/ziggy": "^0.8.1"
+        "tightenco/ziggy": "^0.8.1",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

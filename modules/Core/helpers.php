@@ -14,6 +14,11 @@ if (!function_exists('languages')) {
                     'code' => 'vi',
                     'native' => 'Tiếng Việt',
                     'name' => 'Vietnamese'
+                ],
+                [
+                    'code' => 'en',
+                    'native' => 'English',
+                    'name' => 'English'
                 ]
             ];
         }

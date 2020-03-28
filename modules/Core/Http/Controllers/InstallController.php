@@ -8,6 +8,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Validator;
 use Modules\Core\Support\EnvFileWriter;
 use Modules\User\Repositories\UserRepository;
 use PDOException;
@@ -44,9 +45,21 @@ class InstallController extends Controller
                 'db_password' => 'required',
                 'user_name' => 'required',
                 'user_email' => 'required',
-                'user_password' => 'required',
+                'user_password' => 'required|confirmed',
             ];
-            $validator = \Validator::make($data, $rules);
+            $validator = Validator::make($data, $rules);
+            $validator->setAttributeNames([
+                'app_name' => trans('core::core.installation.validation.app.name'),
+                'app_url' => trans('core::core.installation.validation.app.url'),
+                'db_host' => trans('core::core.installation.validation.database.host'),
+                'db_port' => trans('core::core.installation.validation.database.port'),
+                'db_database' => trans('core::core.installation.validation.database.name'),
+                'db_username' => trans('core::core.installation.validation.database.user'),
+                'db_password' => trans('core::core.installation.validation.database.password'),
+                'user_name' => trans('core::core.installation.validation.account.name'),
+                'user_email' => trans('core::core.installation.validation.account.email'),
+                'user_password' => trans('core::core.installation.validation.account.password'),
+            ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator->messages())->withInput();
             }
@@ -59,8 +72,9 @@ class InstallController extends Controller
                 'db_database' => $data['db_database'],
             ];
             $this->setLaravelConfiguration($databaseConfigs);
-            if (!$this->databaseConnectionIsValid()) {
-                return redirect()->back()->withErrors(['db_username' => __('User or password is not correct!')])->withInput();
+            $databaseIsValid = $this->databaseConnectionIsValid();
+            if ( $databaseIsValid !== true) {
+                return redirect()->back()->withErrors(['db_username' => $databaseIsValid.". ".trans('The password is incorrect or the :db database is not existing', ['db' => $data['db_database']])])->withInput();
             }
             $this->env->write($databaseConfigs);
 
@@ -99,7 +113,7 @@ class InstallController extends Controller
             Artisan::call('storage:link');
             return redirect()->route('admin');
         }
-        $this->seo()->setTitle('Cài đặt ứng dụng');
+        $this->seo()->setTitle(trans('core::core.installation.labels.title'));
         return view('core::install.index');
     }
 
@@ -153,8 +167,10 @@ class InstallController extends Controller
         $user->assignRole('admin');
         return $user;
     }
+
     /**
      * @param array $vars
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function setLaravelConfiguration($vars)
     {
@@ -181,7 +197,7 @@ class InstallController extends Controller
             app('db')->reconnect()->getPdo();
             return true;
         } catch (PDOException $e) {
-            return false;
+            return $e->getMessage();
         }
     }
 }
