@@ -24,7 +24,7 @@ class MenuSidebarExtender extends AdminSidebar
                     $item->icon('icon ion-md-albums');
                     $item->route('admin.blog.post.index');
                     $item->authorize(
-                        $this->auth->hasRole('admin')
+                        $this->auth->hasAccess('blog.post.list posts')
                     );
                 });
                 $item->item(trans('blog::category.title.Categories'), function (Item $item) {
@@ -32,7 +32,7 @@ class MenuSidebarExtender extends AdminSidebar
                     $item->icon('icon ion-md-albums');
                     $item->route('admin.blog.category.index');
                     $item->authorize(
-                        $this->auth->hasRole('admin')
+                        $this->auth->hasAccess('blog.post_category.list categories')
                     );
                 });
             });

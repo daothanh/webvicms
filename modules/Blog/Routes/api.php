@@ -21,36 +21,36 @@ Route::group(['prefix' => 'blog'], function () {
         Route::get('index', [
             'as' => 'api.blog.post.index',
             'uses' => 'PostController@index',
-        ]);
+        ])->middleware(['permission:blog.post.list posts']);
         Route::post('delete/multiple', [
             'as' => 'api.blog.post.delete-multiple',
             'uses' => 'PostController@destroyMultiple',
-        ]);
-        Route::delete('delete/{post}', [
+        ])->middleware(['permission:blog.post.delete post']);
+        Route::delete('delete/{id}', [
             'as' => 'api.blog.post.delete',
             'uses' => 'PostController@destroy',
-        ])->where('post', '[0-9]+');
+        ])->where('id', '[0-9]+')->middleware(['permission:blog.post.delete post']);
         Route::post('force-delete/multiple', [
             'as' => 'api.blog.post.force-delete-multiple',
             'uses' => 'PostController@forceDestroyMultiple',
-        ]);
-        Route::delete('force-delete/{postId}', [
+        ])->middleware(['permission:blog.post.delete post']);
+        Route::delete('force-delete/{id}', [
             'as' => 'api.blog.post.force-delete',
             'uses' => 'PostController@forceDestroy',
-        ])->where('postId', '[0-9]+');
+        ])->where('id', '[0-9]+')->middleware(['permission:blog.post.delete post']);
 
         Route::post('store', [
             'as' => 'api.blog.post.store',
             'uses' => 'PostController@store',
-        ]);
+        ])->middleware(['permission:blog.post.create post|blog.post.edit post']);
         Route::post('restore/multiple', [
             'as' => 'api.blog.post.restore-multiple',
             'uses' => 'PostController@restoreMultiple',
         ]);
-        Route::post('restore/{postId}', [
+        Route::post('restore/{id}', [
             'as' => 'api.blog.post.restore',
             'uses' => 'PostController@restore',
-        ])->where('postId', '[0-9]+');
+        ])->where('id', '[0-9]+');
         Route::post('toggle-status', [
             'as' => 'api.blog.post.toggle_status',
             'uses' => 'PostController@toggleStatus',
@@ -63,36 +63,36 @@ Route::group(['prefix' => 'blog'], function () {
         Route::get('index', [
             'as' => 'api.blog.category.index',
             'uses' => 'CategoryController@index',
-        ]);
+        ])->middleware(['permission:blog.post_category.list categories']);
         Route::post('delete/multiple', [
             'as' => 'api.blog.category.delete-multiple',
             'uses' => 'CategoryController@destroyMultiple',
-        ]);
-        Route::delete('delete/{category}', [
+        ])->middleware(['middleware' => 'permission:blog.post_category.delete category']);
+        Route::delete('delete/{id}', [
             'as' => 'api.blog.category.delete',
             'uses' => 'CategoryController@destroy',
-        ])->where('category', '[0-9]+');
+        ])->where('id', '[0-9]+')->middleware(['middleware' => 'permission:blog.post_category.delete category']);
         Route::post('force-delete/multiple', [
             'as' => 'api.blog.category.force-delete-multiple',
             'uses' => 'CategoryController@forceDestroyMultiple',
-        ]);
-        Route::delete('force-delete/{categoryId}', [
+        ])->middleware(['middleware' => 'permission:blog.post.delete category']);
+        Route::delete('force-delete/{id}', [
             'as' => 'api.blog.category.force-delete',
             'uses' => 'CategoryController@forceDestroy',
-        ])->where('categoryId', '[0-9]+');
+        ])->where('id', '[0-9]+')->middleware(['middleware' => 'permission:blog.post_category.delete category']);
 
         Route::post('store', [
             'as' => 'api.blog.category.store',
             'uses' => 'CategoryController@store',
-        ]);
+        ])->middleware(['middleware' => 'permission:blog.post_category.create category|blog.post_category.edit category']);
         Route::post('restore/multiple', [
             'as' => 'api.blog.category.restore-multiple',
             'uses' => 'CategoryController@restoreMultiple',
         ]);
-        Route::post('restore/{categoryId}', [
+        Route::post('restore/{id}', [
             'as' => 'api.blog.category.restore',
             'uses' => 'CategoryController@restore',
-        ])->where('categoryId', '[0-9]+');
+        ])->where('id', '[0-9]+');
         Route::post('toggle-status', [
             'as' => 'api.blog.category.toggle_status',
             'uses' => 'CategoryController@toggleStatus',

@@ -23,7 +23,8 @@ class BlogDatabaseSeeder extends Seeder
             ['name' => 'edit post', 'en' => ['title' => 'Edit a post'], 'vi' => ['title' => 'Cập nhật bài viết']],
             ['name' => 'delete post', 'en' => ['title' => 'Delete a post'], 'vi' => ['title' => 'Xóa bài viết']],
         ])->map(function ($permission) {
-            $exists = Permission::where('name', '=',$permission['name'])->first();
+            $permission['name'] = "blog.post.".$permission['name'];
+            $exists = Permission::where('name', '=', $permission['name'])->first();
             if (!$exists)
                 return Permission::create($permission);
             return null;
@@ -35,6 +36,7 @@ class BlogDatabaseSeeder extends Seeder
             ['name' => 'edit category', 'en' => ['title' => 'Edit a category'], 'vi' => ['title' => 'Cập nhật danh mục']],
             ['name' => 'delete category', 'en' => ['title' => 'Delete a category'], 'vi' => ['title' => 'Xóa danh mục']],
         ])->map(function ($permission) {
+            $permission['name'] = "blog.post_category.".$permission['name'];
             $exists = Permission::where('name', '=',$permission['name'])->first();
             if (!$exists)
                 return Permission::create($permission);
