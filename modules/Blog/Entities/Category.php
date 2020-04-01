@@ -31,26 +31,26 @@ class Category extends Model
 
     public function getEditUrl()
     {
-        return route('admin.blog.category.edit', ['category' => $this->id]);
+        return route('admin.blog.category.edit', ['id' => $this->id]);
     }
 
     public function getDuplicateUrl()
     {
-        return route('admin.blog.category.duplicate', ['category' => $this->id]);
+        return route('admin.blog.category.duplicate', ['id' => $this->id]);
     }
 
     public function getDeleteUrl()
     {
-        return route('api.blog.category.delete', ['category' => $this->id]);
+        return route('api.blog.category.delete', ['id' => $this->id]);
     }
 
     public function getForceDeleteUrl()
     {
-        return route('api.blog.category.force-delete', ['categoryId' => $this->id]);
+        return route('api.blog.category.force-delete', ['id' => $this->id]);
     }
 
     public function getRestoreUrl()
     {
-        return route('api.blog.category.restore', ['categoryId' => $this->id]);
+        return route('api.blog.category.restore', ['id' => $this->id]);
     }
 }

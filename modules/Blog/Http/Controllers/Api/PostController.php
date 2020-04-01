@@ -2,7 +2,6 @@
 
 namespace Modules\Blog\Http\Controllers\Api;
 
-use Modules\Blog\Entities\Post;
 use Modules\Blog\Transformers\FullPostTransformer;
 use Modules\Blog\Repositories\PostRepository;
 use Modules\Core\Http\Controllers\ApiController;
@@ -33,13 +32,9 @@ class PostController extends ApiController
         return FullPostTransformer::collection($this->postRepository->serverPagingFor($request));
     }
 
-    public function store()
+    public function destroy($id)
     {
-
-    }
-
-    public function destroy(Post $post)
-    {
+        $post = $this->postRepository->find($id);
         $ok = $this->postRepository->destroy($post);
         return response()->json(['error' => !$ok]);
     }
@@ -54,9 +49,9 @@ class PostController extends ApiController
         return response()->json(['error' => false]);
     }
 
-    public function forceDestroy($postId)
+    public function forceDestroy($id)
     {
-        $post = $this->postRepository->trashedFind($postId);
+        $post = $this->postRepository->trashedFind($id);
         if ($post && $post->trashed()) {
             $this->postRepository->forceDestroy($post);
         }
@@ -78,9 +73,9 @@ class PostController extends ApiController
         return response()->json(['error' => false]);
     }
 
-    public function restore($postId)
+    public function restore($id)
     {
-        $post = $this->postRepository->trashedFind($postId);
+        $post = $this->postRepository->trashedFind($id);
         if ($post && $post->trashed()) {
             $post->restore();
         }

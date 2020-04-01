@@ -4,7 +4,6 @@ namespace Modules\Blog\Http\Controllers\Admin;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Modules\Blog\Entities\Post;
 use Modules\Blog\Repositories\PostRepository;
 use Illuminate\Http\Request;
 use Modules\Core\Http\Controllers\BaseAdminController;
@@ -34,8 +33,9 @@ class PostController extends BaseAdminController
         return $this->view('blog::admin.post.create');
     }
 
-    public function edit(Post $post)
+    public function edit($id)
     {
+        $post = $this->postRepository->find($id);
         if (!$post) {
             return route('admin.blog.post.index');
         }
@@ -45,8 +45,9 @@ class PostController extends BaseAdminController
         return $this->view('blog::admin.post.edit', compact('post'));
     }
 
-    public function duplicate(Post $post)
+    public function duplicate($id)
     {
+        $post = $this->postRepository->find($id);
         if (!$post) {
             return route('admin.blog.post.index');
         }

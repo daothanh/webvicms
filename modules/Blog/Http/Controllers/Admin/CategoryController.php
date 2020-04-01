@@ -4,7 +4,6 @@ namespace Modules\Blog\Http\Controllers\Admin;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Modules\Blog\Entities\Category;
 use Modules\Blog\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Modules\Core\Http\Controllers\BaseAdminController;
@@ -40,8 +39,9 @@ class CategoryController extends BaseAdminController
         return $this->view('blog::admin.category.create', compact('categories'));
     }
 
-    public function edit(Category $category)
+    public function edit($id)
     {
+        $category = $this->categoryRepository->find($id);
         if (!$category) {
             return route('admin.blog.category.index');
         }
@@ -52,8 +52,9 @@ class CategoryController extends BaseAdminController
         return $this->view('blog::admin.category.edit', compact('category', 'categories'));
     }
 
-    public function duplicate(Category $category)
+    public function duplicate($id)
     {
+        $category = $this->categoryRepository->find($id);
         if (!$category) {
             return route('admin.blog.category.index');
         }

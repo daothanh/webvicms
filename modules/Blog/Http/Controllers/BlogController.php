@@ -3,77 +3,54 @@
 namespace Modules\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Modules\Blog\Entities\Post;
+use Modules\Blog\Repositories\CategoryRepository;
+use Modules\Blog\Repositories\PostRepository;
+use Modules\Core\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Response
+     * @var PostRepository
      */
-    public function index()
-    {
-        return view('blog::index');
-    }
+    protected $postRepository;
 
     /**
-     * Show the form for creating a new resource.
-     * @return Response
+     * @var CategoryRepository
      */
-    public function create()
+    protected $categoryRepository;
+
+    public function __construct(PostRepository $postRepository, CategoryRepository $categoryRepository)
     {
-        return view('blog::create');
+        $this->postRepository = $postRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        //
+        $request->merge(['status' => 1]);
+        $posts = $this->postRepository->serverPagingFor($request);
+        return $this->view('blog::index', compact('posts'));
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function detail($slug)
     {
-        return view('blog::show');
+        /** @var Post $post */
+        $post = $this->postRepository->findBySlug($slug);
+        if (!$post || $post->status !== 1) {
+            abort(404);
+        }
+        return $this->view('blog::detail', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
+    public function category($slug, Request $request)
     {
-        return view('blog::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        $category = $this->categoryRepository->findBySlug($slug);
+        if (!$category || $category->status !== 1) {
+            abort(404);
+        }
+        $request->merge(['status' => 1, 'category_id' => $category->id]);
+        $posts = $this->postRepository->serverPagingFor($request);
+        return $this->view('blog::category', compact('category', 'posts'));
     }
 }

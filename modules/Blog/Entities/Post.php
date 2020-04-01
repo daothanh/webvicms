@@ -32,26 +32,26 @@ class Post extends Model
 
     public function getEditUrl()
     {
-        return route('admin.blog.post.edit', ['post' => $this->id]);
+        return route('admin.blog.post.edit', ['id' => $this->id]);
     }
 
     public function getDuplicateUrl()
     {
-        return route('admin.blog.post.duplicate', ['post' => $this->id]);
+        return route('admin.blog.post.duplicate', ['id' => $this->id]);
     }
 
     public function getDeleteUrl()
     {
-        return route('api.blog.post.delete', ['post' => $this->id]);
+        return route('api.blog.post.delete', ['id' => $this->id]);
     }
 
     public function getForceDeleteUrl()
     {
-        return route('api.blog.post.force-delete', ['postId' => $this->id]);
+        return route('api.blog.post.force-delete', ['id' => $this->id]);
     }
 
     public function getRestoreUrl()
     {
-        return route('api.blog.post.restore', ['postId' => $this->id]);
+        return route('api.blog.post.restore', ['id' => $this->id]);
     }
 }
