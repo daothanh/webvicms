@@ -8,7 +8,7 @@ use Modules\User\Entities\Permission;
 $factory->define(Permission::class, function (Faker $faker) {
     return [
         'name' => $faker->slug,
-        'guard' => 'web',
-        'vi' => ['title' => $faker->name]
+        'guard_name' => 'web',
+        locale() => ['title' => $faker->name]
     ];
 });
