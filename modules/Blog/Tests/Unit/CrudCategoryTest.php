@@ -6,9 +6,8 @@ use Modules\Blog\Repositories\CategoryRepository;
 use Modules\User\Entities\Permission;
 use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
-use Modules\User\Repositories\RoleRepository;
+use Modules\User\Entities\UserToken;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CrudCategoryTest extends TestCase
@@ -17,94 +16,64 @@ class CrudCategoryTest extends TestCase
 
     protected $categoryRepository;
 
+    protected $data;
+
+    protected $locale;
+
     public function setUp(): void
     {
         parent::setUp();
+        $this->locale = locale();
+        $this->data = [
+            'status' => 1,
+            $this->locale => [
+                'name' => 'Sports',
+                'slug' => 'sports'
+            ]
+        ];
+
         $this->categoryRepository = app(CategoryRepository::class);
     }
 
     /**
-     * A basic unit test example.
+     * A http unit test that execute the post method.
      *
      * @return void
      */
     public function testCreate()
     {
-        $category = $this->categoryRepository->create([
-            'status' => 1,
-            'vi' => [
-                'name' => 'Sports',
-                'slug' => 'sports'
-            ]
-        ]);
-        $this->assertEquals('Sports', $category->name);
+        $user = $this->createUser('blog.post_category.create category');
 
-
-        /*$user = factory(User::class)->make(['name' => 'Admin']);
-        $this->assertEquals('Admin', $user->name);
-        $role = factory(Role::class)->make(['name' => 'admin']);
-        $permission = factory(Permission::class)->make(['name' => 'blog.post_category.create category']);
-        $this->assertEquals('blog.post_category.create category', $permission->name);
-        $role->syncPermissions($permission);
-        $user->assignRole($role);*/
-        /*
-        $data = [
-            'status' => 1,
-            'vi' => [
-                'name' => 'Sports',
-                'slug' => 'sports'
-            ]
-        ];
-        $this->post(route('admin.blog.category.store'), $data)
+        // Create a category
+        $this->actingAs($user)
+            ->post(route('admin.blog.category.store'), $this->data)
             ->assertRedirect(route('admin.blog.category.index'));
 
-        $category = $this->categoryRepository->find(1);
-        $this->assertEquals('Sports', $category->name);*/
+        // Update a category
+        $this->actingAs($user)
+            ->post(route('admin.blog.category.store'), ['id' => 1, 'status' => 1, $this->locale => ['name' => 'Food']])
+            ->assertRedirect(route('admin.blog.category.index'));
+        $this->assertDatabaseHas('blog__category_translations', ['category_id' => 1, 'name' => 'Food', 'slug' => $this->data[$this->locale]['slug'], 'locale' => $this->locale]);
+
+        // Delete a category by API
+        $user = $this->createUser('blog.post_category.delete category');
+        $this->actingAs($user)
+            ->withHeader('Authorization', "Bearer ".$user->getFirstToken()->access_token)
+            ->delete(route('api.blog.category.delete', ['id' => 1]))
+            ->assertExactJson(['error' => false]);
+
+        $this->assertDatabaseMissing('blog__categories', ['id' => 1, 'status' => 1, 'deleted_at' => null]);
     }
 
-    public function testRead()
+    protected function createUser($permissionName, $guardName = 'web')
     {
-        $this->categoryRepository->create([
-            'status' => 1,
-            'vi' => [
-                'name' => 'Sports',
-                'slug' => 'sports'
-            ]
-        ]);
-        $category = $this->categoryRepository->find(1);
-        $this->assertEquals('Sports', $category->name);
-    }
-
-    public function testUpdate()
-    {
-        $category = $this->categoryRepository->create([
-            'status' => 1,
-            'vi' => [
-                'name' => 'Sports',
-                'slug' => 'sports'
-            ]
-        ]);
-        $this->categoryRepository->update($category, ['vi' => ['name' => 'Food']]);
-        $category = $this->categoryRepository->find(1);
-        $this->assertEquals('Food', $category->name);
-        $this->assertEquals('sports', $category->slug);
-    }
-
-    public function testDelete()
-    {
-        $this->categoryRepository->create([
-            'status' => 1,
-            'vi' => [
-                'name' => 'Sports',
-                'slug' => 'sports'
-            ]
-        ]);
-        $category = $this->categoryRepository->find(1);
-        $this->assertEquals('Sports', $category->name);
-
-        $this->categoryRepository->destroy($category);
-
-        $this->assertDatabaseMissing('blog__posts', ['id' => 1, 'status' => 1]);
-        $this->assertDatabaseMissing('blog__post_translations', ['post_id' => 1, 'name' => 'Sport', 'slug' => 'sports']);
+        /** @var User $user */
+        $user = factory(User::class)->create();
+        factory(UserToken::class)->create(['user_id' => $user->id]);
+        $role = factory(Role::class)->create(['name' => 'admin', 'guard_name' => $guardName]);
+        $permission = factory(Permission::class)->create(['name' => $permissionName, 'guard_name' => $guardName]);
+        $role->givePermissionTo($permission);
+        $user->assignRole($role);
+        return $user;
     }
 }
