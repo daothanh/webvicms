@@ -38,8 +38,9 @@ class ProductController extends ApiController
 
     }
 
-    public function destroy(Product $product)
+    public function destroy($id)
     {
+        $product = $this->productRepository->find($id);
         $ok = $this->productRepository->destroy($product);
         return response()->json(['error' => !$ok]);
     }
@@ -54,9 +55,9 @@ class ProductController extends ApiController
         return response()->json(['error' => false]);
     }
 
-    public function forceDestroy($productId)
+    public function forceDestroy($id)
     {
-        $product = $this->productRepository->trashedFind($productId);
+        $product = $this->productRepository->trashedFind($id);
         if ($product && $product->trashed()) {
             $this->productRepository->forceDestroy($product);
         }
@@ -78,9 +79,9 @@ class ProductController extends ApiController
         return response()->json(['error' => false]);
     }
 
-    public function restore($productId)
+    public function restore($id)
     {
-        $product = $this->productRepository->trashedFind($productId);
+        $product = $this->productRepository->trashedFind($id);
         if ($product && $product->trashed()) {
             $product->restore();
         }

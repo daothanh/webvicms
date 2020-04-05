@@ -42,8 +42,9 @@ class CategoryController extends BaseAdminController
         return $this->view('commerce::admin.category.create', compact('categories'));
     }
 
-    public function edit(Category $category)
+    public function edit($id)
     {
+        $category = $this->categoryRepository->find($id);
         if (!$category) {
             return route('admin.commerce.category.index');
         }
@@ -54,8 +55,9 @@ class CategoryController extends BaseAdminController
         return $this->view('commerce::admin.category.edit', compact('category', 'categories'));
     }
 
-    public function duplicate(Category $category)
+    public function duplicate($id)
     {
+        $category = $this->categoryRepository->find($id);
         if (!$category) {
             return route('admin.commerce.category.index');
         }

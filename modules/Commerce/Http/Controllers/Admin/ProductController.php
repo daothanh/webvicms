@@ -39,8 +39,9 @@ class ProductController extends BaseAdminController
         return $this->view('commerce::admin.product.create', compact('categories'));
     }
 
-    public function edit(Product $product)
+    public function edit($id)
     {
+        $product = $this->productRepository->find($id);
         if (!$product) {
             return route('admin.commerce.product.index');
         }
@@ -51,8 +52,9 @@ class ProductController extends BaseAdminController
         return $this->view('commerce::admin.product.edit', compact('product', 'categories'));
     }
 
-    public function duplicate(Product $product)
+    public function duplicate()
     {
+        $product = $this->productRepository->find($id);
         if (!$product) {
             return route('admin.commerce.product.index');
         }

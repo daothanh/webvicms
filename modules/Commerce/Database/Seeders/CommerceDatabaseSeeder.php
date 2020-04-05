@@ -23,6 +23,7 @@ class CommerceDatabaseSeeder extends Seeder
             ['name' => 'edit product', 'en' => ['title' => 'Edit a product'], 'vi' => ['title' => 'Cập nhật sản phẩm']],
             ['name' => 'delete product', 'en' => ['title' => 'Delete a product'], 'vi' => ['title' => 'Xóa sản phẩm']],
         ])->map(function ($permission) {
+            $permission['name'] = "commerce.product.".$permission['name'];
             $exists = Permission::where('name', '=',$permission['name'])->first();
             if (!$exists)
                 return Permission::create($permission);
@@ -35,6 +36,7 @@ class CommerceDatabaseSeeder extends Seeder
             ['name' => 'edit product category', 'en' => ['title' => 'Edit a product\'s category'], 'vi' => ['title' => 'Cập nhật danh mục sản phẩm']],
             ['name' => 'delete product category', 'en' => ['title' => 'Delete a product\'s category'], 'vi' => ['title' => 'Xóa danh mục sản phẩm']],
         ])->map(function ($permission) {
+            $permission['name'] = "commerce.product_category.".$permission['name'];
             $exists = Permission::where('name', '=',$permission['name'])->first();
             if (!$exists)
                 return Permission::create($permission);

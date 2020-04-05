@@ -10,27 +10,27 @@ use Illuminate\Http\Request;
 
 class CategoryController extends ApiController
 {
-    protected $productRepository;
+    protected $categoryRepository;
 
-    public function __construct(CategoryRepository $productRepository)
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index(Request $request)
     {
         if ($request->get('columns') !== null) {
             // For datatables.net
-            $products = $this->productRepository->serverPagingFor($this->convertDataTableParams($request));
+            $categories = $this->categoryRepository->serverPagingFor($this->convertDataTableParams($request));
             $output = [
                 "draw" => $request->get('draw'),
-                "recordsTotal" => $products->total(),
-                "recordsFiltered" => $products->total(),
-                'data' => FullCategoryTransformer::collection($products),
+                "recordsTotal" => $categories->total(),
+                "recordsFiltered" => $categories->total(),
+                'data' => FullCategoryTransformer::collection($categories),
             ];
             return response()->json($output);
         }
-        return FullCategoryTransformer::collection($this->productRepository->serverPagingFor($request));
+        return FullCategoryTransformer::collection($this->categoryRepository->serverPagingFor($request));
     }
 
     public function store()
@@ -38,27 +38,28 @@ class CategoryController extends ApiController
 
     }
 
-    public function destroy(Category $product)
+    public function destroy($id)
     {
-        $ok = $this->productRepository->destroy($product);
+        $category = $this->categoryRepository->find($id);
+        $ok = $this->categoryRepository->destroy($category);
         return response()->json(['error' => !$ok]);
     }
 
     public function destroyMultiple(Request $request)
     {
         $ids = $request->get('ids');
-        $products = $this->productRepository->newQueryBuilder()->whereIn('id', $ids)->get();
-        foreach ($products as $product) {
-            $this->productRepository->destroy($product);
+        $categories = $this->categoryRepository->newQueryBuilder()->whereIn('id', $ids)->get();
+        foreach ($categories as $category) {
+            $this->categoryRepository->destroy($category);
         }
         return response()->json(['error' => false]);
     }
 
-    public function forceDestroy($productId)
+    public function forceDestroy($id)
     {
-        $product = $this->productRepository->trashedFind($productId);
-        if ($product && $product->trashed()) {
-            $this->productRepository->forceDestroy($product);
+        $category = $this->categoryRepository->trashedFind($id);
+        if ($category && $category->trashed()) {
+            $this->categoryRepository->forceDestroy($category);
         }
         return response()->json(['error' => false]);
     }
@@ -66,23 +67,23 @@ class CategoryController extends ApiController
     public function forceDestroyMultiple(Request $request)
     {
         $ids = $request->get('ids');
-        $products = $this->productRepository->newQueryBuilder()
+        $categories = $this->categoryRepository->newQueryBuilder()
             ->withTrashed()
             ->whereIn('id', $ids)
             ->get();
-        foreach ($products as $product) {
-            if ($product->trashed()) {
-                $this->productRepository->forceDestroy($product);
+        foreach ($categories as $category) {
+            if ($category->trashed()) {
+                $this->categoryRepository->forceDestroy($category);
             }
         }
         return response()->json(['error' => false]);
     }
 
-    public function restore($productId)
+    public function restore($id)
     {
-        $product = $this->productRepository->trashedFind($productId);
-        if ($product && $product->trashed()) {
-            $product->restore();
+        $category = $this->categoryRepository->trashedFind($id);
+        if ($category && $category->trashed()) {
+            $category->restore();
         }
         return response()->json(['error' => false]);
     }
@@ -90,13 +91,13 @@ class CategoryController extends ApiController
     public function restoreMultiple(Request $request)
     {
         $ids = $request->get('ids');
-        $products = $this->productRepository->newQueryBuilder()
+        $categories = $this->categoryRepository->newQueryBuilder()
             ->withTrashed()
             ->whereIn('id', $ids)
             ->get();
-        foreach ($products as $product) {
-            if ($product->trashed()) {
-                $product->restore();
+        foreach ($categories as $category) {
+            if ($category->trashed()) {
+                $category->restore();
             }
         }
         return response()->json(['error' => false]);
@@ -105,10 +106,10 @@ class CategoryController extends ApiController
     public function toggleStatus(Request $request)
     {
         $id = $request->get('id');
-        $product = $this->productRepository->newQueryBuilder()->withTrashed()->find($id);
-        if ($product) {
-            $product->status = !$product->status;
-            $product->save();
+        $category = $this->categoryRepository->newQueryBuilder()->withTrashed()->find($id);
+        if ($category) {
+            $category->status = !$category->status;
+            $category->save();
         }
         return response()->json(['error' => false]);
     }
