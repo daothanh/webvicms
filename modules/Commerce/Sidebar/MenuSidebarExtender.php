@@ -21,18 +21,18 @@ class MenuSidebarExtender extends AdminSidebar
             $group->item(trans('commerce::product.title.Products'), function (Item $item) {
                 $item->item(trans('commerce::product.title.Products'), function (Item $item) {
                     $item->weight(1);
-                    $item->icon('icon ion-md-albums');
+                    $item->icon('la la-albums');
                     $item->route('admin.commerce.product.index');
                     $item->authorize(
-                        $this->auth->hasRole('admin')
+                        $this->auth->hasAccess('commerce.product.list products')
                     );
                 });
                 $item->item(trans('commerce::category.title.Categories'), function (Item $item) {
                     $item->weight(1);
-                    $item->icon('icon ion-md-albums');
+                    $item->icon('la la-albums');
                     $item->route('admin.commerce.category.index');
                     $item->authorize(
-                        $this->auth->hasRole('admin')
+                        $this->auth->hasAccess('commerce.product_category.list product categories')
                     );
                 });
             });
