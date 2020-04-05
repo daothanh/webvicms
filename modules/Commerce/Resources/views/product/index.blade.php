@@ -1,0 +1,1 @@
+@extends($themeName."::layouts.master")

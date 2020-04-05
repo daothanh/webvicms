@@ -11,8 +11,8 @@
 |
 */
 
-Route::prefix('commerce')->group(function() {
-    Route::get('/', 'CommerceController@index')->name('commerce.product');
-    Route::get('/category/{slug}', 'CommerceController@index')->name('commerce.category');
-    Route::get('/{slug}', 'CommerceController@detail')->name('commerce.product.detail');
+Route::prefix('products')->group(function() {
+    Route::get('/', 'ProductController@index')->name('commerce.product.index');
+    Route::get('/category/{slug}', 'ProductController@category')->name('commerce.product.category');
+    Route::get('/{slug}', 'ProductController@detail')->name('commerce.product.detail');
 });
