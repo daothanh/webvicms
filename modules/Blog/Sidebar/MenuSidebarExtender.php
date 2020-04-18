@@ -18,7 +18,12 @@ class MenuSidebarExtender extends AdminSidebar
     {
         $menu->group(__('Administration'), function (Group $group) {
             $group->weight(10);
+
             $group->item(trans('blog::post.title.Posts'), function (Item $item) {
+                $item->weight(6);
+                $item->authorize(
+                    $this->auth->hasAccess('blog.post.list posts') || $this->auth->hasAccess('blog.post_category.list categories')
+                );
                 $item->item(trans('blog::post.title.Posts'), function (Item $item) {
                     $item->weight(1);
                     $item->icon('icon ion-md-albums');

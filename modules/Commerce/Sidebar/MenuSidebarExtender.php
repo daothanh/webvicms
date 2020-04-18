@@ -19,6 +19,10 @@ class MenuSidebarExtender extends AdminSidebar
         $menu->group(__('Administration'), function (Group $group) {
             $group->weight(10);
             $group->item(trans('commerce::product.title.Products'), function (Item $item) {
+                $item->weight(5);
+                $item->authorize(
+                    $this->auth->hasAccess('commerce.product.list products') || $this->auth->hasAccess('commerce.product_category.list product categories')
+                );
                 $item->item(trans('commerce::product.title.Products'), function (Item $item) {
                     $item->weight(1);
                     $item->icon('la la-albums');
