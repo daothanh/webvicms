@@ -8,6 +8,7 @@ return [
         'Edit a category' => 'Edit a category',
     ],
     'labels' => [
+        'Image' => 'Image',
         'Title' => 'Title',
         'Body' => 'Body',
         'Excerpt' => 'Excerpt',

@@ -33,7 +33,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     @foreach(languages() as $lang)
-                        <a href="/{{ $lang->code }}/admin" class="dropdown-item">
+                        <a href="{{ route('admin.lang.change', ['locale' => $lang->code]) }}" class="dropdown-item">
                             <img src="/images/flags/{{ $lang->code }}.png" alt="{{ $lang->name }}"
                                  class="img-size-32 mr-3 img-circle">
                             <span class="text-muted">{{ $lang->native }}</span>
