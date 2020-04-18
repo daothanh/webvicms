@@ -4,10 +4,11 @@ return [
         'Categories' => 'Danh mục',
         'Manage categories' => 'Quản lý danh mục',
         'List Categories' => 'Danh sách danh mục',
-        'Create a product' => 'Tạo danh mục mới',
-        'Edit a product' => 'Sửa danh mục',
+        'Create a category' => 'Tạo danh mục mới',
+        'Edit a category' => 'Sửa danh mục',
     ],
     'labels' => [
+        'Image' => 'Ảnh',
         'Title' => 'Tiêu đề',
         'Body' => 'Nội dung',
         'Excerpt' => 'Mô tả ngắn',

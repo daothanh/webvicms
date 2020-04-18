@@ -4,8 +4,8 @@ return [
         'Categories' => 'Danh mục',
         'Manage categories' => 'Quản lý danh mục',
         'List Categories' => 'Danh sách danh mục',
-        'Create a post' => 'Tạo danh mục mới',
-        'Edit a post' => 'Sửa danh mục',
+        'Create a category' => 'Tạo danh mục mới',
+        'Edit a category' => 'Sửa danh mục',
     ],
     'labels' => [
         'Title' => 'Tiêu đề',
