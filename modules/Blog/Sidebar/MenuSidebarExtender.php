@@ -24,9 +24,10 @@ class MenuSidebarExtender extends AdminSidebar
                 $item->authorize(
                     $this->auth->hasAccess('blog.post.list posts') || $this->auth->hasAccess('blog.post_category.list categories')
                 );
+                $item->icon('icon ion-md-paper');
                 $item->item(trans('blog::post.title.Posts'), function (Item $item) {
                     $item->weight(1);
-                    $item->icon('icon ion-md-albums');
+                    $item->icon('icon ion-md-list-box');
                     $item->route('admin.blog.post.index');
                     $item->authorize(
                         $this->auth->hasAccess('blog.post.list posts')
@@ -34,7 +35,7 @@ class MenuSidebarExtender extends AdminSidebar
                 });
                 $item->item(trans('blog::category.title.Categories'), function (Item $item) {
                     $item->weight(1);
-                    $item->icon('icon ion-md-albums');
+                    $item->icon('icon ion-md-folder');
                     $item->route('admin.blog.category.index');
                     $item->authorize(
                         $this->auth->hasAccess('blog.post_category.list categories')

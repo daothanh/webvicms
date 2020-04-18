@@ -23,9 +23,10 @@ class MenuSidebarExtender extends AdminSidebar
                 $item->authorize(
                     $this->auth->hasAccess('commerce.product.list products') || $this->auth->hasAccess('commerce.product_category.list product categories')
                 );
+                $item->icon('icon ion-md-basket');
                 $item->item(trans('commerce::product.title.Products'), function (Item $item) {
                     $item->weight(1);
-                    $item->icon('la la-albums');
+                    $item->icon('icon ion-md-at');
                     $item->route('admin.commerce.product.index');
                     $item->authorize(
                         $this->auth->hasAccess('commerce.product.list products')
@@ -33,7 +34,7 @@ class MenuSidebarExtender extends AdminSidebar
                 });
                 $item->item(trans('commerce::category.title.Categories'), function (Item $item) {
                     $item->weight(1);
-                    $item->icon('la la-albums');
+                    $item->icon('icon ion-md-folder');
                     $item->route('admin.commerce.category.index');
                     $item->authorize(
                         $this->auth->hasAccess('commerce.product_category.list product categories')
