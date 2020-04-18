@@ -5,8 +5,8 @@ namespace Modules\Core\Providers;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
-use Modules\Core\Console\InstallApp;
 use Modules\Core\Contracts\DeletingSeo;
 use Modules\Core\Contracts\StoringSeo;
 use Modules\Core\Events\BuildingSidebar;
@@ -17,6 +17,7 @@ use Modules\Core\Sidebar\MenuSidebarExtender;
 use Modules\Core\Support\Settings;
 use Modules\Core\Support\Theme;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
+use Modules\User\Auth\AccessTokenGuard;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -62,6 +63,13 @@ class CoreServiceProvider extends ServiceProvider
         $this->registerThemes();
         $this->registerMiddleware($this->app['router']);
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+
+        Auth::extend('access_token', function ($app, $name, array $config) {
+            return new AccessTokenGuard(Auth::createUserProvider($config['provider']), $config);
+        });
+        Auth::provider('user_token', function ($app, array $config) {
+            return $app->make($config['driver']);
+        });
 
         $this->app['events']->listen(
             BuildingSidebar::class,

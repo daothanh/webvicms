@@ -74,15 +74,6 @@ class UserServiceProvider extends ServiceProvider
         $this->registerBladeTags();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
-        Auth::provider('user_token', function ($app, array $config) {
-            return $app->make($config['driver']);
-        });
-
-        Auth::extend('access_token', function ($app, $name, array $config) {
-            return new AccessTokenGuard(Auth::createUserProvider($config['provider']), $config);
-        });
-
-
         $this->registerMiddleware($this->app['router']);
 
         $event->listen(Verified::class, EmailWelcomeListener::class);

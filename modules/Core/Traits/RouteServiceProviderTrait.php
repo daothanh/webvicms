@@ -65,7 +65,7 @@ trait RouteServiceProviderTrait
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-            ->middleware(['api'])
+            ->middleware('api')
             ->namespace($this->moduleNamespace . '\Api')
             ->group(realpath($this->modulePath . '/Routes/api.php'));
     }

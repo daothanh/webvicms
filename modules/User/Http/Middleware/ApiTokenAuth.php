@@ -8,13 +8,16 @@ use Illuminate\Http\Response;
 
 class ApiTokenAuth
 {
+    protected $inputKey;
+
+    public function __construct()
+    {
+        $this->inputKey = 'access_token';
+    }
+
     public function handle(Request $request, \Closure $next)
     {
-        if ($request->header('Authorization') === null) {
-            return new Response('Forbidden', 403);
-        }
-
-        if ($this->isValidToken($request->bearerToken()) === false) {
+        if ($this->isValidToken($this->getTokenForRequest($request)) === false) {
             return new Response('Forbidden', 403);
         }
 
@@ -24,5 +27,17 @@ class ApiTokenAuth
     private function isValidToken($token)
     {
         return \Auth::guard('api')->check();
+    }
+
+    public function getTokenForRequest($request)
+    {
+        $token = $request->query($this->inputKey);
+        if (empty($token)) {
+            $token = $request->input($this->inputKey);
+        }
+        if (empty($token)) {
+            $token = $request->bearerToken();
+        }
+        return $token;
     }
 }
