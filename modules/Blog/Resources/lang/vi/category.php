@@ -14,7 +14,7 @@ return [
         'Status' => 'Trạng thái',
         'Author' => 'Tác giả',
         'Image' => 'Ảnh',
-        'Show' => 'Hiển thị',
+        'Show' => 'Hiển',
         'Hide' => 'Ẩn',
         'Order' => 'Thứ tự',
         'Parent' => 'Cấp cha',

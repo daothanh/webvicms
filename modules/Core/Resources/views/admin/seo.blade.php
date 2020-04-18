@@ -34,7 +34,7 @@
                             $seo = $seo->translate($lang);
                         }
                     @endphp
-                    @if($seo)
+                    @if(!empty($seo))
                         {{ Form::hidden("seo[{$lang}][id]", $seo->id) }}
                     @endif
                     @if($hasMoreLanguages)

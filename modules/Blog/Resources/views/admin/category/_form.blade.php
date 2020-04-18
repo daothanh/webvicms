@@ -81,7 +81,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('blog::category.labels.Parent') }}</label>
-            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : 1), ['class' => 'form-control', 'id' => 'status']) }}
+            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : ''), ['class' => 'form-control', 'id' => 'status']) }}
         </div>
         <div class="form-group">
             <label>{{ __('blog::category.labels.Status') }}</label>

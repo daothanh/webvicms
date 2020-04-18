@@ -19,7 +19,7 @@ class BaseAdminController extends Controller
     public function __construct()
     {
         $this->breadcrumb = new Breadcrumb();
-        $this->breadcrumb->addItem(__('Home'), route('admin'));
+        $this->breadcrumb->addItem(__('Dashboard'), route('admin'));
         $this->guard = $this->guard();
         $this->middleware(['admin']);
     }

@@ -11,9 +11,11 @@ const mix = require('laravel-mix');
  */
 
 mix.setPublicPath('../../public')
-  .js('resources/js/main.js', '../../public/themes/admin/js')
-  .js('resources/js/media.js', '../../public/themes/admin/js')
-  .js('resources/js/general-grid.js', '../../public/themes/admin/js')
-  .js('resources/js/init-dropzone.js', '../../public/themes/admin/js')
-  .sass('resources/scss/main.scss', '../../public/themes/admin/css/')
-  .sass('resources/scss/pages/login.scss', '../../public/themes/admin/css/pages/');
+    .js('resources/js/main.js', '../../public/themes/admin/js')
+    .js('resources/js/media.js', '../../public/themes/admin/js')
+    .js('resources/js/general-grid.js', '../../public/themes/admin/js')
+    .js('resources/js/init-dropzone.js', '../../public/themes/admin/js')
+    .sass('resources/scss/main.scss', '../../public/themes/admin/css/')
+    .sass('resources/scss/pages/login.scss', '../../public/themes/admin/css/pages/')
+    .copy('node_modules/admin-lte/plugins', '../../public/themes/admin/js/')
+;
