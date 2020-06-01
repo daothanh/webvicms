@@ -1,0 +1,21 @@
+{
+    "name": "webvi/slider",
+    "description": "Manage the sliders",
+    "type": "webvi-module",
+    "authors": [
+        {
+            "name": "Webvi Việt Nam",
+            "email": "lienhe@webvi.vn"
+        }
+    ],
+    "extra": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Slider\\": ""
+        }
+    },
+    "require": {
+        "webvi/installers": "dev-master"
+    }
+}
