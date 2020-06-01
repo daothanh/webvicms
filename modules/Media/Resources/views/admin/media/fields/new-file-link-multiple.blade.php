@@ -11,7 +11,7 @@ use Modules\Media\Entities\Media;
     {!! Form::label($zone, $name) !!}
     <div class="clearfix"></div>
     <button type="button" class="btn btn-primary btn-upload" onclick="openMediaWindowMultiple(event, '{{ $zone }}')">
-        <i class="la la-image"></i>
+        <i class="icon ion-md-image"></i>
         {{ trans('media::media.Browse') }}
     </button>
     <div class="clearfix"></div>
@@ -23,12 +23,12 @@ use Modules\Media\Entities\Media;
                 $order_list[$zone][] = $file->id; ?>
         <li data-id="{{ $file->id }}">
             <div class="preview">
-                <button class="jsRemoveLink" data-id="{{ $file->id }}"><i class="la la-remove"></i></button>
+                <button class="jsRemoveLink" data-id="{{ $file->id }}"><i class="icon ion-md-close"></i></button>
                 <div class="thumbnail">
                     <div class="centered">
                             <?php if ($file->media_type === 'image') : ?>
                         <img
-                            src="{{ Imagy::getThumbnail($file->path, (isset($thumbnailSize) ? $thumbnailSize : 'm')) }}"
+                            src="{{ Imagy::getThumbnail($file->path, (isset($thumbnailSize) ? $thumbnailSize : 'thumbnail')) }}"
                             alt="{{ $file->alt_attribute }}"/>
                             <?php elseif ($file->media_type === 'video') : ?>
                         <video src="{{ $file->path }}" controls width="320"></video>
@@ -37,11 +37,11 @@ use Modules\Media\Entities\Media;
                             <source src="{{ $file->path }}" type="{{ $file->mimetype }}">
                         </audio>
                             <?php else : ?>
-                        <div class="file"><i class="fa fa-file" style="font-size: 50px;"></i><br>{{ $file->filename }}</div>
+                        <div class="file"><i class="icon ion-md-file" style="font-size: 50px;"></i><br>{{ $file->filename }}</div>
                             <?php endif; ?>
                         <a class="jsRemoveLink" href="#" data-id="{{ $file->pivot->id }}"
                            title="{{ __('Remove') }}">
-                            <i class="fa fa-times-circle"></i>
+                            <i class="icon ion-md-close"></i>
                         </a>
                         <input type="hidden" name="medias_multi[{{ $zone }}][files][]" value="{{ $file->id }}">
                     </div>

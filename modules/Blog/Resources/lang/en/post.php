@@ -16,6 +16,7 @@ return [
         'Featured image' => 'Featured image',
         'Show' => 'Show',
         'Hide' => 'Hide',
+        'Quote' => 'Quote',
         'Template' => 'Template'
     ],
     'messages' => [

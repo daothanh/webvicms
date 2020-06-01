@@ -6,7 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="user-api-token" content="{{ Auth::user()->getFirstToken()->access_token }}">
     <title>{{ trans('media::media.file picker') }}</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=latin-ext,vietnamese" rel="stylesheet">
     <link rel="stylesheet" href="{{ Theme::url('css/main.css') }}">
     <style>
         .jsInsertImage {

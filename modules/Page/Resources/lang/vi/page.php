@@ -9,7 +9,9 @@ return [
     ],
     'labels' => [
         'Title' => 'Tiêu đề',
-        'Body' => 'Nội dung',
+        'Url' => 'Url',
+        'Description' => 'Mô tả',
+        'Layout' => 'Layout',
         'Excerpt' => 'Mô tả ngắn',
         'Status' => 'Trạng thái',
         'Author' => 'Tác giả',

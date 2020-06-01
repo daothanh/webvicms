@@ -25,13 +25,13 @@ class HomeController extends Controller
                 }
                 $this->seo()->setTitle($page->title ?? site_name());
                 $this->seo()->setCanonical($page->getUrl() ?? '/');
-                $this->seo()->setDescription(str_limit(clean_html($page->body)) ?? site_description());
+                $this->seo()->setDescription(\Str::limit(clean_html($page->body)) ?? site_description());
                 if ($page->featuredImage) {
                     $this->seo()->addImages($page->featuredImage->path->getUrl());
                 } else {
                     $this->seo()->addImages(get_logo());
                 }
-                return $this->view('page::page.'.($page->layout ?? 'default'), compact('page'));
+                return $this->view('page.default', compact('page'));
             }
         }
         $this->seo()->setTitle(site_name());

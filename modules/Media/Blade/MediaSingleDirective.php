@@ -24,7 +24,9 @@ class MediaSingleDirective
      */
     private $name;
 
-    private $thumbnail = 's';
+    private $required = false;
+
+    private $thumbnail = 'thumbnail';
 
     public function show($arguments)
     {
@@ -32,20 +34,18 @@ class MediaSingleDirective
 
         $view = $this->view ?: 'media.fields.new-file-link-single';
 
-        $zone = $this->zone;
-
         $name = $this->name ?: ucwords(str_replace('_', ' ', $this->zone));
 
         $media = null;
         if ($this->entity !== null) {
             $media = $this->entity->filesByZone($this->zone)->first();
         } else {
-            $mediaId = old('medias_single.'.$zone);
+            $mediaId = old('medias_single.'.$this->zone);
             if ($mediaId) {
                 $media = app(MediaRepository::class)->find($mediaId);
             }
         }
-        return view('media::admin.'.$view, compact('media', 'zone', 'name'));
+        return view('media::admin.'.$view, ['media' => $media, 'zone' => $this->zone, 'name' => $name, 'required' => $this->required, 'thumbnail' => $this->thumbnail]);
     }
 
     /**
@@ -59,5 +59,6 @@ class MediaSingleDirective
         $this->name = Arr::get($arguments, 2);
         $this->thumbnail = Arr::get($arguments, 3);
         $this->view = Arr::get($arguments, 4);
+        $this->required = Arr::get($arguments, 5, false);
     }
 }

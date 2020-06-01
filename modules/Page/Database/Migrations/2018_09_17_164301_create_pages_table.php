@@ -13,7 +13,7 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('page__pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('layout')->nullable();
             $table->boolean('is_can_delete')->nullable()->default(true);
@@ -31,6 +31,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('page__pages');
     }
 }

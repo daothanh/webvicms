@@ -9,7 +9,9 @@ return [
     ],
     'labels' => [
         'Title' => 'Title',
-        'Body' => 'Body',
+        'Url' => 'Url',
+        'Description' => 'Description',
+        'Layout' => 'Layout',
         'Excerpt' => 'Excerpt',
         'Status' => 'Status',
         'Author' => 'Author',

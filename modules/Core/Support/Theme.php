@@ -7,7 +7,11 @@ class Theme
     public function url($path)
     {
         $theme = $this->currentTheme();
-        return asset("themes/$theme/$path");
+        $v = env('APP_VERSION', '1.0');
+        if (app()->environment() !== 'production') {
+            $v = time();
+        }
+        return asset("themes/{$theme}/{$path}?v={$v}");
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Modules\Blog\Repositories\Eloquent;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use \Modules\Core\Repositories\Eloquent\BaseRepository;
 use Modules\Blog\Events\PostWasCreated;
@@ -15,6 +16,10 @@ class PostRepository extends BaseRepository implements \Modules\Blog\Repositorie
     public function create($data)
     {
         $post = $this->model->create($data);
+        $categoryIds = Arr::get($data, 'category_ids');
+        if ($categoryIds !== null && is_array($categoryIds)) {
+            $post->categories()->sync($categoryIds);
+        }
         event(new PostWasCreated($post, $data));
         return $post;
     }
@@ -22,6 +27,10 @@ class PostRepository extends BaseRepository implements \Modules\Blog\Repositorie
     public function update($post, $data)
     {
         $post->update($data);
+        $categoryIds = Arr::get($data, 'category_ids');
+        if ($categoryIds !== null && is_array($categoryIds)) {
+            $post->categories()->sync($categoryIds);
+        }
         event(new PostWasUpdated($post, $data));
         return $post;
     }
@@ -35,6 +44,7 @@ class PostRepository extends BaseRepository implements \Modules\Blog\Repositorie
     public function forceDestroy($post)
     {
         event(new PostWasDeleting($post));
+        $post->categories()->detach();
         return $post->forceDelete();
     }
 
@@ -79,10 +89,29 @@ class PostRepository extends BaseRepository implements \Modules\Blog\Repositorie
             });
         }
 
+        if ($request->get('locale') !== null) {
+            $locale = $request->get('locale');
+            $query->whereHas('translations', function ($query) use ($locale) {
+                $query->where('locale', '=', $locale);
+            });
+        }
+
         if ($request->get('status') !== null) {
             $status = $request->get('status');
-            $query->whereHas('translations', function ($query) use ($status) {
-                $query->where('status', '=', $status);
+            $query->where('status', '=', $status);
+        }
+
+        if ($request->get('category_id') !== null) {
+            $categoryId = $request->get('category_id');
+            $query->whereHas('categories', function ($q) use ($categoryId) {
+                $q->where('category_id', '=', $categoryId);
+            });
+        }
+
+        if ($request->get('category_ids') !== null) {
+            $categoryIds = $request->get('category_ids');
+            $query->whereHas('categories', function ($q) use ($categoryIds) {
+                $q->whereIn('category_id', $categoryIds);
             });
         }
 
@@ -92,14 +121,16 @@ class PostRepository extends BaseRepository implements \Modules\Blog\Repositorie
             if (Str::contains($request->get('order_by'), '.')) {
                 $fields = explode('.', $request->get('order_by'));
 
-                $query->with('translations')->join('page_translations as t', function ($join) {
-                    $join->on('pages.id', '=', 't.page_id');
+                $query->with('translations')->join('blog__post_translations as t', function ($join) {
+                    $join->on('blog__posts.id', '=', 't.page_id');
                 })
                     ->where('t.locale', \App::getLocale())
-                    ->groupBy('pages.id')->orderBy("t.{$fields[1]}", $order);
+                    ->groupBy('blog__posts.id')->orderBy("t.{$fields[1]}", $order);
             } else {
                 $query->orderBy($request->get('order_by'), $order);
             }
+        } else {
+            $query->orderBy('created_at', 'desc');
         }
 
         return $query->paginate($request->get('per_page', 10));

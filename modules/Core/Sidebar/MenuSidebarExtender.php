@@ -16,7 +16,7 @@ class MenuSidebarExtender extends AdminSidebar
     public function extendWith(Menu $menu)
     {
         $menu->group(__('Administration'), function (Group $group) {
-            $group->weight(1);
+            $group->weight(0);
             $group->item(__('Dashboard'), function (Item $item) {
                 $item->weight(1);
                 $item->icon('icon ion-md-apps');
@@ -29,7 +29,7 @@ class MenuSidebarExtender extends AdminSidebar
         });
 
         $menu->group(__('System'), function (Group $group) {
-            $group->weight(2);
+            $group->weight(1);
             $group->item(trans('core::settings.title.Settings'), function (Item $item) {
                 $item->weight(30);
                 $item->icon('icon ion-md-construct');
@@ -47,23 +47,23 @@ class MenuSidebarExtender extends AdminSidebar
                     );
                 });
 
-                $item->item(__('Languages'), function (Item $item) {
+                /*$item->item(__('Languages'), function (Item $item) {
                     $item->weight(0);
                     $item->icon('icon ion-md-globe');
                     $item->route('admin.languages');
                     $item->authorize(
                         $this->auth->hasRole('admin')
                     );
-                });
+                });*/
 
-                $item->item(trans('core::settings.title.Account settings'), function (Item $item) {
+                /*$item->item(trans('core::settings.title.Account settings'), function (Item $item) {
                     $item->weight(0);
                     $item->icon('icon ion-md-people');
                     $item->route('admin.settings.account');
                     $item->authorize(
                         $this->auth->hasRole('admin')
                     );
-                });
+                });*/
 
                 $item->item(trans('core::settings.title.Company'), function (Item $item) {
                     $item->weight(0);
@@ -85,7 +85,7 @@ class MenuSidebarExtender extends AdminSidebar
 
                 $item->item(trans('core::core.Clear cache'), function (Item $item) {
                     $item->weight(0);
-                    $item->icon('icon ion-md-cache');
+                    $item->icon('icon ion-md-flash');
                     $item->route('admin.settings.clear_cache');
                     $item->authorize(
                         $this->auth->hasRole('admin')

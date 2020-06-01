@@ -9,6 +9,6 @@
         "Modules\\Blog\\Providers\\BlogServiceProvider"
     ],
     "aliases": {},
-    "files": [],
+    "files": ["helpers.php"],
     "requires": []
 }

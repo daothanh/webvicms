@@ -16,6 +16,7 @@ return [
         'Featured image' => 'Ảnh',
         'Show' => 'Hiển thị',
         'Hide' => 'Ẩn',
+        'Quote' => 'Quote',
         'Template' => 'Mẫu bài viết'
     ],
     'messages' => [

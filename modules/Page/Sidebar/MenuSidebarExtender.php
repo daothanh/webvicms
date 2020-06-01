@@ -17,13 +17,13 @@ class MenuSidebarExtender extends AdminSidebar
     public function extendWith(Menu $menu)
     {
         $menu->group(__('Administration'), function (Group $group) {
-            $group->weight(1);
+            $group->weight(0);
             $group->item(trans('page::page.title.Pages'), function (Item $item) {
-                $item->weight(1);
+                $item->weight(2);
                 $item->icon('icon ion-md-albums');
                 $item->route('admin.page.index');
                 $item->authorize(
-                    $this->auth->hasRole('admin')
+                    $this->auth->hasAccess('page.list pages')
                 );
             });
         });

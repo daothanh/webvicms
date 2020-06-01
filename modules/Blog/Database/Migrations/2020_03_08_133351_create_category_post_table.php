@@ -13,7 +13,7 @@ class CreateCategoryPostTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_post', function (Blueprint $table) {
+        Schema::create('blog__category_post', function (Blueprint $table) {
             $table->integer('category_id')->unsigned();
             $table->integer('post_id')->unsigned();
             $table->primary(['category_id', 'post_id']);
@@ -29,6 +29,6 @@ class CreateCategoryPostTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_post');
+        Schema::dropIfExists('blog__category_post');
     }
 }

@@ -23,7 +23,11 @@ class PageDatabaseSeeder extends Seeder
             ['name' => 'edit page', 'en' => ['title' => 'Edit a page'], 'vi' => ['title' => 'Cập nhật trang']],
             ['name' => 'delete page', 'en' => ['title' => 'Delete a page'], 'vi' => ['title' => 'Xóa trang']],
         ])->map(function ($permission) {
-            return Permission::create($permission);
+            $permission['name'] = "page.".$permission['name'];
+            $exists = Permission::where('name', '=',$permission['name'])->first();
+            if (!$exists)
+                return Permission::create($permission);
+            return null;
         });
     }
 }

@@ -67,6 +67,13 @@ if (!function_exists('default_language')) {
         return $language;
     }
 }
+if(!function_exists('get_language_by_code')) {
+    function get_language_by_code($code) {
+        return DB::table('languages')
+            ->where('code', '=', $code)
+            ->first();
+    }
+}
 if (!function_exists('locales')) {
     /**
      * All active locales

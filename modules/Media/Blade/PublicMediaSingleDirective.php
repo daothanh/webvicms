@@ -23,7 +23,7 @@ class PublicMediaSingleDirective
      */
     private $name;
 
-    private $thumbnail = 's';
+    private $thumbnail = 'thumbnail';
 
     public function show($arguments)
     {

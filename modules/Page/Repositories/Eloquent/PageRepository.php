@@ -4,6 +4,7 @@ namespace Modules\Page\Repositories\Eloquent;
 
 use Illuminate\Support\Str;
 use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use Modules\Page\Entities\Page;
 use Modules\Page\Events\PageWasCreated;
 use Modules\Page\Events\PageWasDeleting;
 use Modules\Page\Events\PageWasUpdated;
@@ -16,6 +17,7 @@ class PageRepository extends BaseRepository implements \Modules\Page\Repositorie
     {
         $page = $this->model->create($data);
         event(new PageWasCreated($page, $data));
+        $this->createOrUpdateCustomFields($page, $data);
         return $page;
     }
 
@@ -23,6 +25,7 @@ class PageRepository extends BaseRepository implements \Modules\Page\Repositorie
     {
         $page->update($data);
         event(new PageWasUpdated($page, $data));
+        $this->createOrUpdateCustomFields($page, $data);
         return $page;
     }
 
@@ -38,6 +41,11 @@ class PageRepository extends BaseRepository implements \Modules\Page\Repositorie
     public function forceDestroy($page)
     {
         event(new PageWasDeleting($page));
+        if ($page->customFields->isNotEmpty()) {
+            foreach($page->customFields as $cf) {
+                $cf->delete();
+            }
+        }
         return $page->forceDelete();
     }
 
@@ -46,6 +54,27 @@ class PageRepository extends BaseRepository implements \Modules\Page\Repositorie
         return $this->newQueryBuilder()->withTrashed()->find($id);
     }
 
+    public function createOrUpdateCustomFields(Page $page, $data) {
+        if (!empty($data['custom_fields']) && is_array($data['custom_fields'])) {
+            $existIds = [];
+            foreach($data['custom_fields'] as $cField) {
+                if (isset($cField['id'])) {
+                    $field = $page->customFields()->find($cField['id']);
+                    if ($field) {
+                        $field->update($cField);
+                    }
+                } else {
+                    $field = $page->customFields()->create($cField);
+                }
+                $existIds[] = $field->id;
+            }
+            foreach ($page->customFields as $pField) {
+                if (!in_array($pField->id, $existIds)) {
+                    $pField->delete();
+                }
+            }
+        }
+    }
     public function findBySlug($slug)
     {
         return $this->newQueryBuilder()->whereHas('translations', function ($query) use ($slug) {

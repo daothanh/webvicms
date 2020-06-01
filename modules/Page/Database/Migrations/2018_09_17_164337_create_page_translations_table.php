@@ -13,17 +13,18 @@ class CreatePageTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('page_translations', function (Blueprint $table) {
+        Schema::create('page__page_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('page_id')->unsigned();
             $table->string('locale')->index();
 
             $table->string('title');
             $table->string('slug');
-            $table->text('body')->nullable();
+            $table->string('filename')->nullable();
+            $table->text('description')->nullable();
 
             $table->unique(['page_id', 'locale']);
-            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreign('page_id')->references('id')->on('page__pages')->onDelete('cascade');
         });
     }
 
@@ -34,6 +35,6 @@ class CreatePageTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('page_translations');
+        Schema::dropIfExists('page__page_translations');
     }
 }

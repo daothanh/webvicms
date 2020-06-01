@@ -13,7 +13,7 @@ class Post extends Model
     use MediaRelation, Translatable, Seoable, SoftDeletes;
     protected $table = "blog__posts";
     protected $fillable = ['status'];
-    public $translatedAttributes = ['title', 'slug', 'body', 'excerpt'];
+    public $translatedAttributes = ['title', 'slug', 'body', 'excerpt', 'quote'];
 
     public function getImageAttribute()
     {

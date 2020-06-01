@@ -1,6 +1,7 @@
 <?php
 namespace Modules\Page\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Modules\Core\Http\Controllers\Controller;
 use Modules\Page\Repositories\PageRepository;
@@ -13,7 +14,7 @@ class PageController extends Controller
         $this->page = $page;
     }
 
-    public function detail($slug)
+    public function detail(Request $request, $slug)
     {
         $page = $this->page->findBySlug($slug);
         if (!$page) {
@@ -22,7 +23,10 @@ class PageController extends Controller
         if (\Request::url() !== $page->getUrl()) {
             return redirect()->to($page->getUrl(), 301);
         }
-
+        $page->load(['customFields', 'translations']);
+        if ($page->code_file) {
+            include \Theme::path()."/views/page/{$page->code_file}.php";
+        }
         $seo = $page->seoByLocale(locale());
         if ($seo) {
             $this->seo()->setTitle($seo->title);
@@ -37,6 +41,6 @@ class PageController extends Controller
         if ($page->featuredImage) {
             $this->seo()->addImages($page->featuredImage->path->getUrl());
         }
-        return $this->view('page.'.($page->layout ?? 'default'), compact('page'));
+        return $this->view('page.default', compact('page'));
     }
 }

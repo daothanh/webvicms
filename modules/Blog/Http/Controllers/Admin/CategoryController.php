@@ -66,7 +66,7 @@ class CategoryController extends BaseAdminController
 
     public function store(Request $request)
     {
-        $languages = locales();
+        $lang = locale();
         $data = $request->all();
         $rules = [
             'status' => 'required'
@@ -91,15 +91,11 @@ class CategoryController extends BaseAdminController
         ];
 
         foreach ($translatedRules as $ruleKey => $rule) {
-            foreach ($languages as $lang) {
-                $rules["{$lang}.{$ruleKey}"] = $rule;
-            }
+            $rules["{$lang}.{$ruleKey}"] = $rule;
         }
 
         foreach ($translatedAttributeNames as $attributeKey => $attributeName) {
-            foreach ($languages as $lang) {
-                $attributeNames["{$lang}.{$attributeKey}"] = trans($attributeName, [], $lang);
-            }
+            $attributeNames["{$lang}.{$attributeKey}"] = trans($attributeName, [], $lang);
         }
 
         /*if (Arr::get($data, 'id') !== null) {
@@ -108,18 +104,16 @@ class CategoryController extends BaseAdminController
                 Rule::unique('category_translations', 'slug')->ignore(Arr::get($data, 'id'), 'category_id')
             ];
         }*/
-        foreach ($languages as $lang) {
-            if (empty($data[$lang]['slug'])) {
-                $data[$lang]['slug'] = Str::slug($data[$lang]['name']);
-            }
-            $countSlug = \DB::table('blog__category_translations')->where('slug', '=', $data[$lang]['slug']);
-            if (Arr::get($data, 'id') !== null) {
-                $countSlug->where('category_id', '<>', Arr::get($data, 'id'));
-            }
-            $countSlug = $countSlug->count();
-            if ($countSlug) {
-                $data[$lang]['slug'] .= "-" . ($countSlug + 1);
-            }
+        if (empty($data[$lang]['slug'])) {
+            $data[$lang]['slug'] = Str::slug($data[$lang]['name']);
+        }
+        $countSlug = \DB::table('blog__category_translations')->where('slug', '=', $data[$lang]['slug']);
+        if (Arr::get($data, 'id') !== null) {
+            $countSlug->where('category_id', '<>', Arr::get($data, 'id'));
+        }
+        $countSlug = $countSlug->count();
+        if ($countSlug) {
+            $data[$lang]['slug'] .= "-" . ($countSlug + 1);
         }
 
         $validator = \Validator::make($data, $rules);
