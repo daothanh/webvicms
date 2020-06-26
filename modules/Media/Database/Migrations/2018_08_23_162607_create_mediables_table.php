@@ -21,6 +21,7 @@ class CreateMediablesTable extends Migration
             $table->string('zone');
             $table->integer('order')->nullable();
             $table->timestamps();
+            $table->index(['mediable_type', 'mediable_id', 'zone']);
         });
     }
 

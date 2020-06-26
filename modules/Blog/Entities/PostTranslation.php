@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class PostTranslation extends Model
 {
     protected $table = "blog__post_translations";
-    protected $fillable = ['title', 'slug', 'body', 'excerpt', 'quote'];
+    protected $fillable = ['title', 'slug', 'body', 'excerpt'];
 }

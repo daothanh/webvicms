@@ -16,6 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('blog__categories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('pid')->default(0)->unsigned()->nullable();
+            $table->integer('order')->nullable()->default(0);
             $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
             $table->softDeletes();

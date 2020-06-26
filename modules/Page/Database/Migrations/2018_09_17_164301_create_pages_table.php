@@ -16,6 +16,7 @@ class CreatePagesTable extends Migration
         Schema::create('page__pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('layout')->nullable();
+            $table->longText('define_fields')->nullable();
             $table->boolean('is_can_delete')->nullable()->default(true);
             $table->boolean('is_home')->nullable()->default(false);
             $table->boolean('status')->nullable()->default(true);

@@ -22,6 +22,7 @@ class CreatePageCustomFieldsTable extends Migration
             $table->string('locale')->nullable();
             $table->longText('value')->nullable();
             $table->timestamps();
+            $table->foreign('page_id')->references('id')->on('page__pages')->onDelete('cascade');
         });
     }
 
