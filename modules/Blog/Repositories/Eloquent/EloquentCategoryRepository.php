@@ -4,13 +4,14 @@ namespace Modules\Blog\Repositories\Eloquent;
 
 use Illuminate\Support\Str;
 use Modules\Blog\Entities\Category;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use Modules\Blog\Repositories\CategoryRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Blog\Events\CategoryWasCreated;
 use Modules\Blog\Events\CategoryWasDeleting;
 use Modules\Blog\Events\CategoryWasUpdated;
 use Illuminate\Http\Request;
 
-class CategoryRepository extends BaseRepository implements \Modules\Blog\Repositories\CategoryRepository
+class EloquentCategoryRepository extends EloquentBaseRepository implements CategoryRepository
 {
 
     public function create($data)

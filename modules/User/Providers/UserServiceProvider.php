@@ -2,7 +2,6 @@
 
 namespace Modules\User\Providers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Routing\Router;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Contracts\Events\Dispatcher;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
-use Modules\User\Auth\AccessTokenGuard;
 use Modules\User\Auth\Authentication;
 use Modules\User\Console\CreateUser;
 use Modules\User\Console\MakeUserToken;
@@ -26,9 +24,12 @@ use Modules\User\Http\Middleware\ApiPermission;
 use Modules\User\Http\Middleware\ApiRole;
 use Modules\User\Http\Middleware\ApiTokenAuth;
 use Modules\User\Listeners\EmailWelcomeListener;
-use Modules\User\Repositories\Eloquent\RoleRepository;
-use Modules\User\Repositories\Eloquent\UserRepository;
-use Modules\User\Repositories\Eloquent\UserTokenRepository;
+use Modules\User\Repositories\Cache\CacheRoleRepository;
+use Modules\User\Repositories\Cache\CacheUserRepository;
+use Modules\User\Repositories\Cache\CacheUserTokenRepository;
+use Modules\User\Repositories\Eloquent\EloquentRoleRepository;
+use Modules\User\Repositories\Eloquent\EloquentUserRepository;
+use Modules\User\Repositories\Eloquent\EloquentUserTokenRepository;
 use Modules\User\Sidebar\MenuSidebarExtender;
 use Spatie\Permission\Middlewares\PermissionMiddleware;
 use Spatie\Permission\Middlewares\RoleMiddleware;
@@ -175,14 +176,22 @@ class UserServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\User\Repositories\UserRepository',
             function () {
-                return new UserRepository(new User());
+                $repository = new EloquentUserRepository(new User());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheUserRepository($repository);
             }
         );
 
         $this->app->bind(
             'Modules\User\Repositories\UserTokenRepository',
             function () {
-                return new UserTokenRepository(new UserToken());
+                $repository = new EloquentUserTokenRepository(new UserToken());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheUserTokenRepository($repository);
             }
         );
         $this->app->bind(
@@ -194,7 +203,11 @@ class UserServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\User\Repositories\RoleRepository',
             function () {
-                return new RoleRepository(new Role());
+                $repository = new EloquentRoleRepository(new Role());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheRoleRepository($repository);
             }
         );
         $this->app->singleton('user_token', function () {

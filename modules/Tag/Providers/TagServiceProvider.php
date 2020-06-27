@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
+use Modules\Tag\Repositories\Cache\CacheTagRepository;
 use Modules\Tag\Repositories\TagRepository;
 use Modules\Tag\Blade\TagWidget;
 use Illuminate\Support\Facades\Blade;
@@ -51,11 +52,15 @@ class TagServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
 
         $this->app->bind(TagRepository::class, function () {
-            return new \Modules\Tag\Repositories\Eloquent\TagRepository(new \Modules\Tag\Entities\Tag());
+            $repository = new \Modules\Tag\Repositories\Eloquent\EloquentTagRepository(new \Modules\Tag\Entities\Tag());
+            if (!config('app.cache')) {
+                return $repository;
+            }
+            return new CacheTagRepository($repository);
         });
 
-        $this->app->singleton(\Modules\Tag\Contracts\TagManager::class, function () {
-            return new \Modules\Tag\Repositories\Eloquent\TagManagerRepository();
+        $this->app->singleton(\Modules\Tag\Repositories\TagManager::class, function () {
+            return new \Modules\Tag\Repositories\Eloquent\EloquentTagManagerRepository();
         });
         $this->app->singleton('tag.widget.directive', function ($app) {
             return new TagWidget($app[TagRepository::class]);

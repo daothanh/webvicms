@@ -2,13 +2,13 @@
 
 namespace Modules\Slider\Repositories\Eloquent;
 
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Slider\Events\SliderItemWasCreated;
 use Modules\Slider\Events\SliderItemWasDeleting;
 use Modules\Slider\Events\SliderItemWasUpdated;
 use Illuminate\Http\Request;
 
-class SliderRepository extends BaseRepository implements \Modules\Slider\Repositories\SliderRepository
+class EloquentSliderRepository extends EloquentBaseRepository implements \Modules\Slider\Repositories\SliderRepository
 {
 
     public function serverPagingFor(Request $request, $relations = null)

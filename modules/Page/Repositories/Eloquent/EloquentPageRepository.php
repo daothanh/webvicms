@@ -3,14 +3,14 @@
 namespace Modules\Page\Repositories\Eloquent;
 
 use Illuminate\Support\Str;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Page\Entities\Page;
 use Modules\Page\Events\PageWasCreated;
 use Modules\Page\Events\PageWasDeleting;
 use Modules\Page\Events\PageWasUpdated;
 use Illuminate\Http\Request;
 
-class PageRepository extends BaseRepository implements \Modules\Page\Repositories\PageRepository
+class EloquentPageRepository extends EloquentBaseRepository implements \Modules\Page\Repositories\PageRepository
 {
 
     public function create($data)

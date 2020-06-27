@@ -4,6 +4,8 @@ namespace Modules\Blog\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Blog\Repositories\Cache\CacheCategoryRepository;
+use Modules\Blog\Repositories\Cache\CachePostRepository;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Blog\Sidebar\MenuSidebarExtender;
@@ -42,14 +44,22 @@ class BlogServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\Blog\Repositories\PostRepository',
             function () {
-                return new \Modules\Blog\Repositories\Eloquent\PostRepository(new \Modules\Blog\Entities\Post());
+                $repository = new \Modules\Blog\Repositories\Eloquent\EloquentPostRepository(new \Modules\Blog\Entities\Post());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CachePostRepository($repository);
             }
         );
 
         $this->app->bind(
             'Modules\Blog\Repositories\CategoryRepository',
             function () {
-                return new \Modules\Blog\Repositories\Eloquent\CategoryRepository(new \Modules\Blog\Entities\Category());
+                $repository = new \Modules\Blog\Repositories\Eloquent\EloquentCategoryRepository(new \Modules\Blog\Entities\Category());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheCategoryRepository($repository);
             }
         );
     }

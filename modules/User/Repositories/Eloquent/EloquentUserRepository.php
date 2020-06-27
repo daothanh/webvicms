@@ -2,7 +2,7 @@
 namespace Modules\User\Repositories\Eloquent;
 
 use Modules\User\Repositories\UserRepository as UserInterface;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\User\Events\UserWasCreated;
 use Modules\User\Events\UserWasDeleting;
 use Modules\User\Events\UserWasUpdated;
@@ -10,7 +10,7 @@ use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
-class UserRepository extends BaseRepository implements UserInterface
+class EloquentUserRepository extends EloquentBaseRepository implements UserInterface
 {
 
     public function create($data)

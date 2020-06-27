@@ -11,8 +11,8 @@
 |
 */
 
-Route::prefix('articles')->group(function() {
-//    Route::get('/', 'BlogController@index')->name('blog.post');
+Route::prefix('blog')->group(function() {
+    Route::get('/', 'BlogController@index')->name('blog.post');
     Route::get('/category/{slug}', 'BlogController@category')->name('blog.category')->where('slug', '[a-zA-Z0-9_-]+');
     Route::get('/{slug}', 'BlogController@detail')->name('blog.post.detail')->where('slug', '[a-zA-Z0-9_-]+');
 });

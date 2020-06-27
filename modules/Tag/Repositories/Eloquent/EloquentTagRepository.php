@@ -1,14 +1,14 @@
 <?php
 namespace Modules\Tag\Repositories\Eloquent;
 
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Tag\Events\TagIsCreating;
 use Modules\Tag\Events\TagIsUpdating;
 use Modules\Tag\Events\TagWasCreated;
 use Modules\Tag\Events\TagWasUpdated;
 use Illuminate\Http\Request;
 
-class TagRepository extends BaseRepository implements \Modules\Tag\Repositories\TagRepository {
+class EloquentTagRepository extends EloquentBaseRepository implements \Modules\Tag\Repositories\TagRepository {
 
     /**
      * Get all the tags in the given namespace

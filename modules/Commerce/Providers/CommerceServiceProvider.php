@@ -4,6 +4,8 @@ namespace Modules\Commerce\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Commerce\Repositories\Cache\CacheCategoryRepository;
+use Modules\Commerce\Repositories\Cache\CacheProductRepository;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Commerce\Sidebar\MenuSidebarExtender;
@@ -42,14 +44,22 @@ class CommerceServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\Commerce\Repositories\ProductRepository',
             function () {
-                return new \Modules\Commerce\Repositories\Eloquent\ProductRepository(new \Modules\Commerce\Entities\Product());
+                $repository = new \Modules\Commerce\Repositories\Eloquent\EloquentProductRepository(new \Modules\Commerce\Entities\Product());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheProductRepository($repository);
             }
         );
 
         $this->app->bind(
             'Modules\Commerce\Repositories\CategoryRepository',
             function () {
-                return new \Modules\Commerce\Repositories\Eloquent\CategoryRepository(new \Modules\Commerce\Entities\Category());
+                $repository = new \Modules\Commerce\Repositories\Eloquent\EloquentCategoryRepository(new \Modules\Commerce\Entities\Category());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheCategoryRepository($repository);
             }
         );
     }

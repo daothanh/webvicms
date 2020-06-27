@@ -2,11 +2,11 @@
 
 namespace Modules\User\Repositories\Eloquent;
 
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\User\Repositories\RoleRepository as RoleInterface;
 use Illuminate\Http\Request;
 
-class RoleRepository extends BaseRepository implements RoleInterface
+class EloquentRoleRepository extends EloquentBaseRepository implements RoleInterface
 {
     public function findRoleByName($name)
     {

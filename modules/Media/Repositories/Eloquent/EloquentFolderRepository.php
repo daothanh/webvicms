@@ -3,7 +3,7 @@ namespace Modules\Media\Repositories\Eloquent;
 
 use Illuminate\Support\Arr;
 use Modules\Media\Repositories\FolderRepository as FolderInterface;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Media\Events\FolderIsCreating;
 use Modules\Media\Events\FolderIsDeleting;
 use Modules\Media\Events\FolderIsUpdating;
@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Media\Events\FolderWasUpdated;
 
-class FolderRepository extends BaseRepository implements FolderInterface {
+class EloquentFolderRepository extends EloquentBaseRepository implements FolderInterface {
     public function all($columns = ['*'])
     {
         return $this->model->where('is_folder', 1)->orderBy('created_at', 'DESC')->get($columns);

@@ -12,6 +12,8 @@ use Modules\Media\Blade\MediaSingleDirective;
 use Modules\Media\Blade\PublicMediaMultipleDirective;
 use Modules\Media\Blade\PublicMediaSingleDirective;
 use Modules\Media\Console\MediaRefresh;
+use Modules\Media\Repositories\Cache\CacheFolderRepository;
+use Modules\Media\Repositories\Cache\CacheMediaRepository;
 use Modules\Media\Repositories\DeletingMedia;
 use Modules\Media\Repositories\StoringMedia;
 use Modules\Media\Listeners\HandleMediaStorage;
@@ -77,14 +79,22 @@ class MediaServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\Media\Repositories\MediaRepository',
             function () {
-                return new \Modules\Media\Repositories\Eloquent\MediaRepository(new \Modules\Media\Entities\Media());
+                $repository = new \Modules\Media\Repositories\Eloquent\EloquentMediaRepository(new \Modules\Media\Entities\Media());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheMediaRepository($repository);
             }
         );
 
         $this->app->bind(
             'Modules\Media\Repositories\FolderRepository',
             function () {
-                return new \Modules\Media\Repositories\Eloquent\FolderRepository(new \Modules\Media\Entities\Media());
+                $repository = new \Modules\Media\Repositories\Eloquent\EloquentFolderRepository(new \Modules\Media\Entities\Media());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheFolderRepository($repository);
             }
         );
     }

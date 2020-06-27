@@ -5,8 +5,8 @@ namespace Modules\Media\Services\Movers;
 use Modules\Media\Entities\Media;
 use Illuminate\Contracts\Filesystem\Factory;
 use League\Flysystem\FileExistsException;
-use Modules\Media\Repositories\Eloquent\MediaRepository;
-use Modules\Media\Repositories\Eloquent\FolderRepository;
+use Modules\Media\Repositories\Eloquent\MediaRepositoryEloquent;
+use Modules\Media\Repositories\Eloquent\FolderRepositoryEloquent;
 
 final class FolderMover implements MoverInterface
 {
@@ -15,17 +15,17 @@ final class FolderMover implements MoverInterface
      */
     private $filesystem;
     /**
-     * @var MediaRepository
+     * @var MediaRepositoryEloquent
      */
     private $file;
     /**
-     * @var FolderRepository
+     * @var FolderRepositoryEloquent
      */
     private $folder;
     private $fromPath;
     private $toPath;
 
-    public function __construct(Factory $filesystem, MediaRepository $file, FolderRepository $folder)
+    public function __construct(Factory $filesystem, MediaRepositoryEloquent $file, FolderRepositoryEloquent $folder)
     {
         $this->filesystem = $filesystem;
         $this->file = $file;

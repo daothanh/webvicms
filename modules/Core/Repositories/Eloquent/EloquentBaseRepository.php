@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Modules\Core\Repositories\BaseRepository as BaseRepositoryInterface;
 
-abstract class BaseRepository implements BaseRepositoryInterface
+abstract class EloquentBaseRepository implements BaseRepositoryInterface
 {
 
     /** @var \Illuminate\Database\Eloquent\Model */

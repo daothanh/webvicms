@@ -2,10 +2,10 @@
 namespace Modules\User\Repositories\Eloquent;
 
 use \Modules\User\Repositories\UserTokenRepository as UserTokenInterface;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Illuminate\Http\Request;
 
-class UserTokenRepository extends BaseRepository implements UserTokenInterface {
+class EloquentUserTokenRepository extends EloquentBaseRepository implements UserTokenInterface {
     public function serverPagingFor(Request $request, $relations = null)
     {
         $query = $this->newQueryBuilder();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Tag\Contracts;
+namespace Modules\Tag\Repositories;
 
 use Modules\Tag\Repositories\TaggableInterface;
 

@@ -5,12 +5,15 @@ namespace Modules\Core\Repositories\Cache;
 use Illuminate\Cache\Repository;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Modules\Core\Repositories\BaseRepository;
 
 abstract class BaseCacheDecorator implements BaseRepository
 {
     /**
-     * @var \Modules\Core\Repositories\BaseRepository
+     * @var BaseRepository
      */
     protected $repository;
     /**
@@ -38,6 +41,17 @@ abstract class BaseCacheDecorator implements BaseRepository
         $this->locale = app()->getLocale();
     }
 
+    public function newQueryBuilder(): Builder
+    {
+        return $this->repository->newQueryBuilder();
+    }
+
+    public function serverPagingFor(Request $request, $relations = null)
+    {
+        return $this->remember(function () use ($request, $relations) {
+            return $this->repository->serverPagingFor($request, $relations);
+        });
+    }
     /**
      * @inheritdoc
      */
@@ -205,7 +219,13 @@ abstract class BaseCacheDecorator implements BaseRepository
         $cacheKey = $this->getBaseKey();
 
         $backtrace = debug_backtrace()[2];
-
+        foreach ($backtrace['args'] as $key => $arg) {
+            if ($arg instanceof Request) {
+                $backtrace['args'][$key] = $arg->toArray();
+            } elseif ($arg instanceof Model) {
+                $backtrace['args'][$key] = $arg->getKey();
+            }
+        }
         return sprintf("$cacheKey %s %s", $backtrace['function'], \serialize($backtrace['args']));
     }
 
@@ -215,7 +235,7 @@ abstract class BaseCacheDecorator implements BaseRepository
     protected function getBaseKey(): string
     {
         return sprintf(
-            'asgardcms -locale:%s -entity:%s',
+            'webvicms -locale:%s -entity:%s',
             $this->locale,
             $this->entityName
         );

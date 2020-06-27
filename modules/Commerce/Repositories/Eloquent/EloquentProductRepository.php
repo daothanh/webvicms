@@ -4,13 +4,13 @@ namespace Modules\Commerce\Repositories\Eloquent;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Commerce\Events\ProductWasCreated;
 use Modules\Commerce\Events\ProductWasDeleting;
 use Modules\Commerce\Events\ProductWasUpdated;
 use Illuminate\Http\Request;
 
-class ProductRepository extends BaseRepository implements \Modules\Commerce\Repositories\ProductRepository
+class EloquentProductRepository extends EloquentBaseRepository implements \Modules\Commerce\Repositories\ProductRepository
 {
 
     public function create($data)

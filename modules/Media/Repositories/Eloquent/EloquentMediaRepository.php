@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Media\Repositories\Eloquent;
 
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Media\Events\FileIsCreating;
 use Modules\Media\Events\FileIsUpdating;
 use Modules\Media\Events\FileStartedMoving;
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class MediaRepository extends BaseRepository implements \Modules\Media\Repositories\MediaRepository {
+class EloquentMediaRepository extends EloquentBaseRepository implements \Modules\Media\Repositories\MediaRepository {
 
     public function __construct($model)
     {
@@ -77,7 +77,7 @@ class MediaRepository extends BaseRepository implements \Modules\Media\Repositor
     private function getPathFor(string $filename, int $folderId)
     {
         if ($folderId !== 0) {
-            $parent = app(FolderRepository::class)->findFolder($folderId);
+            $parent = app(FolderRepositoryEloquent::class)->findFolder($folderId);
             if ($parent !== null) {
                 return $parent->path->getRelativeUrl() . '/' . $filename;
             }

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
+use Modules\Page\Repositories\Cache\CachePageRepository;
 use Modules\Page\Sidebar\MenuSidebarExtender;
 
 class PageServiceProvider extends ServiceProvider
@@ -49,7 +50,11 @@ class PageServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\Page\Repositories\PageRepository',
             function () {
-                return new \Modules\Page\Repositories\Eloquent\PageRepository(new \Modules\Page\Entities\Page());
+                $repository =  new \Modules\Page\Repositories\Eloquent\EloquentPageRepository(new \Modules\Page\Entities\Page());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CachePageRepository($repository);
             }
         );
     }

@@ -3,9 +3,9 @@
 namespace Modules\Tag\Repositories\Eloquent;
 
 use Modules\Tag\Repositories\TaggableInterface;
-use Modules\Tag\Contracts\TagManager;
+use Modules\Tag\Repositories\TagManager;
 
-class TagManagerRepository implements TagManager
+class EloquentTagManagerRepository implements TagManager
 {
     /**
      * Array of registered namespaces.

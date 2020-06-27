@@ -30,6 +30,7 @@ class BlogController extends Controller
     {
         $request->merge(['status' => 1]);
         $posts = $this->postRepository->serverPagingFor($request);
+        $this->seo()->setTitle(__('blog::post.title.Posts'));
         return $this->view('blog::index', compact('posts'));
     }
 

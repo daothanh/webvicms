@@ -4,13 +4,13 @@ namespace Modules\Blog\Repositories\Eloquent;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use \Modules\Core\Repositories\Eloquent\BaseRepository;
+use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Blog\Events\PostWasCreated;
 use Modules\Blog\Events\PostWasDeleting;
 use Modules\Blog\Events\PostWasUpdated;
 use Illuminate\Http\Request;
 
-class PostRepository extends BaseRepository implements \Modules\Blog\Repositories\PostRepository
+class EloquentPostRepository extends EloquentBaseRepository implements \Modules\Blog\Repositories\PostRepository
 {
 
     public function create($data)

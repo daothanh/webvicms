@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
+use Modules\Slider\Repositories\Cache\CacheSliderItemRepository;
+use Modules\Slider\Repositories\Cache\CacheSliderRepository;
 use Modules\Slider\Sidebar\MenuSidebarExtender;
 use Modules\Slider\Support\Slider;
 
@@ -50,14 +52,22 @@ class SliderServiceProvider extends ServiceProvider
         $this->app->bind(
             'Modules\Slider\Repositories\SliderRepository',
             function () {
-                return new \Modules\Slider\Repositories\Eloquent\SliderRepository(new \Modules\Slider\Entities\Slider());
+                $repository = new \Modules\Slider\Repositories\Eloquent\EloquentSliderRepository(new \Modules\Slider\Entities\Slider());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheSliderRepository($repository);
             }
         );
 
         $this->app->bind(
             'Modules\Slider\Repositories\SliderItemRepository',
             function () {
-                return new \Modules\Slider\Repositories\Eloquent\SliderItemRepository(new \Modules\Slider\Entities\SliderItem());
+                $repository = new \Modules\Slider\Repositories\Eloquent\EloquentSliderItemRepository(new \Modules\Slider\Entities\SliderItem());
+                if (!config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheSliderItemRepository($repository);
             }
         );
 

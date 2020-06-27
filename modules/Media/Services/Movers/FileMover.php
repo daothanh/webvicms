@@ -7,8 +7,8 @@ use League\Flysystem\FileExistsException;
 use Modules\Media\Entities\Media;
 use Modules\Media\Image\Thumbnail;
 use Modules\Media\Image\ThumbnailManager;
-use Modules\Media\Repositories\Eloquent\MediaRepository;
-use Modules\Media\Repositories\Eloquent\FolderRepository;
+use Modules\Media\Repositories\Eloquent\MediaRepositoryEloquent;
+use Modules\Media\Repositories\Eloquent\FolderRepositoryEloquent;
 
 final class FileMover implements MoverInterface
 {
@@ -24,7 +24,7 @@ final class FileMover implements MoverInterface
     private $fromPath;
     private $toPath;
     /**
-     * @var MediaRepository
+     * @var MediaRepositoryEloquent
      */
     private $file;
     /**
@@ -32,7 +32,7 @@ final class FileMover implements MoverInterface
      */
     private $manager;
 
-    public function __construct(Factory $filesystem, MediaRepository $file, ThumbnailManager $manager)
+    public function __construct(Factory $filesystem, MediaRepositoryEloquent $file, ThumbnailManager $manager)
     {
         $this->filesystem = $filesystem;
         $this->file = $file;
@@ -111,7 +111,7 @@ final class FileMover implements MoverInterface
     private function getNewPathFor(string $filename, int $folderId)
     {
         if ($folderId !== 0) {
-            $parent = app(FolderRepository::class)->findFolder($folderId);
+            $parent = app(FolderRepositoryEloquent::class)->findFolder($folderId);
             if ($parent !== null) {
                 return $parent->path->getRelativeUrl() . '/' . $filename;
             }
