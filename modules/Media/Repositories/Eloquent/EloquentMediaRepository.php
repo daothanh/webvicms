@@ -77,7 +77,7 @@ class EloquentMediaRepository extends EloquentBaseRepository implements \Modules
     private function getPathFor(string $filename, int $folderId)
     {
         if ($folderId !== 0) {
-            $parent = app(FolderRepositoryEloquent::class)->findFolder($folderId);
+            $parent = app(EloquentFolderRepository::class)->findFolder($folderId);
             if ($parent !== null) {
                 return $parent->path->getRelativeUrl() . '/' . $filename;
             }

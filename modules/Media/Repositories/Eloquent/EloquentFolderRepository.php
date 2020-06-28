@@ -2,6 +2,7 @@
 namespace Modules\Media\Repositories\Eloquent;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Modules\Media\Repositories\FolderRepository as FolderInterface;
 use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Media\Events\FolderIsCreating;
@@ -126,7 +127,7 @@ class EloquentFolderRepository extends EloquentBaseRepository implements FolderI
 
     private function getNewPathFor(string $filename, Media $folder)
     {
-        return $this->removeDoubleSlashes($folder->path->getRelativeUrl() . '/' . str_slug($filename));
+        return $this->removeDoubleSlashes($folder->path->getRelativeUrl() . '/' . Str::slug($filename));
     }
 
     private function removeDoubleSlashes(string $string) : string
@@ -143,11 +144,11 @@ class EloquentFolderRepository extends EloquentBaseRepository implements FolderI
         if (array_key_exists('parent_id', $data)) {
             $parent = $this->findFolder($data['parent_id']);
             if ($parent !== null) {
-                return $parent->path->getRelativeUrl() . '/' . str_slug(Arr::get($data, 'name'));
+                return $parent->path->getRelativeUrl() . '/' . Str::slug(Arr::get($data, 'name'));
             }
         }
 
-        return $this->getMediaPath() . str_slug(Arr::get($data, 'name'));
+        return $this->getMediaPath() . Str::slug(Arr::get($data, 'name'));
     }
 
     /**
