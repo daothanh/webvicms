@@ -4,6 +4,9 @@ namespace Modules\Commerce\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Commerce\Events\CartWasCreated;
+use Modules\Commerce\Listeners\HandleCart;
+use Modules\Commerce\Repositories\Cache\CacheCartRepository;
 use Modules\Commerce\Repositories\Cache\CacheCategoryRepository;
 use Modules\Commerce\Repositories\Cache\CacheProductRepository;
 use Modules\Core\Events\BuildingSidebar;
@@ -13,6 +16,7 @@ use Modules\Commerce\Sidebar\MenuSidebarExtender;
 class CommerceServiceProvider extends ServiceProvider
 {
     use CanGetSidebarClassForModule;
+
     /**
      * Boot the application events.
      *
@@ -30,6 +34,7 @@ class CommerceServiceProvider extends ServiceProvider
             BuildingSidebar::class,
             $this->getSidebarClassForModule('menu', MenuSidebarExtender::class)
         );
+        $this->app['events']->listen(CartWasCreated::class, HandleCart::class);
     }
 
     /**
@@ -60,6 +65,17 @@ class CommerceServiceProvider extends ServiceProvider
                     return $repository;
                 }
                 return new CacheCategoryRepository($repository);
+            }
+        );
+
+        $this->app->bind(
+            'Modules\Commerce\Repositories\CartRepository',
+            function () {
+                $repository = new \Modules\Commerce\Repositories\Eloquent\EloquentCartRepository(new \Modules\Commerce\Entities\Cart());
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+                return new CacheCartRepository($repository);
             }
         );
     }
