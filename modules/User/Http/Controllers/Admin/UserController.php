@@ -22,16 +22,16 @@ class UserController extends BaseAdminController
 
     public function index()
     {
-        $this->seo()->setTitle(__('Users'));
-        $this->breadcrumb->addItem(__('Users'));
+        $this->seo()->setTitle(__('user::user.Users'));
+        $this->breadcrumb->addItem(__('user::user.Users'));
         return $this->view('user::admin.user.index');
     }
 
     public function create()
     {
-        $this->seo()->setTitle(__('Create a user'));
-        $this->breadcrumb->addItem(__('Users'), route('admin.user.index'));
-        $this->breadcrumb->addItem(__('Create a user'));
+        $this->seo()->setTitle(__('user::user.title.Create a user'));
+        $this->breadcrumb->addItem(__('user::user.Users'), route('admin.user.index'));
+        $this->breadcrumb->addItem(__('user::user.title.Create a user'));
         return $this->view('user::admin.user.create');
     }
 
@@ -41,9 +41,9 @@ class UserController extends BaseAdminController
         if (!$user) {
             abort(404);
         }
-        $this->seo()->setTitle(__('Update a user'));
-        $this->breadcrumb->addItem(__('Users'), route('admin.user.index'));
-        $this->breadcrumb->addItem(__('Update a user'));
+        $this->seo()->setTitle(__('user::user.title.Edit a user'));
+        $this->breadcrumb->addItem(__('user::user.Users'), route('admin.user.index'));
+        $this->breadcrumb->addItem(__('user::user.title.Edit a user'));
         return $this->view('user::admin.user.edit', compact('user'));
     }
 

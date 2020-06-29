@@ -1,7 +1,5 @@
 @extends('admin::layouts.master')
-@section('title')
-    {{ __('Manage Users') }}
-@endsection
+
 @section('content')
     <div class="card">
         <div class="card-header">
@@ -10,7 +8,7 @@
             <div class="card-tools">
                 <a href="{{ route('admin.user.create') }}" class="btn">
                     <i class="fa fa-plus"></i>
-                    <span>{{ __('Create a user') }}</span>
+                    <span>{{ __('user::user.title.Create a user') }}</span>
                 </a>
             </div>
         </div>
@@ -56,12 +54,12 @@
                         <th colspan="1" width="28" data-col="0">
                             <input type="checkbox" id="mass-select-all" name="mass-select-all">
                         </th>
-                        <th>{{ __('Picture') }}</th>
-                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('user::user.labels.Picture') }}</th>
+                        <th>{{ __('user::user.labels.Name') }}</th>
                         <th>{{ __('Email') }}</th>
-                        <th>{{ __('Verified Email') }}</th>
-                        <th>{{ __('Roles') }}</th>
-                        <th>{{ __('Registered at') }}</th>
+                        <th>{{ __('user::user.labels.Verified Email') }}</th>
+                        <th>{{ __('user::user.Roles') }}</th>
+                        <th>{{ __('user::user.labels.Registered at') }}</th>
                         <th width="100">{{ __('Actions') }}</th>
                     </tr>
                     </thead>

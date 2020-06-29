@@ -4,11 +4,11 @@
         <li class="nav-item">
             <a class="nav-link active @if($errors->has('role.name') || $errors->has('role.guard'))is-invalid @endif"
                data-toggle="tab" href="#role" role="tab"
-               aria-controls="pills-home" aria-selected="true">{{ __('Role information') }}</a>
+               aria-controls="pills-home" aria-selected="true">{{ __('user::role.labels.Role information') }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#permission" role="tab"
-               aria-controls="permistion-tab">{{ __('Permission') }}</a>
+               aria-controls="permistion-tab">{{ __('user::role.labels.Permissions') }}</a>
         </li>
     </ul>
     <div class="tab-content pt-3 pb-3" id="pills-tabContent">
@@ -18,7 +18,7 @@
             @endif
             {{ Form::hidden('role[guard_name]', 'web') }}
             <div class="form-group @if($errors->has("role.name")) has-danger @endif">
-                <label>{{ __('Role Name') }}</label>
+                <label>{{ __('user::role.labels.Role Name') }}</label>
                 {{ Form::text('role[name]', old('role.name', !empty($role) ? $role->name : null), ['class' => 'form-control m-input']) }}
                 <i class="form-group__bar"></i>
                 @if($errors->has('role.name'))
@@ -32,7 +32,7 @@
             ?>
             @foreach($availableLocales as $locale => $language)
                 <div class="form-group @if($errors->has("role.$locale.name")) has-danger @endif">
-                    <label>{{ __('Title') }} ({{ $language}})</label>
+                    <label>{{ __('user::role.labels.Display Label') }} ({{ $language}})</label>
                     {{ Form::text('role['.$locale.'][title]', old('role.'.$locale.'.name', !empty($role) && $role->translate($locale) ? $role->translate($locale)->title : null), ['class' => 'form-control m-input']) }}
                     <i class="form-group__bar"></i>
                     @if($errors->has('role.'.$locale.'.name'))

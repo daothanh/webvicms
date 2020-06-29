@@ -6,7 +6,7 @@
                 {{ Form::hidden('user[id]', $user->id) }}
             @endif
             <div class="form-group">
-                @mediaSingle('picture', $user ?? null, __('Picture'))
+                @mediaSingle('picture', $user ?? null, __('user::user.labels.Picture'))
                 @if($errors->has('medias_single.picture'))
                     <div class="invalid-feedback">
                         {{ $errors->first('single_media.picture') }}
@@ -14,7 +14,7 @@
                 @endif
             </div>
             <div class="form-group @if($errors->has("user.name")) has-danger @endif">
-                <label>{{ __('Name') }}</label>
+                <label>{{ __('user::user.labels.Name') }}</label>
                 {{ Form::text('user[name]', old('user.name', !empty($user) ? $user->name : null), ['class' => 'form-control m-input']) }}
                 @if($errors->has('user.name'))
                     <div class="form-control-feedback">
@@ -32,11 +32,11 @@
                 @endif
             </div>
             <div class="form-group">
-                <label>{{ __('Phone') }}</label>
+                <label>{{ __('user::user.labels.Phone') }}</label>
                 {{ Form::text('user[phone]', old('user.phone', !empty($user) ? $user->phone : null), ['class' => 'form-control m-input']) }}
             </div>
             <div class="form-group">
-                <label>{{ __('Gender') }}</label>
+                <label>{{ __('user::user.labels.Gender') }}</label>
                 {{ Form::select('user[gender]', ['male' => __('Male'), 'female' => 'Female'], old('user.gender', !empty($user)? $user->gender : null), ['class' => 'form-control']) }}
             </div>
             <div class="form-group">
@@ -74,7 +74,7 @@
         </div>
         <div class="tab-pane fade" id="new-password" role="tabpanel" aria-labelledby="new-password-tab">
             <div class="form-group @if($errors->has("password")) has-danger @endif">
-                <label>{{ __('New password') }}</label>
+                <label>{{ __('user::user.labels.New password') }}</label>
                 {{ Form::password('password', ['class' => 'form-control m-input']) }}
                 @if($errors->has('password'))
                     <div class="form-control-feedback">
@@ -83,7 +83,7 @@
                 @endif
             </div>
             <div class="form-group">
-                <label>{{ __('New password confirmation') }}</label>
+                <label>{{ __('user::user.labels.New password confirmation') }}</label>
                 {{ Form::password('password_confirmation', ['class' => 'form-control m-input']) }}
             </div>
         </div>

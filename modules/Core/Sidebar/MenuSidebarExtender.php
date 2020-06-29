@@ -47,14 +47,14 @@ class MenuSidebarExtender extends AdminSidebar
                     );
                 });
 
-                /*$item->item(__('Languages'), function (Item $item) {
+                $item->item(__('Languages'), function (Item $item) {
                     $item->weight(0);
                     $item->icon('icon ion-md-globe');
                     $item->route('admin.languages');
                     $item->authorize(
                         $this->auth->hasRole('admin')
                     );
-                });*/
+                });
 
                 /*$item->item(trans('core::settings.title.Account settings'), function (Item $item) {
                     $item->weight(0);

@@ -19,7 +19,7 @@ class MenuSidebarExtender extends AdminSidebar
         $menu->group(__('System'), function (Group $group) {
             $group->weight(2);
 
-            $group->item(__('Users'), function (Item $item) {
+            $group->item(__('user::user.Accounts'), function (Item $item) {
                 $item->weight(1);
                 $item->icon('icon ion-md-contacts');
                 $item->route('admin.user.index');
@@ -28,7 +28,7 @@ class MenuSidebarExtender extends AdminSidebar
                     $this->auth->hasAccess('list users') || $this->auth->hasAccess('list roles')
                 );
 
-                $item->item(__('Users'), function (Item $item) {
+                $item->item(__('user::user.Users'), function (Item $item) {
                     $item->weight(1);
                     $item->icon('icon ion-md-contact');
                     $item->route('admin.user.index');
@@ -37,7 +37,7 @@ class MenuSidebarExtender extends AdminSidebar
                     );
                 });
 
-                $item->item(__('Roles'), function (Item $item) {
+                $item->item(__('user::user.Roles'), function (Item $item) {
                     $item->weight(1);
                     $item->icon('icon ion-md-umbrella');
                     $item->route('admin.role.index');

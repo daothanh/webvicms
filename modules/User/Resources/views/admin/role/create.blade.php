@@ -1,12 +1,10 @@
 @extends('admin::layouts.master')
-@section('title')
-    {{ __('Create a role') }}
-@endsection
+
 @section('content')
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">
-                {{ __('Create a role') }}
+                {{ __('user::role.title.Create a role') }}
             </h3>
             <div class="card-tools">
                 <a href="{{ route('admin.role.index') }}" class="btn">

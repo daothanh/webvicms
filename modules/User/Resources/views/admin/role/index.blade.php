@@ -1,17 +1,17 @@
 @extends('admin::layouts.master')
 @section('title')
-    {{ __('Manage Roles') }}
+    {{ __('user::role.title.Manage Roles') }}
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">
-                {{ __('Roles') }}
+                {{ __('user::role.title.Roles') }}
             </h3>
             <div class="card-tools">
                 <a href="{{ route('admin.role.create') }}" class="btn">
                     <i class="fa fa-plus"></i>
-                    <span>{{ __('Create a role') }}</span>
+                    <span>{{ __('user::role.title.Create a role') }}</span>
                 </a>
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <table id="data-table" class="table">
                     <thead class="thead-default">
                     <tr>
-                        <th>{{ __('Role Name') }}</th>
+                        <th>{{ __('user::role.labels.Role Name') }}</th>
                         {{--<th>{{ __('Guard') }}</th>--}}
                         <th width="100">{{ __('Actions') }}</th>
                     </tr>
