@@ -19,3 +19,4 @@ Route::match(['post', 'get'], 'terminal', ['uses' => 'TerminalController@index',
 Route::group(['prefix' => 'install'], function () {
     Route::match(['get', 'post'], '/', 'InstallController@index')->name('install.app');
 });
+Route::get('sitemap.xml', ['uses' => 'SitemapController@index', 'as' => 'sitemap']);
