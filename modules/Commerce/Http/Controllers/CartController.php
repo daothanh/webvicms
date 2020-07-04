@@ -5,6 +5,9 @@ namespace Modules\Commerce\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Modules\Commerce\Entities\CartBuyer;
+use Modules\Commerce\Entities\CartDeliveryAddress;
+use Modules\Commerce\Events\BookWasCompleted;
 use Modules\Commerce\Repositories\CartRepository;
 use Modules\Commerce\Support\Cart;
 
@@ -40,19 +43,78 @@ class CartController extends \Modules\Core\Http\Controllers\Controller
         $this->cart = new Cart($items);
     }
 
-    public function index() {
+    public function index()
+    {
         return $this->view('commerce::cart', ['cart' => $this->cart]);
     }
 
-    public function book() {
+    public function book(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $user = $request->user();
+            \DB::beginTransaction();
+            $data = [
+                'user_id' => $user ? $user->id : null,
+                'subtotal' => $this->cart->subtotal(),
+                'total' => $this->cart->total(),
+                'vat' => $this->cart->vat(),
+                'items' => $this->cart->toJson(),
+                'status' => 'complete'
+            ];
+            $cart = $this->repository->create($data);
+            if (\Arr::get($request->all(), 'delivery') !== null) {
+                $deliveryData = array_merge($request->get('delivery'), ['user_id' => $user ? $user->id : null, 'cart_id' => $cart->id]);
+
+                $rules = [
+                    'cart_id',
+                    'name' => 'required',
+                    'phone' => 'required',
+                    'email' => 'required|email',
+                    'address' => 'required',
+                    'province_id',
+                    'district_id'
+                ];
+                $validator = \Validator::make($deliveryData, $rules);
+                if ($validator->fails()) {
+                    \DB::rollBack();
+                    return back()->withInput()->withErrors($validator);
+                }
+                CartDeliveryAddress::create($deliveryData);
+            }
+
+            if (\Arr::get($request->all(), 'buyer') !== null) {
+                $buyerData = array_merge($request->get('buyer'), ['user_id' => $user ? $user->id : null, 'cart_id' => $cart->id]);
+                $rules = [
+                    'name' => 'required',
+                    'phone' => 'required',
+//                    'user_id' => 'required',
+                    'cart_id' => 'required',
+                    'email' => 'required|email'
+                ];
+                $validator = \Validator::make($buyerData, $rules);
+                if ($validator->fails()) {
+                    \DB::rollBack();
+                    return back()->withInput()->withErrors($validator);
+                }
+                CartBuyer::create($buyerData);
+            }
+            \DB::commit();
+            $this->cart->clear();
+            $request->session()->forget('cart');
+            $cart->load(['buyer', 'deliveryAddress', 'user']);
+            event(new BookWasCompleted($cart, $request->all()));
+            return redirect()->route('cart.book.complete')->withSuccess(__('commerce::car.book_successfully'));
+        }
         return $this->view('commerce::book_form', ['cart' => $this->cart]);
     }
 
-    public function bookComplete() {
-
+    public function bookComplete()
+    {
+        return $this->view('commerce::book_completely');
     }
 
-    public function addToCart(Request $request) {
+    public function addToCart(Request $request)
+    {
         $data = $request->all();
         $rules = [
             'name' => 'required',

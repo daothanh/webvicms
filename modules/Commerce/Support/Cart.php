@@ -109,6 +109,9 @@ class Cart implements Arrayable
         return $vat;
     }
 
+    public function clear() {
+        $this->items->forget($this->items->keys());
+    }
     public function toArray() {
         return $this->items->toArray();
     }
