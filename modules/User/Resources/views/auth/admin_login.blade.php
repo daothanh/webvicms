@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="{{ Theme::url('css/pages/login.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ Theme::url('css/main.css') }}">
-    @routes
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">

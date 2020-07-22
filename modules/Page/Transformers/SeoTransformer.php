@@ -2,7 +2,7 @@
 
 namespace Modules\Page\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class SeoTransformer extends Resource
 {

@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="{{ Theme::url('css/main.css') }}?version=1">
     @stack('css-stack')
-    @routes('web')
 </head>
 <body>
 @include("simple::partials.header")

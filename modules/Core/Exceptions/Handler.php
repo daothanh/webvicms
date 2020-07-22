@@ -10,6 +10,7 @@ use Modules\Core\Entities\ErrorReport;
 use Modules\Core\Notifications\ErrorReportNotify;
 use Modules\User\Repositories\UserRepository;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -35,10 +36,11 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return void
+     * @throws Exception
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         parent::report($exception);
         if (app()->environment() == 'production' && !$this->shouldntReport($exception) && ($exception instanceof FatalThrowableError || $exception instanceof \ErrorException)) {
@@ -84,10 +86,11 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param Request $request
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return Response
+     * @throws Throwable
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
 

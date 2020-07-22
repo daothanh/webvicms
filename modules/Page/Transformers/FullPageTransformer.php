@@ -2,7 +2,7 @@
 
 namespace Modules\Page\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 use Modules\Media\Transformers\MediaTransformer;
 
 class FullPageTransformer extends Resource

@@ -2,7 +2,7 @@
 
 namespace Modules\Core\Transformers;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource as Resource;
 
 class ProvinceTransformer extends Resource
 {

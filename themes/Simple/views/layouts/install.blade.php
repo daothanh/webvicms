@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="{{ Theme::url('css/main.css') }}">
     @stack('css-stack')
-    @routes('web')
 </head>
 <body>
 <div class="container">
