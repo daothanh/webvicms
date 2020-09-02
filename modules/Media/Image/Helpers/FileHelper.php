@@ -21,16 +21,25 @@ class FileHelper
      * @param string $mediaType
      * @return string
      */
-    public static function getFaIcon($mediaType)
+    public static function getFaIcon($mediaType, $extension = null)
     {
         switch ($mediaType) {
             case 'video':
-                return 'zmdi zmdi-videocam zmdi-hc-fw';
+                $icon = 'zmdi zmdi-videocam zmdi-hc-fw';
+                break;
             case 'audio':
-                return 'zmdi zmdi-audio zmdi-hc-fw';
+                $icon = 'zmdi zmdi-audio zmdi-hc-fw';
+                break;
+            case 'image':
+                $icon = 'far fa-file-image';
+                break;
+            case 'application':
+                $icon = 'far fa-file' . ($extension ? '-' . $extension : '');
+                break;
             default:
-                return 'zmdi zmdi-collection-text zmdi-hc-fw';
+                $icon = 'far fa-file';
         }
+        return $icon;
     }
 
     public static function slug($name)
@@ -48,7 +57,7 @@ class FileHelper
         $base = log($size, 1024);
         $suffixes = array('', 'K', 'M', 'G', 'T');
 
-        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+        return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 
     /**

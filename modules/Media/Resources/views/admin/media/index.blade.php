@@ -37,6 +37,8 @@
                                     {{ __('Type') }} <span id="selected-type"></span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item filter" data-field="type" data-value=""
+                                       href="#">{{ __('All') }}</a>
                                     <a class="dropdown-item filter" data-field="type" data-value="image"
                                        href="#">{{ __('Image') }}</a>
                                     <a class="dropdown-item filter" data-field="type" data-value="video"
@@ -62,8 +64,7 @@
                         <th colspan="1" width="28" data-col="0">
                             <input type="checkbox" id="mass-select-all" name="mass-select-all">
                         </th>
-                        <th width="80">{{ __('ID') }}</th>
-                        <th width="80">{{ __('File') }}</th>
+                        <th width="50">{{ __('File') }}</th>
                         <th></th>
                         <th>{{ __('Type') }}</th>
                         <th width="120">{{ __('Uploaded at') }}</th>
@@ -113,44 +114,39 @@
             {
               targets: 1,
               orderable: false,
-              data: 'id'
+              data: 'path'
             },
             {
               targets: 2,
               orderable: false,
-              data: 'path'
+              data: 'filename'
             },
             {
               targets: 3,
               orderable: false,
-              data: 'filename'
+              data: 'media_type'
             },
             {
               targets: 4,
               orderable: false,
-              data: 'media_type'
+              data: 'created_at'
             },
             {
               targets: 5,
               orderable: false,
-              data: 'created_at'
-            },
-            {
-              targets: 6,
-              orderable: false,
               data: 'path'
             }
           ],
-          order: [[5, "desc"]],
+          order: [[4, "desc"]],
           createdRow: function (row, data, dataIndex) {
             if (data.is_image) {
-              $(row).find('td:eq(2)').html('<img src="' + data.thumbnail + '">');
+              $(row).find('td:eq(1)').html('<img width="80" src="' + data.thumbnail + '">');
             } else {
-              $(row).find('td:eq(2)').html('<i class="' + data.fa_icon + '"></i>');
+              $(row).find('td:eq(1)').html('<i style="font-size: 24px;" class="' + data.fa_icon + '"></i>');
             }
-            $(row).find('td:eq(3)').html((data.title ? data.title + '<br>' : '') + data.filename);
-            $(row).find('td:eq(4)').html('<span class="text-capitalize">' + data.media_type + '</span>');
-            $(row).find('td:eq(6)').html('<a href="' + data.urls.edit_url + '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-title="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>\n' +
+            $(row).find('td:eq(2)').html((data.title ? data.title + '<br>' : '') + data.filename);
+            $(row).find('td:eq(3)').html('<span class="text-capitalize">' + data.media_type + '</span>');
+            $(row).find('td:eq(5)').html('<a href="' + data.urls.edit_url + '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-title="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>\n' +
               '                                <a href="' + data.urls.delete_url + '" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-title="{{ __("Delete") }}"><i class="icon ion-md-trash"></i></a>');
           }
         });

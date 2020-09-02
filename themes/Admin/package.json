@@ -11,18 +11,21 @@
     },
     "dependencies": {
         "admin-lte": "^3.0.2",
-        "dropzone": "^5.5.1",
-        "ionicons": "^4.6.3",
-        "jquery": "^3.4.1",
-        "popper.js": "^1.16.1",
-        "sweetalert2": "^9.7.1",
-        "toastr": "^2.1.4",
         "axios": "^0.19",
         "bootstrap": "^4.0.0",
         "cross-env": "^7.0",
+        "dropzone": "^5.5.1",
+        "ionicons": "^4.6.3",
+        "jquery": "^3.4.1",
         "laravel-mix": "^5.0.1",
+        "popper.js": "^1.16.1",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
-        "sass-loader": "^8.0.0"
+        "sass-loader": "^8.0.0",
+        "sweetalert2": "^9.7.1",
+        "toastr": "^2.1.4"
+    },
+    "devDependencies": {
+        "vue-template-compiler": "^2.6.12"
     }
 }
