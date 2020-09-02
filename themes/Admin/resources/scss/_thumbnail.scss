@@ -65,8 +65,15 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                transform: translate(-50%,-50%);
+                transform: translate(-50%, -50%);
             }
+        }
+        .file-name {
+            overflow: hidden;
+            height: 32px;
+            width: 100%;
+            text-align: center;
+            padding: 5px;
         }
 
         button {

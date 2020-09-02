@@ -61,7 +61,7 @@
                         <span>Đã chọn <span id="selected-count">0</span> </span>
 
                     </div>
-                <button type="button" class="btn btn-outline-info jsInsertImage"><i class="fa fa-check-circle"></i> <span>{{ trans('media::media.insert') }}</span></button>
+                <button type="button" disabled="disabled" class="btn btn-outline-info jsInsertImage"><i class="fa fa-check-circle"></i> <span>{{ trans('media::media.insert') }}</span></button>
                 </div>
             </div>
         </div>
