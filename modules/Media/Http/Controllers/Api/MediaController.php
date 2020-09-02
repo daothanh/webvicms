@@ -18,7 +18,6 @@ use Modules\Media\Http\Requests\UploadDropzoneMediaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Facades\DataTables;
 
 class MediaController extends ApiController
 {

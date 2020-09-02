@@ -27,7 +27,7 @@ class MediaPath
     {
         $path = ltrim($this->path, '/');
 
-        return \Storage::disk('local')->url($path);
+        return \Storage::disk(config('filesystems.default'))->url($path);
     }
 
     /**

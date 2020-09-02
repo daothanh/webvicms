@@ -245,7 +245,7 @@ class Imagy
             return 'public' . $path;
         }
 
-        return $path;
+        return 'uploads'.$path;
     }
 
     /**
