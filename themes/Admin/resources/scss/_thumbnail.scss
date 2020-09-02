@@ -1,6 +1,17 @@
 .dropzone {
     border-style: dotted;
 }
+.card-body {
+    padding-bottom: 70px;
+}
+.card-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background:#eee;
+}
 #thumbnails {
     display: block;
     width: 100%;
@@ -8,7 +19,7 @@
     margin: 0;
 
     li {
-        width: 12.5%;
+        width: 25%;
         /*height: 150px;*/
         display: inline-block;
         position: relative;

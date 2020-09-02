@@ -36,7 +36,7 @@
                 <th></th>
                 <th>{{ __('Type') }}</th>
                 <th width="120">{{ __('Uploaded at') }}</th>
-                <th>{{ trans('Actions') }}</th>
+                <th width="200">{{ trans('Actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -141,11 +141,14 @@
           '                                                                        <button type="button" class="btn btn-primary btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\n' +
           '                                        Chèn tệp <span class="caret"></span>\n' +
           '                                    </button>\n' + '<div class="dropdown-menu" role="menu">\n';
-        $.each(data.thumbnails, function (index, thumbnail) {
-          thumbnailMenu += '<a data-file-path="' + thumbnail.path + '" data-id="' + data.id + '" data-media-type="' + data.media_type + '" data-mimetype="' + data.mimetype + '" class="dropdown-item jsInsertImage">\n' +
-            thumbnail.name + ' (' + thumbnail.size + ')' +
-            '  </a>\n';
-        });
+        if(data.media_type === 'image') {
+            $.each(data.thumbnails, function (index, thumbnail) {
+                thumbnailMenu += '<a data-file-path="' + thumbnail.path + '" data-id="' + data.id + '" data-media-type="' + data.media_type + '" data-mimetype="' + data.mimetype + '" class="dropdown-item jsInsertImage">\n' +
+                    thumbnail.name + ' (' + thumbnail.size + ')' +
+                    '  </a>\n';
+            });
+        }
+
         thumbnailMenu += '<a class="divider"></a>' +
           '<a data-file-path="' + data.path + '" data-id="' + data.id + '" data-media-type="' + data.media_type + '" data-mimetype="' + data.mimetype + '" class="dropdown-item jsInsertImage">\n' +
           'Original' +
