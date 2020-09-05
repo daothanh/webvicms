@@ -44,9 +44,9 @@ class PageController extends BaseAdminController
         if (!$page) {
             return route('admin.page.index');
         }
-        $this->seo()->setTitle($page->title);
+        $this->seo()->setTitle(trans('page::page.title.Edit a page'));
         $this->breadcrumb->addItem(trans('page::page.title.Pages'), route('admin.page.index'));
-        $this->breadcrumb->addItem($page->title);
+        $this->breadcrumb->addItem(trans('page::page.title.Edit a page'));
         $pageContent = $this->getPageContent($page);
         $codeContent = $this->getCodeContent($page);
         $layouts = $this->getLayouts();
@@ -58,9 +58,9 @@ class PageController extends BaseAdminController
         if (!$page) {
             return route('admin.page.index');
         }
-        $this->seo()->setTitle($page->title);
+        $this->seo()->setTitle(trans('page::page.title.Duplicate'));
         $this->breadcrumb->addItem(trans('page::page.title.Pages'), route('admin.page.index'));
-        $this->breadcrumb->addItem(trans("Duplicate"));
+        $this->breadcrumb->addItem(trans('page::page.title.Duplicate'));
         $pageContent = $this->getPageContent($page);
         $layouts = $this->getLayouts();
         $codeContent = $this->getCodeContent($page);
@@ -130,13 +130,13 @@ class PageController extends BaseAdminController
             return redirect()->back()->withInput()->withErrors($validator->messages());
         }
 
-        $msg = __('page::page.messages.Page was created!');
+        $msg = __('page::page.messages.Page was created');
         if (Arr::get($data, 'id') === null) {
             $page = $this->pageRepository->create($data);
         } else {
             $page = $this->pageRepository->find($data['id']);
             $this->pageRepository->update($page, $data);
-            $msg = __('page::page.messages.Page was updated!');
+            $msg = __('page::page.messages.Page was updated');
         }
         $this->savePageContentFile($page, $request->get('page_content'));
         $this->saveCodeContentFile($page, $request->get('code_content'));

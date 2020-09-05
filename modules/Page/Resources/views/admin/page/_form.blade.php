@@ -9,6 +9,7 @@
 @endif
 <div class="card">
     <div class="card-header">
+        <div class="card-title">{{ \SEO::getTitle() }}</div>
         <div class="card-tools">
             <a href="{{ route('admin.page.index') }}" class="btn">
                 <i class="fa fa-arrow-left"></i>

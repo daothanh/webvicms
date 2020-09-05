@@ -56,7 +56,7 @@ window.notify = function($title, $message, $type = 'success') {
     "debug": false,
     "newestOnTop": false,
     "progressBar": false,
-    "positionClass": "toast-bottom-right",
+    "positionClass": "toast-top-right",
     "preventDuplicates": false,
     "showDuration": "300",
     "hideDuration": "1000",

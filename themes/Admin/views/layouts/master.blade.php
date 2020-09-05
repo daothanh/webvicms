@@ -91,10 +91,7 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">{{ \SEO::getTitle() }}</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         {!! $breadcrumb !!}
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -129,10 +126,10 @@
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-            WebviCMS, version <?php echo env('APP_VERSION', '1.0') ?>
+            <a href="https://webvi.vn">WebviCMS</a>, version <?php echo env('APP_VERSION', '1.0') ?>
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2010 - <?php echo date('Y'); ?> <a href="https://webvi.vn">Webvi</a>.</strong> All
+        <strong>Copyright &copy; 2018 - <?php echo date('Y'); ?> <a href="{{ env('APP_URL') }}">{{ settings('website.name.'.locale(), env('APP_NAME')) }}</a>.</strong> All
         rights reserved.
     </footer>
 </div>
