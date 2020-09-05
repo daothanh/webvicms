@@ -73,6 +73,6 @@ if (!function_exists('blog_post_image')) {
                 return $post->image->path->getUrl();
             }
         }
-        return asset('storage/media/no-image.jpg');
+        return asset('uploads/media/no-image.jpg');
     }
 }

@@ -94,6 +94,7 @@
                 @endforeach
             </div>
         @endif
+        @tags('Modules\Commerce\Entities\Product', $product ?? null)
         <div class="form-group">
             <label>{{ __('commerce::product.labels.Status') }}</label>
             <?php
@@ -112,7 +113,7 @@
     <div class="col-md-12">
         <div class="text-center">
             <a href="{{ route('admin.commerce.product.index') }}" class="btn btn-dark"><i
-                        class="icon ion-md-undo"></i> {{ __('Cancel') }}</a>
+                    class="icon ion-md-undo"></i> {{ __('Cancel') }}</a>
             <button type="submit" class="btn btn-primary ml-3" id="save-btn"><i
                     class="icon ion-md-save"></i> {{ __('Save') }}</button>
         </div>
@@ -122,10 +123,10 @@
 @push('js-stack')
     <script src="{{ Theme::url('js/ckeditor/ckeditor.js') }}"></script>
     <script>
-      $(function () {
-        $('.rich-text').each(function () {
-          CKEDITOR.replace(this.id, {});
+        $(function () {
+            $('.rich-text').each(function () {
+                CKEDITOR.replace(this.id, {});
+            });
         });
-      });
     </script>
 @endpush

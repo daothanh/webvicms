@@ -92,6 +92,7 @@
                 @endforeach
             </div>
         @endif
+            @tags('Modules\Commerce\Entities\Product', $product ?? null)
         <div class="form-group">
             <label>{{ __('commerce::product.labels.Status') }}</label>
             <?php

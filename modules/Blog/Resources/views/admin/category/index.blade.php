@@ -31,7 +31,7 @@
                         <tr>
                             <td width="80">
                                 <img class="w-100"
-                                     src="{{ $category->image ? $category->image->path : asset('storage/media/no-image.jpg') }}"
+                                     src="{{ $category->image ? $category->image->path : asset('uploads/media/no-image.jpg') }}"
                                      alt="{{ $category->name }}"></td>
                             <td>{{ $category->name }}</td>
                             <td>{!! $category->excerpt !!}</td>

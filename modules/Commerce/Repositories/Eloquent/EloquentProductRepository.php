@@ -4,6 +4,7 @@ namespace Modules\Commerce\Repositories\Eloquent;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Modules\Commerce\Entities\Product;
 use \Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Commerce\Events\ProductWasCreated;
 use Modules\Commerce\Events\ProductWasDeleting;
@@ -15,12 +16,17 @@ class EloquentProductRepository extends EloquentBaseRepository implements \Modul
 
     public function create($data)
     {
+        /** @var Product $product */
         $product = $this->model->create($data);
         $categoryIds = Arr::get($data, 'category_ids');
         if ($categoryIds !== null && is_array($categoryIds)) {
             $product->categories()->sync($categoryIds);
         }
+
+        $product->setTags(Arr::get($data, 'tags'));
+
         event(new ProductWasCreated($product, $data));
+
         return $product;
     }
 

@@ -107,7 +107,7 @@
               targets: 1,
               orderable: false,
               data: function (row, type, val, meta) {
-                var imgPath = (row.avatar !== null && row.avatar !== '') ? row.avatar : '{{ asset('storage/media/no-image.jpg') }}'
+                var imgPath = (row.avatar !== null && row.avatar !== '') ? row.avatar : '{{ asset('uploads/media/no-image.jpg') }}'
                 return '<img width="50" src="' + imgPath + '"/>';
               }
             },

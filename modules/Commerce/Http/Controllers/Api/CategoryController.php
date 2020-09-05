@@ -107,10 +107,13 @@ class CategoryController extends ApiController
     {
         $id = $request->get('id');
         $category = $this->categoryRepository->newQueryBuilder()->withTrashed()->find($id);
+        $error = false;
         if ($category) {
             $category->status = !$category->status;
             $category->save();
+        } else {
+          $error = true;
         }
-        return response()->json(['error' => false]);
+        return response()->json(['error' => $error]);
     }
 }

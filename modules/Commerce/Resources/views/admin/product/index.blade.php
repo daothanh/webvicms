@@ -44,10 +44,9 @@
                     </div>
                 </div>
             </nav>
-            <button class="btn btn-danger" id="delete-all" disabled><i class="icon ion-md-close"></i> {{ __('Delete') }}
+            <button class="btn btn-danger" id="delete-all" disabled><i class="icon ion-md-trash"></i> {{ __('Delete') }}
             </button>
-            <button class="btn btn-info" id="restore-all" style="display: none" disabled><i
-                    class="icon ion-md-refresh"></i> {{ __('Restore') }}
+            <button class="btn btn-info" id="restore-all" style="display: none" disabled><i class="icon ion-md-refresh"></i> {{ __('Restore') }}
             </button>
 
             <table id="data-table" class="table table-striped">
@@ -59,10 +58,7 @@
                     <th width="60"> {{ __('Image') }}</th>
                     <th>{{ __('commerce::product.labels.Title') }}</th>
                     <th width="100">{{ __('Date') }}</th>
-                    <th>{{ __('Seo title') }}</th>
-                    <th>{{ __('Seo description') }}</th>
-                    <th>{{ __('Seo keywords') }}</th>
-                    <th width="50">{{ __('Status') }}</th>
+                    <th width="100">{{ __('Status') }}</th>
                     <th width="100">{{ __('Actions') }}</th>
                 </tr>
                 </thead>
@@ -107,7 +103,7 @@
               targets: 1,
               orderable: false,
               data: function (row, type, val, meta) {
-                var imgPath = (row.image !== null && row.image !== '') ? row.image.thumbnail : '{{ asset('storage/media/no-image.jpg') }}'
+                var imgPath = (row.image !== null && row.image !== '') ? row.image.thumbnail : '{{ asset('uploads/media/no-image.jpg') }}'
                 return '<img width="50" src="' + imgPath + '"/>';
               }
             },
@@ -126,34 +122,13 @@
             },
             {
               targets: 4,
-              orderable: false,
-              data: function (row, type, val, meta) {
-                return row.seo !== null ? row.seo.title : '';
-              }
-            },
-            {
-              targets: 5,
-              orderable: false,
-              data: function (row, type, val, meta) {
-                return row.seo !== null ? row.seo.description : '';
-              }
-            },
-            {
-              targets: 6,
-              orderable: false,
-              data: function (row, type, val, meta) {
-                return row.seo !== null ? row.seo.keywords : '';
-              }
-            },
-            {
-              targets: 7,
-              orderData: [7],
+              orderData: [4],
               name: 'status',
               orderable: true,
               data: 'status'
             },
             {
-              targets: 8,
+              targets: 5,
               orderable: false,
               data: function (row, type, val, meta) {
                 var buttons = '';
@@ -169,13 +144,13 @@
             }
           ],
           createdRow: function (row, data, dataIndex) {
-            $(row).find('td:eq(7)').html('<div class="custom-control custom-switch">\n' +
+            $(row).find('td:eq(4)').html('<div class="custom-control custom-switch text-center">\n' +
               '                      <input type="checkbox" class="custom-control-input toggle-status" data-id="' + data.id + '" ' + (data.status == 1 ? 'checked="checked"' : '') + ' id="customSwitch-' + data.id + '">\n' +
               '                      <label class="custom-control-label" for="customSwitch-' + data.id + '"></label>\n' +
               '                    </div>');
 
           },
-          order: [[3, "desc"], [7, "desc"]],
+          order: [[3, "desc"], [4, "desc"]],
         });
         $('.search').keyup(function (e) {
           e.preventDefault();

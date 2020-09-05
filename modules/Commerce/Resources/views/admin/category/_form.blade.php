@@ -78,11 +78,11 @@
         </div>
         <div class="form-group">
             <label>{{ __('commerce::category.labels.Order') }}</label>
-            {{ Form::text('order', old('order', !empty($category)? $category->order : 0), ['class' => 'form-control', 'id' => 'status']) }}
+            {{ Form::text('order', old('order', !empty($category)? $category->order : 0), ['class' => 'form-control', 'id' => 'order']) }}
         </div>
         <div class="form-group">
             <label>{{ __('commerce::category.labels.Parent') }}</label>
-            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : 1), ['class' => 'form-control', 'id' => 'status']) }}
+            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : ''), ['class' => 'form-control', 'id' => 'pid']) }}
         </div>
         <div class="form-group">
             <label>{{ __('commerce::category.labels.Status') }}</label>

@@ -103,7 +103,7 @@
                         targets: 1,
                         orderable: false,
                         data: function (row, type, val, meta) {
-                            var imgPath = (row.featured_image !== null && row.featured_image !== '') ? row.featured_image.thumbnail : '{{ asset('storage/media/no-image.jpg') }}'
+                            var imgPath = (row.featured_image !== null && row.featured_image !== '') ? row.featured_image.thumbnail : '{{ asset('uploads/media/no-image.jpg') }}'
                             return '<img width="50" src="' + imgPath + '"/>';
                         }
                     },

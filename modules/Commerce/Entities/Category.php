@@ -32,17 +32,17 @@ class Category extends Model
 
     public function getEditUrl()
     {
-        return route('admin.commerce.category.edit', ['category1' => $this->id]);
+        return route('admin.commerce.category.edit', ['id' => $this->id]);
     }
 
     public function getDuplicateUrl()
     {
-        return route('admin.commerce.category.duplicate', ['category' => $this->id]);
+        return route('admin.commerce.category.duplicate', ['id' => $this->id]);
     }
 
     public function getDeleteUrl()
     {
-        return route('api.commerce.category.delete', ['category' => $this->id]);
+        return route('api.commerce.category.delete', ['id' => $this->id]);
     }
 
     public function getForceDeleteUrl()

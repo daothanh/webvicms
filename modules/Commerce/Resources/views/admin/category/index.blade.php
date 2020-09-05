@@ -10,9 +10,11 @@
             </div>
         </div>
         <div class="card-body">
-            <button class="btn btn-danger btn-sm" id="delete-all" disabled>{{ __('Delete') }}
+            <button class="btn btn-danger btn-sm" id="delete-all" disabled><i
+                    class="icon ion-md-trash"></i> {{ __('Delete') }}
             </button>
-            <button class="btn btn-info btn-sm" id="restore-all" style="display: none" disabled>{{ __('Restore') }}
+            <button class="btn btn-info btn-sm" id="restore-all" style="display: none" disabled><i
+                    class="icon ion-md-refresh"></i> {{ __('Restore') }}
             </button>
             <table id="data-table1" class="table table-striped">
                 <thead class="thead-default">
@@ -31,14 +33,18 @@
                         <tr>
                             <td width="80">
                                 <img class="w-100"
-                                     src="{{ $category->image ? $category->image->path : asset('storage/media/no-image.jpg') }}"
+                                     src="{{ $category->image ? $category->image->path : asset('uploads/media/no-image.jpg') }}"
                                      alt="{{ $category->name }}"></td>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->excerpt }}</td>
                             <td>{{ $category->slug }}</td>
                             <td>
-                                <input data-id="{{ $category->id }}" class="toggle-status" type="checkbox" name="status"
-                                       @if($category->status === 1) checked @endif data-bootstrap-switch>
+                                <div class="custom-control custom-switch text-center">
+                                    <input data-id="{{ $category->id }}" @if($category->status === 1) checked
+                                           @endif type="checkbox" class="custom-control-input toggle-status"
+                                           id="customSwitch1">
+                                    <label class="custom-control-label" for="customSwitch1"></label>
+                                </div>
                             </td>
                             <td>
                                 <a href="{{ $category->getEditUrl() }}" class="btn btn-primary btn-sm"
@@ -76,19 +82,11 @@
     </div>
 @endsection
 @push('js-stack')
-    <script src="{{ Theme::url('js/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
     <script>
         $(function () {
-            $('.toggle-status').bootstrapSwitch({
-                onColor: 'primary',
-                offColor: 'danger',
-                onText: '{{ __('blog::category.labels.Show') }}',
-                offText: '{{ __('blog::category.labels.Hide') }}',
-                onSwitchChange: function onSwitchChange() {
-                    axios.post('{{ route("api.blog.category.toggle_status") }}', {id: $(this).data('id')});
-                }
-            });
-            $('body').on('click', '.delete', function (e) {
+            $('body').on('click', '.toggle-status', function () {
+                axios.post('{{ route("api.commerce.category.toggle_status") }}', {id: $(this).data('id')});
+            }).on('click', '.delete', function (e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
                 swal({
