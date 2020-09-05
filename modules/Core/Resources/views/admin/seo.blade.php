@@ -2,13 +2,13 @@
 $seo = null;
 
 ?>
-<div class="card collapse-card">
+<div class="card collapsed-card" id="seo-card">
     <div class="card-header">
         <h3 class="card-title">
-            SEO
+            {{ __('core::seo.title.Search Engine Optimize') }}
         </h3>
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus" id="collapse-btn"></i>
             </button>
         </div>
     </div>
@@ -87,3 +87,26 @@ $seo = null;
         @endif
     </div>
 </div>
+@push('js-stack')
+    <script>
+        $(function () {
+            const collapsiable = localStorage.getItem('seo_collapsible');
+            console.log(collapsiable);
+            if (collapsiable) {
+                $('#seo-card').addClass('collapsed-card');
+                $('#collapse-btn').removeClass('minus').addClass('fa-plus');
+            } else {
+                $('#seo-card').removeClass('collapsed-card');
+                $('#collapse-btn').removeClass('fa-plus').addClass('fa-minus');
+            }
+
+            $('#collapse-btn').click(function () {
+                if ($(this).hasClass('fa-minus')) {
+                    localStorage.setItem('seo_collapsible', '1');
+                } else {
+                    localStorage.removeItem('seo_collapsible');
+                }
+            })
+        })
+    </script>
+@endpush
