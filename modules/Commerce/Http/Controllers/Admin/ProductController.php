@@ -35,7 +35,7 @@ class ProductController extends BaseAdminController
         $this->breadcrumb->addItem(__('commerce::product.title.Products'), route('admin.commerce.product.index'));
         $this->breadcrumb->addItem(__('commerce::product.title.Create a product'));
 
-        $categories = $this->categoryRepository->getCategories();
+        $categories = $this->categoryRepository->getCategories(true);
         return $this->view('commerce::admin.product.create', compact('categories'));
     }
 
@@ -52,7 +52,7 @@ class ProductController extends BaseAdminController
         return $this->view('commerce::admin.product.edit', compact('product', 'categories'));
     }
 
-    public function duplicate()
+    public function duplicate($id)
     {
         $product = $this->productRepository->find($id);
         if (!$product) {
@@ -61,7 +61,7 @@ class ProductController extends BaseAdminController
         $this->seo()->setTitle($product->title);
         $this->breadcrumb->addItem(trans('commerce::product.title.Products'), route('admin.commerce.product.index'));
         $this->breadcrumb->addItem(trans("Duplicate"));
-        $categories = $this->categoryRepository->getCategories();
+        $categories = $this->categoryRepository->getCategories(true);
         return $this->view('commerce::admin.product.duplicate', compact('product', 'categories'));
     }
 
@@ -90,7 +90,6 @@ class ProductController extends BaseAdminController
             'slug' => 'Slug',
             'status' => 'commerce::product.labels.Status',
         ];
-
         foreach ($translatedRules as $ruleKey => $rule) {
             foreach ($languages as $lang) {
                 $rules["{$lang}.{$ruleKey}"] = $rule;
@@ -99,7 +98,7 @@ class ProductController extends BaseAdminController
 
         foreach ($translatedAttributeNames as $attributeKey => $attributeName) {
             foreach ($languages as $lang) {
-                $attributeNames["{$lang}.{$attributeKey}"] = trans($attributeName, [], $lang);
+                $attributeNames["{$lang}.{$attributeKey}"] = __($attributeName, [], $lang);
             }
         }
 
@@ -127,11 +126,11 @@ class ProductController extends BaseAdminController
         $validator->setAttributeNames($attributeNames);
         if ($validator->fails()) {
             if (Arr::get($data, 'id') !== null) {
-                return redirect()->route('admin.commerce.product.edit', ['product' => Arr::get($data, 'id')])
+                return redirect()->route('admin.commerce.product.edit', ['id' => Arr::get($data, 'id')])
                     ->withInput()
                     ->withErrors($validator->messages());
             }
-            return redirect()->back()->withInput()->withErrors($validator->messages());
+            return redirect()->back()->withInput()->withErrors($validator);
         }
 
         $msg = __('commerce::product.messages.Product was created!');

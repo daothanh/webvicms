@@ -74,7 +74,7 @@
                 </div>
             @endif
         </div>
-        @if(!empty($categories))
+        @if(!empty($categories) && count($categories) > 1)
             <div class="form-group">
                 <label>{{ __('commerce::product.labels.Categories') }}</label>
                 <?php

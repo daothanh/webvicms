@@ -185,9 +185,13 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements \Modu
         return $tree;
     }
 
-    public function getCategories()
+    public function getCategories($forSelect = false)
     {
-        $categories = ['0' => trans('commerce::category.labels.Select parent')];
+        $categories = [];
+        if ($forSelect) {
+            $categories = ['0' => trans('commerce::category.labels.Select parent')];
+        }
+
         $items = array_map(function ($item) {
             $item->name = ($item->depth ? str_repeat("-", $item->depth) . " " : '') . $item->name;
             return $item;
