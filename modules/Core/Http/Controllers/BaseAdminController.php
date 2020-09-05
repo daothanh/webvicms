@@ -16,6 +16,8 @@ class BaseAdminController extends Controller
 
     protected $breadcrumb;
 
+    protected $cookies = [];
+
     public function __construct()
     {
         $this->breadcrumb = new Breadcrumb();
@@ -34,16 +36,24 @@ class BaseAdminController extends Controller
         } else {
             $themeView .= $name;
         }
-
+        if (\Request::get('debug')) {
+            $this->cookies['debug'] = 1;
+        }
         \View::share('themeName', $namespace);
 
         $data['breadcrumb'] = $this->breadcrumb->render();
 
         if (\View::exists($themeView)) {
-            return view($themeView, $data, $mergeData);
+            $viewer = view($themeView, $data, $mergeData);
+        } else {
+            $viewer = view($name, $data, $mergeData);
         }
 
-        return view($name, $data, $mergeData);
+        foreach($this->cookies as $cookie => $val) {
+            \Cookie::queue($cookie, $val);
+        }
+
+        return $viewer;
     }
 
     /**

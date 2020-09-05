@@ -41,6 +41,13 @@ class DashboardController extends BaseAdminController
         return redirect()->to($url);
     }
 
+    public function setCookie(Request $request)
+    {
+        $cookieName = $request->input('cookie_name');
+        $cookieVal = $request->input('cookie_value');
+        return response()->json(['ok' => true])->withCookie(cookie($cookieName, $cookieVal));
+    }
+
     protected function buildUrl(array $parts)
     {
         $scheme = isset($parts['scheme']) ? ($parts['scheme'] . '://') : '';

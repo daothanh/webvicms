@@ -14,21 +14,22 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     @stack('css-stack')
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini @if(\Request::cookie('sidebarcollapse')) sidebar-collapse @endif">
 <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" id="v-menu">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+                <a class="nav-link" data-widget="pushmenu" href="#" id="pushmenu"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" data-widget="control-sidebar" data-slide="true" href="#">
-                    <img src="/images/flags/{{ locale() }}.png" class="img-circle" width="20"> <span class="text-uppercase">{{ locale() }}</span>
+                    <img src="/images/flags/{{ locale() }}.png" class="img-circle" width="20"> <span
+                        class="text-uppercase">{{ locale() }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     @foreach(languages() as $lang)
@@ -129,7 +130,8 @@
             <a href="https://webvi.vn">WebviCMS</a>, version <?php echo env('APP_VERSION', '1.0') ?>
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2018 - <?php echo date('Y'); ?> <a href="{{ env('APP_URL') }}">{{ settings('website.name.'.locale(), env('APP_NAME')) }}</a>.</strong> All
+        <strong>Copyright &copy; 2018 - <?php echo date('Y'); ?> <a
+                href="{{ env('APP_URL') }}">{{ settings('website.name.'.locale(), env('APP_NAME')) }}</a>.</strong> All
         rights reserved.
     </footer>
 </div>
@@ -138,27 +140,38 @@
 <!-- REQUIRED SCRIPTS -->
 <!--begin::Global Theme Bundle -->
 <script>
-  var currentLocale = "{{ app()->getLocale() }}";
-  var AuthorizationHeaderValue = 'Bearer {!! $currentUser->getFirstToken()->access_token !!}',
-    MediaUrls = {
-      mediaGridCkEditor: '{{ route('media.grid.ckeditor') }}',
-      mediaGridSelectUrl: '{{ route('media.grid.select') }}',
-      dropzonePostUrl: '{{ route('api.media.store-dropzone') }}',
-      mediaSortUrl: '{{ route('api.media.sort') }}',
-      mediaLinkUrl: '{{ route('api.media.link') }}',
-      mediaUnlinkUrl: '{{ route('api.media.unlink') }}'
-    }, maxFilesize = '<?php echo config('media.max-file-size') ?>',
-    acceptedFiles = '<?php echo config('media.allowed-types') ?>';
-  var languages = {!! json_encode(config("locales")) !!};
+    var currentLocale = "{{ app()->getLocale() }}";
+    var AuthorizationHeaderValue = 'Bearer {!! $currentUser->getFirstToken()->access_token !!}',
+        MediaUrls = {
+            mediaGridCkEditor: '{{ route('media.grid.ckeditor') }}',
+            mediaGridSelectUrl: '{{ route('media.grid.select') }}',
+            dropzonePostUrl: '{{ route('api.media.store-dropzone') }}',
+            mediaSortUrl: '{{ route('api.media.sort') }}',
+            mediaLinkUrl: '{{ route('api.media.link') }}',
+            mediaUnlinkUrl: '{{ route('api.media.unlink') }}'
+        }, maxFilesize = '<?php echo config('media.max-file-size') ?>',
+        acceptedFiles = '<?php echo config('media.allowed-types') ?>';
+    var languages = {!! json_encode(config("locales")) !!};
 </script>
 <!-- App functions -->
 <script src="{{ Theme::url('js/main.js') }}?version=1"></script>
 <script>
-  $(function () {
-    $.ajaxSetup({
-      headers: {'Authorization': 'Bearer {!! \Auth::user()->getFirstToken()->access_token !!}'}
+    $(function () {
+        $.ajaxSetup({
+            headers: {'Authorization': 'Bearer {!! \Auth::user()->getFirstToken()->access_token !!}'}
+        });
+        $('#pushmenu').click(function () {
+            if (!$('body').hasClass('sidebar-collapse')) {
+                $.ajax({
+                    url: '{!! urldecode(route('admin.set.cookie', ['cookie_name' => 'sidebarcollapse', 'cookie_value' => 1])) !!}'
+                })
+            } else {
+                $.ajax({
+                    url: '{!! urldecode(route('admin.set.cookie', ['cookie_name' => 'sidebarcollapse', 'cookie_value' => false])) !!}'
+                })
+            }
+        });
     });
-  });
 </script>
 @stack('js-stack')
 </body>

@@ -2,6 +2,7 @@
 
 Route::get('/', ['uses' => 'DashboardController@index', 'as' => 'admin']);
 Route::get('/lang/{locale}', ['uses' => 'DashboardController@changeLang', 'as' => 'admin.lang.change'])->where('locale', '[a-zA-Z-_]+');
+Route::get('/set/cookie', ['uses' => 'DashboardController@setCookie', 'as' => 'admin.set.cookie']);
 
 Route::group(['prefix' => 'settings', 'middleware' => 'role:admin'], function () {
     Route::get('/general', ['uses' => 'SettingsController@index', 'as' => 'admin.settings.index']);

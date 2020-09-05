@@ -12,6 +12,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, SEOToolsTrait;
 
+    protected $cookies = [];
+
     public function view($name, $data = [], $mergeData = [])
     {
         $namespace = \Settings::get('website', 'frontend_theme', 'simple');
@@ -22,13 +24,19 @@ class Controller extends BaseController
         } else {
             $themeView .= $name;
         }
-
-        \View::share('themeName', $namespace);
-
+        if (\Request::get('debug')) {
+            $this->cookies['debug'] = 1;
+        }
         if (\View::exists($themeView)) {
-            return view($themeView, $data, $mergeData);
+            $viewer = view($themeView, $data, $mergeData);
+        } else {
+            $viewer = view($name, $data, $mergeData);
         }
 
-        return view($name, $data, $mergeData);
+        foreach($this->cookies as $cookie => $val) {
+            \Cookie::queue($cookie, $val);
+        }
+
+        return $viewer;
     }
 }
