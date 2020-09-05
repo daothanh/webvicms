@@ -5,5 +5,6 @@
     "Media": true,
     "Tag": true,
     "User": true,
-    "Page": true
+    "Page": true,
+    "Slider": true
 }

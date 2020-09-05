@@ -3,11 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-danger" id="delete-all" disabled><i class="icon ion-md-close"></i> {{ __('Delete') }}
-            </button>
-            <button class="btn btn-info" id="restore-all" style="display: none" disabled><i
-                        class="icon ion-md-refresh"></i> {{ __('Restore') }}
-            </button>
+            <div class="card-title">{{ \SEO::getTitle() }}</div>
             <div class="card-tools">
                 <a href="{{ route('admin.blog.post.create') }}" class="btn"><i
                             class="icon ion-md-add"></i> {{ __('blog::post.title.Create a post') }}</a>
@@ -48,6 +44,11 @@
                     </div>
                 </div>
             </nav>
+            <button class="btn btn-danger" id="delete-all" disabled><i class="icon ion-md-close"></i> {{ __('Delete') }}
+            </button>
+            <button class="btn btn-info" id="restore-all" style="display: none" disabled><i
+                    class="icon ion-md-refresh"></i> {{ __('Restore') }}
+            </button>
             <table id="data-table" class="table table-striped">
                 <thead class="thead-default">
                 <tr>

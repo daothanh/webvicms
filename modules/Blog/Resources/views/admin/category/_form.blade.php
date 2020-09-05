@@ -4,6 +4,7 @@
 @endif
 <div class="card">
     <div class="card-header">
+        <div class="card-title">{{ \SEO::getTitle() }}</div>
         <div class="card-tools">
             <a href="{{ route('admin.blog.category.index') }}" class="btn">
                 <i class="fa fa-arrow-left"></i>
@@ -55,36 +56,36 @@
         </div>
         <div class="form-group">
             @mediaSingle('image', $category ?? null, __('blog::category.labels.Image'))
-        <div class="form-group">
-            <label>{{ __('blog::category.labels.Order') }}</label>
-            {{ Form::text('order', old('order', !empty($category)? $category->order : 0), ['class' => 'form-control', 'id' => 'status']) }}
-        </div>
-        <div class="form-group">
-            <label>{{ __('blog::category.labels.Parent') }}</label>
-            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : ''), ['class' => 'form-control', 'id' => 'status']) }}
-        </div>
-        <div class="form-group">
-            <label>{{ __('blog::category.labels.Status') }}</label>
-            <?php
-            $statuses = [
-                1 => __('blog::category.labels.Show'),
-                0 => __('blog::category.labels.Hide')
-            ];
-            ?>
-            {{ Form::select('status', $statuses, old('status', !empty($category)? $category->status : 1), ['class' => 'form-control', 'id' => 'status']) }}
+            <div class="form-group">
+                <label>{{ __('blog::category.labels.Order') }}</label>
+                {{ Form::text('order', old('order', !empty($category)? $category->order : 0), ['class' => 'form-control', 'id' => 'status']) }}
+            </div>
+            <div class="form-group">
+                <label>{{ __('blog::category.labels.Parent') }}</label>
+                {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : ''), ['class' => 'form-control', 'id' => 'status']) }}
+            </div>
+            <div class="form-group">
+                <label>{{ __('blog::category.labels.Status') }}</label>
+                <?php
+                $statuses = [
+                    1 => __('blog::category.labels.Show'),
+                    0 => __('blog::category.labels.Hide')
+                ];
+                ?>
+                {{ Form::select('status', $statuses, old('status', !empty($category)? $category->status : 1), ['class' => 'form-control', 'id' => 'status']) }}
 
+            </div>
         </div>
     </div>
 </div>
+
 @include('core::admin.seo', ['entity' => $category ?? null])
 <div class="row">
     <div class="col-md-12">
-        <div class="float-left">
+        <div class="text-center">
             <a href="{{ route('admin.blog.category.index') }}" class="btn btn-dark"><i
                     class="icon ion-md-undo"></i> {{ __('Cancel') }}</a>
-        </div>
-        <div class="float-right">
-            <button type="submit" class="btn btn-primary" id="save-btn"><i
+            <button type="submit" class="btn btn-primary ml-3" id="save-btn"><i
                     class="icon ion-md-save"></i> {{ __('Save') }}</button>
         </div>
     </div>

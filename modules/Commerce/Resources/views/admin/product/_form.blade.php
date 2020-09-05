@@ -4,6 +4,7 @@
 @endif
 <div class="card">
     <div class="card-header">
+        <div class="card-title">{{ \SEO::getTitle() }}</div>
         <div class="card-tools">
             <a href="{{ route('admin.commerce.product.index') }}" class="btn">
                 <i class="fa fa-arrow-left"></i>
@@ -109,13 +110,11 @@
 @include('core::admin.seo', ['entity' => $product ?? null])
 <div class="row">
     <div class="col-md-12">
-        <div class="float-left">
+        <div class="text-center">
             <a href="{{ route('admin.commerce.product.index') }}" class="btn btn-dark"><i
                         class="icon ion-md-undo"></i> {{ __('Cancel') }}</a>
-        </div>
-        <div class="float-right">
-            <button type="submit" class="btn btn-primary" id="save-btn"><i
-                        class="icon ion-md-save"></i> {{ __('Save') }}</button>
+            <button type="submit" class="btn btn-primary ml-3" id="save-btn"><i
+                    class="icon ion-md-save"></i> {{ __('Save') }}</button>
         </div>
     </div>
 </div>

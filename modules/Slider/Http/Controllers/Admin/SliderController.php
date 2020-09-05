@@ -37,7 +37,7 @@ class SliderController extends BaseAdminController
         if (!$slider) {
             abort(404);
         }
-        $this->seo()->setTitle(trans('slider::slider.title.Create a slider'));
+        $this->seo()->setTitle(trans('slider::slider.title.Edit a slider'));
         $this->breadcrumb->addItem(trans('slider::slider.title.Sliders'), route('admin.slider.index'));
         $this->breadcrumb->addItem(trans('slider::slider.title.Edit a slider'));
         return $this->view('slider::admin.slider.edit', compact('slider'));
