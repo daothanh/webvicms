@@ -90,9 +90,9 @@ $seo = null;
 @push('js-stack')
     <script>
         $(function () {
-            const collapsiable = localStorage.getItem('seo_collapsible');
-            console.log(collapsiable);
-            if (collapsiable) {
+            let seoCollapse = localStorage.getItem('seoCollapse') === null ? 0 : 1;
+            console.log(seoCollapse);
+            if (seoCollapse === 1) {
                 $('#seo-card').addClass('collapsed-card');
                 $('#collapse-btn').removeClass('minus').addClass('fa-plus');
             } else {
@@ -101,11 +101,14 @@ $seo = null;
             }
 
             $('#collapse-btn').click(function () {
-                if ($(this).hasClass('fa-minus')) {
-                    localStorage.setItem('seo_collapsible', '1');
+                if (seoCollapse === 0) {
+                    localStorage.setItem('seoCollapse', '1');
+                    seoCollapse = 1;
                 } else {
-                    localStorage.removeItem('seo_collapsible');
+                    localStorage.removeItem('seoCollapse');
+                    seoCollapse = 0;
                 }
+                console.log(seoCollapse)
             })
         })
     </script>

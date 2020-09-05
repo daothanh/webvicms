@@ -23,7 +23,8 @@ return [
         'Hide' => 'Hide',
         'Template' => 'Template',
         'Cancel' => 'Cancel',
-        'Yes, delete it' => 'Yes, delete it'
+        'Yes, delete it' => 'Yes, delete it',
+        'Yes, restore it' => 'Yes, restore it'
     ],
     'messages' => [
         'Page was created' => 'Page was created',
