@@ -91,7 +91,6 @@ $seo = null;
     <script>
         $(function () {
             let seoCollapse = localStorage.getItem('seoCollapse') === null ? 0 : 1;
-            console.log(seoCollapse);
             if (seoCollapse === 1) {
                 $('#seo-card').addClass('collapsed-card');
                 $('#collapse-btn').removeClass('minus').addClass('fa-plus');
@@ -108,7 +107,6 @@ $seo = null;
                     localStorage.removeItem('seoCollapse');
                     seoCollapse = 0;
                 }
-                console.log(seoCollapse)
             })
         })
     </script>
