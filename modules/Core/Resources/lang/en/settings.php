@@ -5,7 +5,8 @@ return [
         'General settings' => 'General settings',
         'Account settings' => 'Account settings',
         'Mail Server' => 'Mail Server',
-        'Company' => 'Company'
+        'Company' => 'Company',
+        'Languages' => 'Languages'
     ],
     'labels' => [
         'website' => [

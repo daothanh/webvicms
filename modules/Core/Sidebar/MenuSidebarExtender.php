@@ -47,7 +47,7 @@ class MenuSidebarExtender extends AdminSidebar
                     );
                 });
 
-                $item->item(__('Languages'), function (Item $item) {
+                $item->item(__('core::settings.title.Languages'), function (Item $item) {
                     $item->weight(0);
                     $item->icon('icon ion-md-globe');
                     $item->route('admin.languages');

@@ -5,7 +5,8 @@ return [
         'General settings' => 'Chung',
         'Account settings' => 'Tài khoản',
         'Mail Server' => 'Gửi email',
-        'Company' => 'Công ty'
+        'Company' => 'Công ty',
+        'Languages' => 'Ngôn ngữ'
     ],
     'labels' => [
         'website' => [
