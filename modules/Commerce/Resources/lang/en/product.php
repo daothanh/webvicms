@@ -14,9 +14,13 @@ return [
         'Status' => 'Status',
         'Author' => 'Author',
         'Featured image' => 'Featured image',
+        'Gallery' => 'Gallery',
         'Show' => 'Show',
         'Hide' => 'Hide',
-        'Categories' => 'Categories'
+        'Categories' => 'Categories',
+        'Price' => 'Price',
+        'Sale price' => 'Sale price',
+        'Colors' => 'Colors'
     ],
     'messages' => [
         'Product was created!' => 'Product was created!',

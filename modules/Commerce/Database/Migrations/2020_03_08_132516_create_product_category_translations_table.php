@@ -14,8 +14,8 @@ class CreateProductCategoryTranslationsTable extends Migration
     public function up()
     {
         Schema::create('commerce__category_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('category_id')->unsigned();
+            $table->id();
+            $table->bigInteger('category_id')->unsigned();
             $table->string('locale')->index();
 
             $table->string('name');

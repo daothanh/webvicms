@@ -26,6 +26,11 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'commerce__category_product', 'product_id', 'category_id');
     }
 
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'commerce__product_color', 'product_id', 'color_id');
+    }
+
     public function getUrl()
     {
         return route('commerce.product.detail', ['slug' => $this->slug]);

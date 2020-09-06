@@ -4,6 +4,7 @@ namespace Modules\Commerce\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Commerce\Entities\Color;
 use Modules\Commerce\Entities\Currency;
 use Modules\Commerce\Entities\PaymentMethod;
 use Modules\User\Entities\Permission;
@@ -59,6 +60,15 @@ class CommerceDatabaseSeeder extends Seeder
 
         foreach ($currencies as $c) {
             Currency::create($c);
+        }
+
+        $colors = [
+            ['code' => '#000000', 'position' => 1, 'en' => ['name' => 'Black', 'description' => 'Black'], 'vi' => ['name' => 'Đen', 'description' => 'Màu đen']],
+            ['code' => '#ffffff', 'position' => 1, 'en' => ['name' => 'White', 'description' => 'White'], 'vi' => ['name' => 'Trắng', 'description' => 'Màu trắng']],
+        ];
+
+        foreach ($colors as $color) {
+            Color::create($color);
         }
 
     }

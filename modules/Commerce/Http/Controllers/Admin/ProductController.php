@@ -4,6 +4,7 @@ namespace Modules\Commerce\Http\Controllers\Admin;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Modules\Commerce\Entities\Color;
 use Modules\Commerce\Entities\Product;
 use Modules\Commerce\Repositories\CategoryRepository;
 use Modules\Commerce\Repositories\ProductRepository;
@@ -36,7 +37,8 @@ class ProductController extends BaseAdminController
         $this->breadcrumb->addItem(__('commerce::product.title.Create a product'));
 
         $categories = $this->categoryRepository->getCategories(true);
-        return $this->view('commerce::admin.product.create', compact('categories'));
+        $colors = Color::query()->orderBy('position', 'asc')->get();
+        return $this->view('commerce::admin.product.create', compact('categories', 'colors'));
     }
 
     public function edit($id)
@@ -49,7 +51,8 @@ class ProductController extends BaseAdminController
         $this->breadcrumb->addItem(trans('commerce::product.title.Products'), route('admin.commerce.product.index'));
         $this->breadcrumb->addItem($product->title);
         $categories = $this->categoryRepository->getCategories();
-        return $this->view('commerce::admin.product.edit', compact('product', 'categories'));
+        $colors = Color::query()->orderBy('position', 'asc')->get();
+        return $this->view('commerce::admin.product.edit', compact('product', 'categories', 'colors'));
     }
 
     public function duplicate($id)

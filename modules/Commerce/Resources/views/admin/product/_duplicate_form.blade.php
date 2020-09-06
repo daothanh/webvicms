@@ -32,9 +32,9 @@
                 @foreach($languages as $language)
                     @php
                         $lang = $language->code;
-                        $translatedPage = null;
+                        $translatedProduct = null;
                         if (!empty($product)) {
-                            $translatedPage = $product->translate($lang);
+                            $translatedProduct = $product->translate($lang);
                         }
                     @endphp
                     @if($hasMoreLanguages)
@@ -43,7 +43,7 @@
                             @endif
                             <div class="form-group">
                                 <label>{{ trans('commerce::product.labels.Title', [], $lang) }}</label>
-                                {{ Form::text($lang.'[title]', old("{$lang}.title", !empty($translatedPage) ? $translatedPage->title : null), ['class' => $errors->has("{$lang}.title") ? 'form-control is-invalid title' : 'form-control title', 'id' => $lang.'-title']) }}
+                                {{ Form::text($lang.'[title]', old("{$lang}.title", !empty($translatedProduct) ? $translatedProduct->title : null), ['class' => $errors->has("{$lang}.title") ? 'form-control is-invalid title' : 'form-control title', 'id' => $lang.'-title']) }}
                                 @if($errors->has("{$lang}.title"))
                                     <div class="invalid-feedback">
                                         {{ $errors->first("{$lang}.title") }}
@@ -52,7 +52,7 @@
                             </div>
                             <div class="form-group">
                                 <label>{{ trans('commerce::product.labels.Body', [], $lang) }}</label>
-                                {{ Form::textarea($lang.'[body]', old($lang.'.body', !empty($translatedPage) ? $translatedPage->body : null), ['class' => $errors->has($lang.'.body') ? 'form-control rich-text is-invalid' : 'form-control rich-text', 'id' => $lang.'-body']) }}
+                                {{ Form::textarea($lang.'[body]', old($lang.'.body', !empty($translatedProduct) ? $translatedProduct->body : null), ['class' => $errors->has($lang.'.body') ? 'form-control rich-text is-invalid' : 'form-control rich-text', 'id' => $lang.'-body']) }}
                                 @if($errors->has($lang.'.body'))
                                     <div class="invalid-feedback" style="display: block">
                                         {{ $errors->first($lang.'.body') }}
@@ -67,10 +67,47 @@
             </div>
         @endif
         <div class="form-group">
+            <label>{{ trans('commerce::product.labels.Price') }}</label>
+            {{ Form::text('price', old('price', !empty($product) ? $product->price : null), ['class' => $errors->has('price') ? 'form-control is-invalid' : 'form-control', 'id' => 'price']) }}
+            @if($errors->has('price'))
+                <div class="invalid-feedback" style="display: block">
+                    {{ $errors->first('price') }}
+                </div>
+            @endif
+        </div>
+        <div class="form-group">
+            <label>{{ trans('commerce::product.labels.Sale price') }}</label>
+            {{ Form::text('sale_price', old('sale_price', !empty($product) ? $product->sale_price : null), ['class' => $errors->has('sale_price') ? 'form-control is-invalid' : 'form-control', 'id' => 'sale_price']) }}
+            @if($errors->has('sale_price'))
+                <div class="invalid-feedback" style="display: block">
+                    {{ $errors->first('sale_price') }}
+                </div>
+            @endif
+        </div>
+        <div class='form-group form-color{{ $errors->has('color_ids') ? ' is-invalid' : '' }}'>
+            {!! Form::label('color_ids', __('commerce::product.labels.Colors')) !!}
+            <select name="color_ids[]" class="form-control m-select2 input-color-ids" multiple>
+                <?php $colorIds = old('color_ids', !empty($product) ? $product->colors->pluck('id')->toArray() : []) ?>
+                <?php foreach ($colors as $color): ?>
+                <option
+                    value="{{ $color->id }}" {{ in_array($color->id, $colorIds) ? ' selected' : null }}>{{ $color->name }}</option>
+                <?php endforeach; ?>
+            </select>
+            {!! $errors->first('color_ids', '<span class="form-control-feedback">:message</span>') !!}
+        </div>
+        <div class="form-group">
             @mediaSingle('image', $product ?? null, __('commerce::product.labels.Featured image'))
             @if($errors->has('medias_single.image'))
                 <div class="invalid-feedback">
                     {{ $errors->first('single_media') }}
+                </div>
+            @endif
+        </div>
+        <div class="form-group">
+            @mediaMultiple('gallery', $product ?? null, __('commerce::product.labels.Gallery'))
+            @if($errors->has('medias_multi.gallery'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('medias_multi.gallery') }}
                 </div>
             @endif
         </div>
@@ -92,7 +129,7 @@
                 @endforeach
             </div>
         @endif
-            @tags('Modules\Commerce\Entities\Product', $product ?? null)
+        @tags('Modules\Commerce\Entities\Product', $product ?? null)
         <div class="form-group">
             <label>{{ __('commerce::product.labels.Status') }}</label>
             <?php
@@ -111,7 +148,7 @@
     <div class="col-md-12">
         <div class="text-center">
             <a href="{{ route('admin.commerce.product.index') }}" class="btn btn-dark"><i
-                        class="icon ion-md-undo"></i> {{ __('Cancel') }}</a>
+                    class="icon ion-md-undo"></i> {{ __('Cancel') }}</a>
             <button type="submit" class="btn btn-primary ml-3" id="save-btn"><i
                     class="icon ion-md-save"></i> {{ __('Duplicate') }}</button>
         </div>
@@ -121,10 +158,10 @@
 @push('js-stack')
     <script src="{{ Theme::url('js/ckeditor/ckeditor.js') }}"></script>
     <script>
-      $(function () {
-        $('.rich-text').each(function () {
-          CKEDITOR.replace(this.id, {});
+        $(function () {
+            $('.rich-text').each(function () {
+                CKEDITOR.replace(this.id, {});
+            });
         });
-      });
     </script>
 @endpush

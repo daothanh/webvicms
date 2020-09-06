@@ -11,4 +11,5 @@ class PaymentMethod extends Model
 
     protected $table = 'commerce__payment_methods';
     protected $fillable = ['handler', 'position', 'active'];
+    public $translatedAttributes = ['name'];
 }

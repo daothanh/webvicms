@@ -23,6 +23,11 @@ class EloquentProductRepository extends EloquentBaseRepository implements \Modul
             $product->categories()->sync($categoryIds);
         }
 
+        $colorIds = Arr::get($data, 'color_ids');
+        if ($colorIds !== null && is_array($colorIds)) {
+            $product->colors()->sync($colorIds);
+        }
+
         $product->setTags(Arr::get($data, 'tags'));
 
         event(new ProductWasCreated($product, $data));
@@ -36,6 +41,10 @@ class EloquentProductRepository extends EloquentBaseRepository implements \Modul
         $categoryIds = Arr::get($data, 'category_ids');
         if ($categoryIds !== null && is_array($categoryIds)) {
             $product->categories()->sync($categoryIds);
+        }
+        $colorIds = Arr::get($data, 'color_ids');
+        if ($colorIds !== null && is_array($colorIds)) {
+            $product->colors()->sync($colorIds);
         }
         event(new ProductWasUpdated($product, $data));
         return $product;

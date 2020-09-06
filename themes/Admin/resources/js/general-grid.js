@@ -75,7 +75,7 @@ $(document).ready(() => {
             $('#selected-count').html(
                 selectedItems.length > 0 ? selectedItems.length : 0
             );
-            if (selectedItem.length === 0) {
+            if (selectedItems.length === 0) {
                 $('.jsInsertImage').attr('disabled', 'disabled');
             } else {
                 $('.jsInsertImage').removeAttr('disabled');

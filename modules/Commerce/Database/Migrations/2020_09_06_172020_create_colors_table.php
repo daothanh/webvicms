@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePaymentMethodsTable extends Migration
+class CreateColorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function up()
     {
-        Schema::create('commerce__payment_methods', function (Blueprint $table) {
+        Schema::create('commerce__colors', function (Blueprint $table) {
             $table->id();
-            $table->string('handler')->nullable();
-            $table->integer('position');
-            $table->boolean('active');
+            $table->string('code')->nullable();
+            $table->integer('position')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('commerce__payment_methods');
+        Schema::dropIfExists('commerce__colors');
     }
 }

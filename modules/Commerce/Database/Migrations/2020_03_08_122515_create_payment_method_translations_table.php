@@ -13,14 +13,14 @@ class CreatePaymentMethodTranslationsTable extends Migration {
     public function up()
     {
         Schema::create('commerce__payment_method_translations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('payment_method_id')->unsigned();
+            $table->id();
+            $table->bigInteger('payment_method_id')->unsigned();
             $table->string('locale')->index();
 
             $table->string('name');
 
-            $table->unique(['payment_method_id', 'locale']);
-            $table->foreign('payment_method_id')->references('id')->on('commerce__payment_methods')->onDelete('cascade');
+            $table->unique(['payment_method_id', 'locale'], 'pm_translations_unique');
+            $table->foreign('payment_method_id', 'pm_translations')->references('id')->on('commerce__payment_methods')->onDelete('cascade');
         });
     }
 

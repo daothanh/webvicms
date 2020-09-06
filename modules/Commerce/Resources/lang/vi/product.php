@@ -14,9 +14,13 @@ return [
         'Status' => 'Trạng thái',
         'Author' => 'Tác giả',
         'Featured image' => 'Ảnh',
+        'Gallery' => 'Thư viện ảnh',
         'Show' => 'Hiển thị',
         'Hide' => 'Ẩn',
-        'Categories' => 'Danh mục'
+        'Categories' => 'Danh mục',
+        'Price' => 'Giá bán',
+        'Sale price' => 'Giá khuyến mại',
+        'Colors' => 'Màu sắc'
     ],
     'messages' => [
         'Product was created!' => 'Sản phẩm đã được tạo thành công!',
