@@ -1,0 +1,29 @@
+{
+    "name": "webvi/testimonial",
+    "description": "Manage the testimonials",
+    "type": "webvi-module",
+    "authors": [
+        {
+            "name": "Webvi Vietnam",
+            "email": "lienhe@webvi.vn"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Testimonial\\Providers\\TestimonialServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Testimonial\\": ""
+        }
+    },
+    "require": {
+        "webvi/installers": "dev-master"
+    }
+}
