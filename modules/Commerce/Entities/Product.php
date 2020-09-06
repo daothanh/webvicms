@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Seoable;
 use Modules\Media\Traits\MediaRelation;
+use Modules\Tag\Traits\TaggableTrait;
 
 class Product extends Model
 {
-    use MediaRelation, Translatable, Seoable, SoftDeletes;
+    use MediaRelation, Translatable, Seoable, SoftDeletes, TaggableTrait;
     protected $table = "commerce__products";
-    protected $fillable = ['status'];
+    protected $fillable = ['price', 'sale_price', 'currency', 'status'];
     public $translatedAttributes = ['title', 'slug', 'body', 'excerpt'];
 
     public function getImageAttribute()
@@ -32,17 +33,17 @@ class Product extends Model
 
     public function getEditUrl()
     {
-        return route('admin.commerce.product.edit', ['product' => $this->id]);
+        return route('admin.commerce.product.edit', ['id' => $this->id]);
     }
 
     public function getDuplicateUrl()
     {
-        return route('admin.commerce.product.duplicate', ['product' => $this->id]);
+        return route('admin.commerce.product.duplicate', ['id' => $this->id]);
     }
 
     public function getDeleteUrl()
     {
-        return route('api.commerce.product.delete', ['product' => $this->id]);
+        return route('api.commerce.product.delete', ['id' => $this->id]);
     }
 
     public function getForceDeleteUrl()
@@ -52,6 +53,6 @@ class Product extends Model
 
     public function getRestoreUrl()
     {
-        return route('api.commerce.product.restore', ['productId' => $this->id]);
+        return route('api.commerce.product.restore', ['id' => $this->id]);
     }
 }

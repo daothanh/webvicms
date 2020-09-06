@@ -15,6 +15,9 @@ class CreateProductsTable extends Migration
     {
         Schema::create('commerce__products', function (Blueprint $table) {
             $table->increments('id');
+            $table->decimal('price', 12, 2)->nullable();
+            $table->decimal('sale_price',12, 2)->nullable();
+            $table->string('currency', 20)->default('VND')->nullable();
             $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
             $table->softDeletes();

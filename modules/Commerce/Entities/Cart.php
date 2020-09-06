@@ -8,17 +8,7 @@ use Modules\User\Entities\User;
 class Cart extends Model
 {
     public $table = 'commerce__carts';
-    protected $fillable = ['user_id', 'subtotal', 'total', 'vat', 'items', 'status'];
-
-    public function deliveryAddress()
-    {
-        return $this->hasOne(CartDeliveryAddress::class, 'cart_id', 'id');
-    }
-
-    public function buyer()
-    {
-        return $this->hasOne(CartBuyer::class, 'cart_id', 'id');
-    }
+    protected $fillable = ['user_id', 'content', 'currency_id'];
 
     public function user()
     {

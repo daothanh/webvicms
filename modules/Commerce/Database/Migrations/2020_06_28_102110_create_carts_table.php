@@ -16,12 +16,13 @@ class CreateCartsTable extends Migration
         Schema::create('commerce__carts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->float('subtotal');
-            $table->float('vat')->nullable();
-            $table->float('total');
-            $table->longText('items');
-            $table->string('status')->default('new')->comment('new;paid;delivery;complete');
+            $table->longText('content');
+            $table->unsignedBigInteger('currency_id')->nullable();
+            $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('currency_id')->references('id')->on('commerce__currencies')->onDelete('cascade');
+            $table->foreign('payment_method_id')->references('id')->on('commerce__payment_methods')->onDelete('cascade');
         });
     }
 
