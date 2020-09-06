@@ -1,3 +1,4 @@
+{{ Form::open(['url' => route('admin.slider.item.store', ['slider' => $slider->id]), 'method' => 'post']) }}
 <div class="card">
     <div class="card-header">
         <div class="card-title">
@@ -9,8 +10,6 @@
         </div>
     </div>
     <div class="card-body">
-        {{ Form::open(['url' => route('admin.slider.item.store', ['slider' => $slider->id]), 'method' => 'post']) }}
-
         <div class="row">
             <div class="col-md-12">
                 @if(!empty($slide))
@@ -92,7 +91,6 @@
 
             </div>
         </div>
-        {{ Form::close() }}
     </div>
 </div>
 <div class="row">
@@ -102,6 +100,7 @@
         </div>
     </div>
 </div>
+{{ Form::close() }}
 @push('js-stack')
     <script src="{{ Theme::url('js/ckeditor/ckeditor.js') }}"></script>
     <script>

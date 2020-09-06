@@ -19,6 +19,7 @@
                     <tr>
                         <th width="200">{{ __('Image') }}</th>
                         <th>{{ __('slider::slider.labels.Description') }}</th>
+                        <th>{{ __('slider::slider.labels.Link') }}</th>
                         <th width="120">{{ __('slider::slider.labels.Status') }}</th>
                         <th width="120">{{ __('Actions') }}</th>
                     </tr>
@@ -48,15 +49,16 @@
                 "columns": [
                     {"data": "image", 'searchable': false, "orderable": false},
                     {"data": "description", 'searchable': false, "orderable": false},
+                    {"data": "url", 'searchable': false, "orderable": false},
                     {"data": "status", 'searchable': false, "orderable": true},
                     {"data": "id", 'searchable': false, "orderable": false},
                 ],
-                "order": [[2, "desc"]],
+                "order": [[3, "desc"]],
                 createdRow: function (row, data, dataIndex) {
                     $(row).find('td:eq(0)').html('<img src="' + data.image.thumbnail + '">');
                     $(row).find('td:eq(1)').html(data.title !== null ? ('<strong>' + data.title + '</strong><br>' + (data.description !== null ? data.description : '')) : '');
-                    $(row).find('td:eq(2)').html(data.status == 1 ? 'Hiển thị' : 'Ẩn');
-                    $(row).find('td:eq(3)').html('<a href="' + data.urls.edit + '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-title="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>\n' +
+                    $(row).find('td:eq(3)').html(data.status == 1 ? 'Hiển thị' : 'Ẩn');
+                    $(row).find('td:eq(4)').html('<a href="' + data.urls.edit + '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-title="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>\n' +
                         '                                <a href="' + data.urls.delete + '" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-title="{{ __("Delete") }}"><i class="icon ion-md-trash"></i></a>\n'
                     );
                 }

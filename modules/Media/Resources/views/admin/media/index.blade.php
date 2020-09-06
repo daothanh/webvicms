@@ -2,8 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <button class="btn btn-danger" id="delete-all" disabled><i class="icon ion-md-close"></i> {{ __('Delete') }}
-            </button>
+            <div class="card-title">{{ \SEO::getTitle() }}</div>
             <div class="card-tools">
                 <button type="button" id="btn-upload-toggle" class="btn btn-primary">
                     <i class="icon ion-md-cloud-upload"></i> {{ __('Upload') }}
@@ -54,10 +53,13 @@
                             <input class="form-control mr-sm-2 search" type="text" placeholder="Search"
                                    aria-label="Search">
                             <button class="btn btn-default my-2 my-sm-0" type="button" id="clear-filters"><i
-                                        class="fa fa-eraser"></i> {{ __("Clear filters") }}</button>
+                                    class="fa fa-eraser"></i> {{ __("Clear filters") }}</button>
                         </div>
                     </div>
                 </nav>
+                <button class="btn btn-danger" id="delete-all" disabled><i class="icon ion-md-close"></i> {{ __('Delete') }}
+                </button>
+
                 <table id="data-table" class="table table-striped">
                     <thead class="thead-default">
                     <tr>
@@ -81,247 +83,247 @@
 
 @push('js-stack')
     <script>
-      $(function () {
-        var dt;
-        dt = $('#data-table').DataTable({
-          autoWidth: false,
-          responsive: true,
-          bFilter: false,
-          lengthChange: false,
-          pageLength: 25,
-          serverSide: true,
-          processing: true,
-          ajax: {
-            url: "{{ route('api.media.index') }}",
-            data: function (data) {
-              $('.filter').each(function () {
-                var isActived = $(this).hasClass('active');
-                if (isActived) {
-                  data[$(this).data('field')] = $(this).data('value');
+        $(function () {
+            var dt;
+            dt = $('#data-table').DataTable({
+                autoWidth: false,
+                responsive: true,
+                bFilter: false,
+                lengthChange: false,
+                pageLength: 25,
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: "{{ route('api.media.index') }}",
+                    data: function (data) {
+                        $('.filter').each(function () {
+                            var isActived = $(this).hasClass('active');
+                            if (isActived) {
+                                data[$(this).data('field')] = $(this).data('value');
+                            }
+                        });
+                        data.search = $('.search').val();
+                    }
+                },
+                columnDefs: [
+                    {
+                        targets: 0,
+                        orderable: false,
+                        data: function (row, type, val, meta) {
+                            return '<input name="entryId[]" type="checkbox" data-deleted="' + (row.deleted_at !== null ? '1' : '') + '" value="' + row.id + '" class="del-checkbox">';
+                        }
+                    },
+                    {
+                        targets: 1,
+                        orderable: false,
+                        data: 'path'
+                    },
+                    {
+                        targets: 2,
+                        orderable: false,
+                        data: 'filename'
+                    },
+                    {
+                        targets: 3,
+                        orderable: false,
+                        data: 'media_type'
+                    },
+                    {
+                        targets: 4,
+                        orderable: false,
+                        data: 'created_at'
+                    },
+                    {
+                        targets: 5,
+                        orderable: false,
+                        data: 'path'
+                    }
+                ],
+                order: [[4, "desc"]],
+                createdRow: function (row, data, dataIndex) {
+                    if (data.is_image) {
+                        $(row).find('td:eq(1)').html('<img width="80" src="' + data.thumbnail + '">');
+                    } else {
+                        $(row).find('td:eq(1)').html('<i style="font-size: 24px;" class="' + data.fa_icon + '"></i>');
+                    }
+                    $(row).find('td:eq(2)').html((data.title ? data.title + '<br>' : '') + data.filename);
+                    $(row).find('td:eq(3)').html('<span class="text-capitalize">' + data.media_type + '</span>');
+                    $(row).find('td:eq(5)').html('<a href="' + data.urls.edit_url + '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-title="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>\n' +
+                        '                                <a href="' + data.urls.delete_url + '" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-title="{{ __("Delete") }}"><i class="icon ion-md-trash"></i></a>');
                 }
-              });
-              data.search = $('.search').val();
-            }
-          },
-          columnDefs: [
-            {
-              targets: 0,
-              orderable: false,
-              data: function (row, type, val, meta) {
-                return '<input name="entryId[]" type="checkbox" data-deleted="' + (row.deleted_at !== null ? '1' : '') + '" value="' + row.id + '" class="del-checkbox">';
-              }
-            },
-            {
-              targets: 1,
-              orderable: false,
-              data: 'path'
-            },
-            {
-              targets: 2,
-              orderable: false,
-              data: 'filename'
-            },
-            {
-              targets: 3,
-              orderable: false,
-              data: 'media_type'
-            },
-            {
-              targets: 4,
-              orderable: false,
-              data: 'created_at'
-            },
-            {
-              targets: 5,
-              orderable: false,
-              data: 'path'
-            }
-          ],
-          order: [[4, "desc"]],
-          createdRow: function (row, data, dataIndex) {
-            if (data.is_image) {
-              $(row).find('td:eq(1)').html('<img width="80" src="' + data.thumbnail + '">');
-            } else {
-              $(row).find('td:eq(1)').html('<i style="font-size: 24px;" class="' + data.fa_icon + '"></i>');
-            }
-            $(row).find('td:eq(2)').html((data.title ? data.title + '<br>' : '') + data.filename);
-            $(row).find('td:eq(3)').html('<span class="text-capitalize">' + data.media_type + '</span>');
-            $(row).find('td:eq(5)').html('<a href="' + data.urls.edit_url + '" class="btn btn-primary btn-sm" data-toggle="tooltip" data-title="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>\n' +
-              '                                <a href="' + data.urls.delete_url + '" class="btn btn-danger btn-sm delete" data-toggle="tooltip" data-title="{{ __("Delete") }}"><i class="icon ion-md-trash"></i></a>');
-          }
-        });
-
-        $('.search').keyup(function (e) {
-          e.preventDefault();
-          var val = $(this).val();
-          if (val.length >= 3 || val === '') {
-            dt.draw();
-          }
-          return false;
-        });
-        $('.filter').click(function (e) {
-          e.preventDefault();
-          var field = $(this).data('field'), $this = $(this);
-
-          $('.filter').each(function () {
-            if ($(this).data('field') === field && $this[0] !== $(this)[0]) {
-              $(this).removeClass('active');
-            }
-          });
-          $this.toggleClass('active');
-
-          var selectedEle = $('#selected-' + field);
-          if ($this.hasClass('active')) {
-            if (selectedEle.length) {
-              selectedEle.html(' - ' + $this.text());
-            }
-            $('.filter-' + field).addClass('active');
-          } else {
-            selectedEle.html('');
-            $('.filter-' + field).removeClass('active');
-          }
-          dt.draw();
-        });
-        $('#clear-filters').click(function () {
-          $('.filter').each(function () {
-            var field = $(this).data('field');
-            $(this).removeClass('active');
-            $('#selected-' + field).html('');
-            $('.filter-' + field).removeClass('active');
-            $('.search').val('');
-            dt.draw();
-          });
-        });
-
-        $('body').on('click', '.del-checkbox', function () {
-          var checked = $(this).prop('checked'), rows = $('#data-table').find('tbody tr'), colIndex = 0;
-          $.each(rows, function () {
-            if (!checked) {
-              checked = $($(this).find('td').eq(colIndex)).find('input').prop('checked');
-            }
-          });
-          if (checked) {
-            $('#delete-all').removeAttr('disabled');
-          } else {
-            $('#delete-all').attr('disabled', 'disabled');
-          }
-        }).on('click', '#mass-select-all', function () {
-          var rows, checked, colIndex;
-          rows = $('#data-table').find('tbody tr');
-          checked = $(this).prop('checked');
-          colIndex = 0;
-          $.each(rows, function () {
-            $($(this).find('td').eq(colIndex)).find('input').prop('checked', checked);
-          });
-          if (checked) {
-            $('#delete-all').removeAttr('disabled');
-          } else {
-            $('#delete-all').attr('disabled', 'disabled');
-          }
-        }).on('click', '.delete', function (e) {
-          e.preventDefault();
-          let url = $(this).attr('href');
-          swal({
-            title: '{{ __("Are you sure?") }}',
-            text: "{{ __("You won't be able to revert this!") }}",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: '{{ __("Cancel") }}',
-            confirmButtonText: '{{ __("Yes, delete it!") }}'
-          }).then((result) => {
-            if (result.value) {
-              axios.delete(url)
-                .then(rs => {
-                  if (rs.data.errors === false) {
-                    notify('Thông báo', rs.data.message, 'success');
-                    dt.ajax.reload();
-                  } else {
-                    notify('Thông báo lỗi', rs.data.error, 'danger');
-                  }
-                });
-            }
-          });
-        });
-
-        $('#delete-all').click(function () {
-          var ids = [];
-          $('input[name="entryId[]"]').each(function () {
-            if ($(this).prop("checked")) {
-              ids.push($(this).val());
-            }
-          });
-          if (ids.length) {
-            swal({
-              title: '{{ __("Are you sure?") }}',
-              text: "{{ __("All selected files will be deleted!") }}",
-              type: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              cancelButtonText: '{{ __("Cancel") }}',
-              confirmButtonText: '{{ __("Yes, delete it!") }}'
-            }).then((result) => {
-              if (result.value) {
-                axios.post("{{ route('api.media.delete-multiple') }}", {ids: ids})
-                  .then(function (rs) {
-                    dt.ajax.reload();
-                    notify('{{ __("Notification") }}', '{{ __("All selected files were deleted!") }}', 'success');
-                  })
-                  .catch(function (error) {
-                    notify('{{ __("Alert") }}', error.response.data.message, 'error');
-                  });
-              }
             });
-          }
-        });
 
-        Dropzone.autoDiscover = false;
-        var myDropzone = new Dropzone("#my-dropzone", {
-          url: MediaUrls.dropzonePostUrl,
-          autoProcessQueue: true,
-          maxFilesize: maxFilesize,
-          acceptedFiles: acceptedFiles
-        });
-        myDropzone.on("queuecomplete", function (file) {
-          console.log(file);
-          notify('Thông báo', 'Các file đã được tải lên!', 'success');
-          dt.ajax.reload();
-          $.each(myDropzone.files, function (index, file) {
-            if (file.status === Dropzone.SUCCESS) {
-              myDropzone.removeFile(file);
-            }
-          });
+            $('.search').keyup(function (e) {
+                e.preventDefault();
+                var val = $(this).val();
+                if (val.length >= 3 || val === '') {
+                    dt.draw();
+                }
+                return false;
+            });
+            $('.filter').click(function (e) {
+                e.preventDefault();
+                var field = $(this).data('field'), $this = $(this);
 
-        });
-        myDropzone.on("sending", function (file, xhr, fromData) {
-          xhr.setRequestHeader("Authorization", AuthorizationHeaderValue);
-          if ($('.alert-danger').length > 0) {
-            $('.alert-danger').remove();
-          }
-        });
-        myDropzone.on("error", function (file, errorMessage) {
-          let html;
-          if (typeof (errorMessage) === 'object') {
-            html = '<div class="alert alert-danger" role="alert">' + errorMessage.errors.file.join(', ') + '</div>';
-          } else {
-            html = '<div class="alert alert-danger" role="alert">' + errorMessage + '</div>';
-          }
-          $('.dropzone').first().parent().prepend(html);
-          setTimeout(function () {
-            myDropzone.removeFile(file);
-          }, 2000);
-        });
+                $('.filter').each(function () {
+                    if ($(this).data('field') === field && $this[0] !== $(this)[0]) {
+                        $(this).removeClass('active');
+                    }
+                });
+                $this.toggleClass('active');
 
-        $('#btn-upload-toggle').click(function (e) {
-          e.preventDefault();
-          if ($('#upload-box').hasClass('d-none')) {
-            $('#upload-box').removeClass('d-none');
-          } else {
-            $('#upload-box').addClass('d-none');
-          }
-        })
-      });
+                var selectedEle = $('#selected-' + field);
+                if ($this.hasClass('active')) {
+                    if (selectedEle.length) {
+                        selectedEle.html(' - ' + $this.text());
+                    }
+                    $('.filter-' + field).addClass('active');
+                } else {
+                    selectedEle.html('');
+                    $('.filter-' + field).removeClass('active');
+                }
+                dt.draw();
+            });
+            $('#clear-filters').click(function () {
+                $('.filter').each(function () {
+                    var field = $(this).data('field');
+                    $(this).removeClass('active');
+                    $('#selected-' + field).html('');
+                    $('.filter-' + field).removeClass('active');
+                    $('.search').val('');
+                    dt.draw();
+                });
+            });
+
+            $('body').on('click', '.del-checkbox', function () {
+                var checked = $(this).prop('checked'), rows = $('#data-table').find('tbody tr'), colIndex = 0;
+                $.each(rows, function () {
+                    if (!checked) {
+                        checked = $($(this).find('td').eq(colIndex)).find('input').prop('checked');
+                    }
+                });
+                if (checked) {
+                    $('#delete-all').removeAttr('disabled');
+                } else {
+                    $('#delete-all').attr('disabled', 'disabled');
+                }
+            }).on('click', '#mass-select-all', function () {
+                var rows, checked, colIndex;
+                rows = $('#data-table').find('tbody tr');
+                checked = $(this).prop('checked');
+                colIndex = 0;
+                $.each(rows, function () {
+                    $($(this).find('td').eq(colIndex)).find('input').prop('checked', checked);
+                });
+                if (checked) {
+                    $('#delete-all').removeAttr('disabled');
+                } else {
+                    $('#delete-all').attr('disabled', 'disabled');
+                }
+            }).on('click', '.delete', function (e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+                swal({
+                    title: '{{ __("Are you sure?") }}',
+                    text: "{{ __("You won't be able to revert this!") }}",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: '{{ __("Cancel") }}',
+                    confirmButtonText: '{{ __("Yes, delete it!") }}'
+                }).then((result) => {
+                    if (result.value) {
+                        axios.delete(url)
+                            .then(rs => {
+                                if (rs.data.errors === false) {
+                                    notify('Thông báo', rs.data.message, 'success');
+                                    dt.ajax.reload();
+                                } else {
+                                    notify('Thông báo lỗi', rs.data.error, 'danger');
+                                }
+                            });
+                    }
+                });
+            });
+
+            $('#delete-all').click(function () {
+                var ids = [];
+                $('input[name="entryId[]"]').each(function () {
+                    if ($(this).prop("checked")) {
+                        ids.push($(this).val());
+                    }
+                });
+                if (ids.length) {
+                    swal({
+                        title: '{{ __("Are you sure?") }}',
+                        text: "{{ __("All selected files will be deleted!") }}",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: '{{ __("Cancel") }}',
+                        confirmButtonText: '{{ __("Yes, delete it!") }}'
+                    }).then((result) => {
+                        if (result.value) {
+                            axios.post("{{ route('api.media.delete-multiple') }}", {ids: ids})
+                                .then(function (rs) {
+                                    dt.ajax.reload();
+                                    notify('{{ __("Notification") }}', '{{ __("All selected files were deleted!") }}', 'success');
+                                })
+                                .catch(function (error) {
+                                    notify('{{ __("Alert") }}', error.response.data.message, 'error');
+                                });
+                        }
+                    });
+                }
+            });
+
+            Dropzone.autoDiscover = false;
+            var myDropzone = new Dropzone("#my-dropzone", {
+                url: MediaUrls.dropzonePostUrl,
+                autoProcessQueue: true,
+                maxFilesize: maxFilesize,
+                acceptedFiles: acceptedFiles
+            });
+            myDropzone.on("queuecomplete", function (file) {
+                console.log(file);
+                notify('Thông báo', 'Các file đã được tải lên!', 'success');
+                dt.ajax.reload();
+                $.each(myDropzone.files, function (index, file) {
+                    if (file.status === Dropzone.SUCCESS) {
+                        myDropzone.removeFile(file);
+                    }
+                });
+
+            });
+            myDropzone.on("sending", function (file, xhr, fromData) {
+                xhr.setRequestHeader("Authorization", AuthorizationHeaderValue);
+                if ($('.alert-danger').length > 0) {
+                    $('.alert-danger').remove();
+                }
+            });
+            myDropzone.on("error", function (file, errorMessage) {
+                let html;
+                if (typeof (errorMessage) === 'object') {
+                    html = '<div class="alert alert-danger" role="alert">' + errorMessage.errors.file.join(', ') + '</div>';
+                } else {
+                    html = '<div class="alert alert-danger" role="alert">' + errorMessage + '</div>';
+                }
+                $('.dropzone').first().parent().prepend(html);
+                setTimeout(function () {
+                    myDropzone.removeFile(file);
+                }, 2000);
+            });
+
+            $('#btn-upload-toggle').click(function (e) {
+                e.preventDefault();
+                if ($('#upload-box').hasClass('d-none')) {
+                    $('#upload-box').removeClass('d-none');
+                } else {
+                    $('#upload-box').addClass('d-none');
+                }
+            })
+        });
     </script>
 @endpush

@@ -1,3 +1,4 @@
+{{ Form::open(['route' => 'admin.slider.store', 'method' => 'slider', 'files' => true]) }}
 <div class="card">
     <div class="card-header">
         <div class="card-title">{{ \SEO::getTitle() }}</div>
@@ -9,8 +10,6 @@
         </div>
     </div>
     <div class="card-body">
-        {{ Form::open(['route' => 'admin.slider.store', 'method' => 'slider', 'files' => true]) }}
-
         <div class="row">
             <div class="col-md-12">
                 @if(!empty($slider))
@@ -49,7 +48,6 @@
 
             </div>
         </div>
-        {{ Form::close() }}
     </div>
 </div>
 <div class="row">
@@ -59,7 +57,7 @@
         </div>
     </div>
 </div>
-
+{{ Form::close() }}
 @push('js-stack')
     <script src="{{ Theme::url('js/ckeditor/ckeditor.js') }}"></script>
     <script>
