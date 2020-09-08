@@ -57,6 +57,8 @@
                     </th>
                     <th width="60"> {{ __('Image') }}</th>
                     <th>{{ __('commerce::product.labels.Title') }}</th>
+                    <th width="100">{{ __('commerce::product.labels.SKU') }}</th>
+                    <th width="100">{{ __('commerce::product.labels.Price') }}</th>
                     <th width="100">{{ __('Date') }}</th>
                     <th width="100">{{ __('Status') }}</th>
                     <th width="100">{{ __('Actions') }}</th>
@@ -118,17 +120,29 @@
             {
               targets: 3,
               orderable: true,
+              data: "sku"
+            },
+
+            {
+              targets: 4,
+              orderable: true,
+              data: "price"
+            },
+
+            {
+              targets: 5,
+              orderable: true,
               data: "created_at"
             },
             {
-              targets: 4,
-              orderData: [4],
+              targets: 6,
+              orderData: [6],
               name: 'status',
               orderable: true,
               data: 'status'
             },
             {
-              targets: 5,
+              targets: 7,
               orderable: false,
               data: function (row, type, val, meta) {
                 var buttons = '';
@@ -144,13 +158,13 @@
             }
           ],
           createdRow: function (row, data, dataIndex) {
-            $(row).find('td:eq(4)').html('<div class="custom-control custom-switch text-center">\n' +
+            $(row).find('td:eq(6)').html('<div class="custom-control custom-switch text-center">\n' +
               '                      <input type="checkbox" class="custom-control-input toggle-status" data-id="' + data.id + '" ' + (data.status == 1 ? 'checked="checked"' : '') + ' id="customSwitch-' + data.id + '">\n' +
               '                      <label class="custom-control-label" for="customSwitch-' + data.id + '"></label>\n' +
               '                    </div>');
 
           },
-          order: [[3, "desc"], [4, "desc"]],
+          order: [[5, "desc"], [6, "desc"]],
         });
         $('.search').keyup(function (e) {
           e.preventDefault();

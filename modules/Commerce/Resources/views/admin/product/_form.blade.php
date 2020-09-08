@@ -53,6 +53,15 @@
                                 @endif
                             </div>
                             <div class="form-group">
+                                <label>{{ trans('commerce::product.labels.Excerpt', [], $lang) }}</label>
+                                {{ Form::textarea($lang.'[excerpt]', old($lang.'.excerpt', !empty($translatedProduct) ? $translatedProduct->excerpt : null), ['class' => $errors->has($lang.'.excerpt') ? 'form-control is-invalid' : 'form-control', 'id' => $lang.'-excerpt', 'rows' => 3]) }}
+                                @if($errors->has($lang.'.excerpt'))
+                                    <div class="invalid-feedback" style="display: block">
+                                        {{ $errors->first($lang.'.excerpt') }}
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <label>{{ trans('commerce::product.labels.Body', [], $lang) }}</label>
                                 {{ Form::textarea($lang.'[body]', old($lang.'.body', !empty($translatedProduct) ? $translatedProduct->body : null), ['class' => $errors->has($lang.'.body') ? 'form-control rich-text is-invalid' : 'form-control rich-text', 'id' => $lang.'-body']) }}
                                 @if($errors->has($lang.'.body'))
@@ -68,6 +77,15 @@
                 @if($hasMoreLanguages)
             </div>
         @endif
+        <div class="form-group">
+            <label>{{ trans('commerce::product.labels.SKU') }}</label>
+            {{ Form::text('sku', old('sku', !empty($product) ? $product->sku : null), ['class' => $errors->has('sku') ? 'form-control is-invalid' : 'form-control', 'id' => 'sku']) }}
+            @if($errors->has('sku'))
+                <div class="invalid-feedback" style="display: block">
+                    {{ $errors->first('sku') }}
+                </div>
+            @endif
+        </div>
         <div class="form-group">
             <label>{{ trans('commerce::product.labels.Price') }}</label>
             {{ Form::text('price', old('price', !empty($product) ? $product->price : null), ['class' => $errors->has('price') ? 'form-control is-invalid' : 'form-control', 'id' => 'price']) }}

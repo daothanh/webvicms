@@ -13,7 +13,7 @@ class Product extends Model
 {
     use MediaRelation, Translatable, Seoable, SoftDeletes, TaggableTrait;
     protected $table = "commerce__products";
-    protected $fillable = ['price', 'sale_price', 'currency', 'status'];
+    protected $fillable = ['sku', 'price', 'sale_price', 'currency', 'status'];
     public $translatedAttributes = ['title', 'slug', 'body', 'excerpt'];
 
     public function getImageAttribute()

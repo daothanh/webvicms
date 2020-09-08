@@ -82,7 +82,7 @@
         </div>
         <div class="form-group">
             <label>{{ __('commerce::category.labels.Parent') }}</label>
-            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : ''), ['class' => 'form-control', 'id' => 'pid']) }}
+            {{ Form::select('pid', $categories, old('pid', !empty($category)? $category->pid : '0'), ['class' => 'form-control', 'id' => 'pid']) }}
         </div>
         <div class="form-group">
             <label>{{ __('commerce::category.labels.Status') }}</label>

@@ -20,7 +20,8 @@ return [
         'Categories' => 'Danh mục',
         'Price' => 'Giá bán',
         'Sale price' => 'Giá khuyến mại',
-        'Colors' => 'Màu sắc'
+        'Colors' => 'Màu sắc',
+        'SKU' => 'SKU'
     ],
     'messages' => [
         'Product was created!' => 'Sản phẩm đã được tạo thành công!',

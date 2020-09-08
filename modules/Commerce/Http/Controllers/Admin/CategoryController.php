@@ -35,7 +35,7 @@ class CategoryController extends BaseAdminController
 
     public function create()
     {
-        $categories = ['' => '-- '.__('Select').' --'] + $this->categoryRepository->getCategories();
+        $categories = ['0' => '-- '.__('Select').' --'] + $this->categoryRepository->getCategories();
         $this->seo()->setTitle(__('commerce::category.title.Create a category'));
         $this->breadcrumb->addItem(__('commerce::category.title.Categories'), route('admin.commerce.category.index'));
         $this->breadcrumb->addItem(__('commerce::category.title.Create a category'));
@@ -48,7 +48,7 @@ class CategoryController extends BaseAdminController
         if (!$category) {
             return route('admin.commerce.category.index');
         }
-        $categories = ['' => '-- '.__('Select').' --'] + $this->categoryRepository->getCategories();
+        $categories = ['0' => '-- '.__('Select').' --'] + $this->categoryRepository->getCategories();
         $this->seo()->setTitle($category->title);
         $this->breadcrumb->addItem(trans('commerce::category.title.Categories'), route('admin.commerce.category.index'));
         $this->breadcrumb->addItem($category->title);

@@ -20,7 +20,8 @@ return [
         'Categories' => 'Categories',
         'Price' => 'Price',
         'Sale price' => 'Sale price',
-        'Colors' => 'Colors'
+        'Colors' => 'Colors',
+        'SKU' => 'SKU'
     ],
     'messages' => [
         'Product was created!' => 'Product was created!',

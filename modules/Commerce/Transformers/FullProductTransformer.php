@@ -13,6 +13,10 @@ class FullProductTransformer extends Resource
 
         $productData = [
             'id' => $this->id,
+            'sku' => $this->sku,
+            'price' => $this->price,
+            'sale_price' => $this->sale_price,
+            'currency' => $this->currency,
             'status' => $this->status,
             'image' => $this->image ? new MediaTransformer($this->image) : null,
             'created_at' => $this->created_at->format('d/m/Y'),

@@ -12,6 +12,10 @@ class ProductTransformer extends Resource
         $translatedProduct = optional($this->translate($locale));
         return [
             'id' => $this->id,
+            'sku' => $this->sku,
+            'price' => $this->price,
+            'sale_price' => $this->sale_price,
+            'currency' => $this->currency,
             'created_at' => $this->created_at->format('d-m-Y'),
             'status' => $this->status,
             'translations' => [
