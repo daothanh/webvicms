@@ -121,7 +121,7 @@ $(document).ready(() => {
     let nextPage = 1;
     const per_page = 16;
 
-    function loadMedias(page = 1) {
+    function loadMedias(page = 1, search = '') {
         page = parseInt(page);
         axios
             .get(
@@ -129,7 +129,8 @@ $(document).ready(() => {
                 }?page=${
                     page
                 }&per_page=${
-                    per_page}`
+                    per_page}&search=${
+                    search}`
             )
             .then((rs) => {
                 const items = rs.data.data;
@@ -188,4 +189,7 @@ $(document).ready(() => {
         const page = $(this).attr('data-page');
         loadMedias(page);
     });
+    $('#search-file').keyup(function () {
+        loadMedias(1, $(this).value);
+    })
 });

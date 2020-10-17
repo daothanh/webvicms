@@ -36,10 +36,17 @@
                 {{ trans('media::media.choose file') }}
             </h3>
             <div class="card-tools">
-                <button type="button" class="btn btn-info btn-card-tool jsShowUploadForm">
-                    <i class="icon ion-md-cloud-upload"></i>
-                    <span>{{ __('Upload') }}</span>
-                </button>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="text" class="form-control" id="search-file" placeholder="{{ __('Search') }}">
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-info btn-card-tool jsShowUploadForm">
+                            <i class="icon ion-md-cloud-upload"></i>
+                            <span>{{ __('Upload') }}</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-body">
