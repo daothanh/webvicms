@@ -39,7 +39,16 @@ class Media extends Model implements Responsable
         return (string) $this->path;
     }
 
-    public function getUrl() {
+    /**
+     * Đường dẫn của file
+     *
+     * @param null|string $thumbnail
+     * @return false|string
+     */
+    public function getUrl($thumbnail = null) {
+        if ($thumbnail) {
+            return $this->getThumbnail($thumbnail);
+        }
         return $this->getPathStringAttribute();
     }
 
@@ -86,11 +95,7 @@ class Media extends Model implements Responsable
      */
     public function getImage($thumbnail = false, $attributes = []) {
         if ($this->isImage()) {
-            if ($thumbnail) {
-                $src = $this->getThumbnail($thumbnail);
-            } else {
-                $src = $this->getUrl();
-            }
+            $src = $this->getUrl($thumbnail);
             $htmlAttributes = $this->getHtmlAttributes($attributes);
             return '<img src="'.$src.'" '.implode(" ", $htmlAttributes).'/>';
         }
