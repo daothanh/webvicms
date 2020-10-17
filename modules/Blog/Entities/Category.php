@@ -8,6 +8,51 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Seoable;
 use Modules\Media\Traits\MediaRelation;
 
+/**
+ * Modules\Blog\Entities\Category
+ *
+ * @property int $id
+ * @property int|null $pid
+ * @property int|null $order
+ * @property int|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Modules\Media\Entities\Media[] $files
+ * @property-read int|null $files_count
+ * @property-read mixed $image
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Modules\Blog\Entities\Post[] $posts
+ * @property-read int|null $posts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Modules\Core\Entities\Seo[] $seos
+ * @property-read int|null $seos_count
+ * @property-read \Modules\Blog\Entities\CategoryTranslation|null $translation
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Modules\Blog\Entities\CategoryTranslation[] $translations
+ * @property-read int|null $translations_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Category listsTranslations($translationField)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category notTranslatedIn($locale = null)
+ * @method static \Illuminate\Database\Query\Builder|Category onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category orWhereTranslation($translationField, $value, $locale = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category orWhereTranslationLike($translationField, $value, $locale = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category orderByTranslation($translationField, $sortMethod = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category translated()
+ * @method static \Illuminate\Database\Eloquent\Builder|Category translatedIn($locale = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category wherePid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereTranslation($translationField, $value, $locale = null, $method = 'whereHas', $operator = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereTranslationLike($translationField, $value, $locale = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category withTranslation()
+ * @method static \Illuminate\Database\Query\Builder|Category withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Category withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Category extends Model
 {
     use Translatable, MediaRelation, SoftDeletes, Seoable;
