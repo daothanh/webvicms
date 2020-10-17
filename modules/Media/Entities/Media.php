@@ -21,14 +21,26 @@ class Media extends Model implements Responsable
      */
     private $imageExtensions = ['jpg', 'png', 'jpeg', 'gif'];
 
+    /**
+     * @param $value
+     * @return MediaPath
+     */
     public function getPathAttribute($value)
     {
         return new MediaPath($value);
     }
 
+
+    /**
+     * @return string
+     */
     public function getPathStringAttribute()
     {
         return (string) $this->path;
+    }
+
+    public function getUrl() {
+        return $this->getPathStringAttribute();
     }
 
     public function getMediaTypeAttribute()
@@ -36,7 +48,7 @@ class Media extends Model implements Responsable
         return FileHelper::getTypeByMimetype($this->mimetype);
     }
 
-    public function parent_folder()
+    public function parentFolder()
     {
         return $this->belongsTo(__CLASS__, 'folder_id');
     }
@@ -66,10 +78,69 @@ class Media extends Model implements Responsable
     }
 
     /**
+     * Hiển thị ảnh
+     *
+     * @param false $thumbnail
+     * @param array $attributes
+     * @return string|null
+     */
+    public function getImage($thumbnail = false, $attributes = []) {
+        if ($this->isImage()) {
+            if ($thumbnail) {
+                $src = $this->getThumbnail($thumbnail);
+            } else {
+                $src = $this->getUrl();
+            }
+            $htmlAttributes = $this->getHtmlAttributes($attributes);
+            return '<img src="'.$src.'" '.implode(" ", $htmlAttributes).'/>';
+        }
+        return null;
+    }
+
+    /**
+     * Link của file
+     *
+     * @param null $label
+     * @param array $attributes
+     * @return string|null
+     */
+    public function getLink ($label = null, $attributes = []) {
+        if ($this->path) {
+            $htmlAttributes = $this->getHtmlAttributes($attributes);
+            if ($label === null) {
+                $label = $this->title ?? $this->getUrl();
+            }
+            return '<a href="'.$this->getUrl().'" '.implode(" ", $htmlAttributes).'>'.$label.'</a>';
+        }
+        return null;
+    }
+
+    /**
+     * Trả về mảng attribute cho html
+     *
+     * @param $attributes
+     * @return array
+     */
+    protected function getHtmlAttributes ($attributes) {
+        $attributes = array_merge([
+            'alt' => $this->title,
+            'title' => $this->title,
+            'description' => $this->description
+        ], $attributes);
+        $htmlAttributes = [];
+        foreach ($attributes as $attribute => $value) {
+            if ($value) {
+                $htmlAttributes[$attribute] = $attribute.'="'.$value.'"';
+            }
+        }
+        return $htmlAttributes;
+    }
+
+    /**
      * Create an HTTP response that represents the object.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function toResponse($request)
     {
