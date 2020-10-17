@@ -5,8 +5,7 @@
             <div id="carouselId_product" class="carousel slide carousel-fade " data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active detail__article--box">
-                        <img alt="{{ $post->title }}"
-                             src="{{ blog_post_image($post) }}" class="img-fluid">
+                        {!! blog_post_image($post, ['title' => $post->title, 'alt' => $post->title, 'class' => 'img-fluid']) !!}
                         <div class="detail__article--box__one">
                             <div class="row">
                                 <div class="col-md-6 left d-none d-md-block">
@@ -103,7 +102,7 @@
                                         <div class="row">
                                             @foreach($relatedPosts as $rPost)
                                                 <div class="col-md-6 pr-lg-4">
-                                                    <img src="{{ blog_post_image($rPost) }}" class="w-100" alt="{{ $rPost->title }}">
+                                                    {!! blog_post_image($rPost, ['title' => $rPost->title, 'alt' => $rPost->title, 'class' => 'w-100'], 'thumbnail') !!}
                                                     <p>{{ $rPost->title }}</p>
                                                 </div>
                                             @endforeach

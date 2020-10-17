@@ -64,15 +64,38 @@ if (!function_exists('blog_latest_post')) {
 }
 
 if (!function_exists('blog_post_image')) {
-    function blog_post_image($post, $thumbnail = null)
+    /**
+     * @param \Modules\Blog\Entities\Post $post
+     * @param null $thumbnail
+     * @return string
+     */
+    function blog_post_image_url($post, $thumbnail = null)
     {
         if ($post->image) {
-            if ($thumbnail) {
-                return Imagy::getThumbnail($post->image, $thumbnail);
-            } else {
-                return $post->image->path->getUrl();
-            }
+            return $post->image->getUrl($thumbnail);
         }
         return asset('uploads/media/no-image.jpg');
+    }
+}
+
+if (!function_exists('blog_post_image')) {
+    /**
+     * @param \Modules\Blog\Entities\Post $post
+     * @param null $thumbnail
+     * @param array $attributes
+     * @return string
+     */
+    function blog_post_image($post, $attributes = [], $thumbnail = null)
+    {
+        if ($post->image) {
+            return $post->image->getImage($thumbnail, $attributes);
+        }
+        $htmlAttributes = [];
+        foreach ($attributes as $attribute => $value) {
+            if ($value) {
+                $htmlAttributes[$attribute] = $attribute.'="'.$value.'"';
+            }
+        }
+        return '<img src="'.asset('uploads/media/no-image.jpg').'" '.implode(" ", $htmlAttributes).'/>';
     }
 }
