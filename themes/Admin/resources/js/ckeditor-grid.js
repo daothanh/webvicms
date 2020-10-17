@@ -83,49 +83,53 @@ $(document).ready(() => {
             )
             .then((rs) => {
                 const items = rs.data.data;
-                prevPage = page - 1;
+                if (items !== undefined && items.length > 0) {
+                    prevPage = page - 1;
 
-                if (prevPage < 1) {
-                    prevPage = 1;
-                }
+                    if (prevPage < 1) {
+                        prevPage = 1;
+                    }
 
-                lastPage = Math.ceil(rs.data.recordsTotal / per_page);
-                nextPage = page + 1;
-                console.log(nextPage, lastPage);
-                if (nextPage > lastPage) {
-                    nextPage = lastPage;
-                }
-                $('#chevron-left').attr('data-page', prevPage);
-                $('#chevron-right').attr('data-page', nextPage);
-                $('#cr-page').html(`${page}/${lastPage}`);
-                $('#thumbnails').html('');
-                $.each(items, (index, item) => {
-                    const cls = isSelectedItem(item.id) ? 'active' : '';
+                    lastPage = Math.ceil(rs.data.recordsTotal / per_page);
+                    nextPage = page + 1;
+                    console.log(nextPage, lastPage);
+                    if (nextPage > lastPage) {
+                        nextPage = lastPage;
+                    }
+                    $('#chevron-left').attr('data-page', prevPage);
+                    $('#chevron-right').attr('data-page', nextPage);
+                    $('#cr-page').html(`${page}/${lastPage}`);
+                    $('#thumbnails').html('');
+                    $.each(items, (index, item) => {
+                        const cls = isSelectedItem(item.id) ? 'active' : '';
 
-                    const ele = `<li title="${item.filename}" class="${
-                        cls
-                    }" data-id="${
-                        item.id
-                    }" data-file-path="${
-                        item.thumbnail
-                    }" data-mimetype="${
-                        item.mimetype
-                    }" data-media-type="${
-                        item.media_type
-                    }"><div class="preview">
+                        const ele = `<li title="${item.filename}" class="${
+                            cls
+                        }" data-id="${
+                            item.id
+                        }" data-file-path="${
+                            item.thumbnail
+                        }" data-mimetype="${
+                            item.mimetype
+                        }" data-media-type="${
+                            item.media_type
+                        }"><div class="preview">
             <button><span class="fa fa-check"></span></button>
             <div class="thumbnail">
             <div class="centered">${
-                        item.media_type === 'image' ? `<img src="${item.thumbnail}"/>` : `<div class="file"><i class="far fa-file"></i></div>`
-                    }
+                            item.media_type === 'image' ? `<img src="${item.thumbnail}"/>` : `<div class="file"><i class="far fa-file"></i></div>`
+                        }
           </div>
 
           </div>
           </div>
           <div class="file-name">${item.filename}</div>
           </li>`;
-                    $('#thumbnails').append(ele);
-                });
+                        $('#thumbnails').append(ele);
+                    });
+                } else {
+                    $('#thumbnails').html('Không tìm thấy file nào');
+                }
             })
             .catch((error) => {
                 console.log(error);
