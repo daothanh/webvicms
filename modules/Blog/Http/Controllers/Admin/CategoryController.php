@@ -18,12 +18,18 @@ class CategoryController extends BaseAdminController
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->seo()->setTitle(__('blog::category.title.Categories'));
         $this->breadcrumb->addItem(__('blog::category.title.Categories'));
         $categories = $this->categoryRepository->getTree();
-        return $this->view('blog::admin.category.index', compact('categories'));
+
+        $category = null;
+        if ($request->get('id') !== null) {
+            $category = $this->categoryRepository->find($request->get('id'));
+        }
+
+        return $this->view('blog::admin.category.index', compact('categories', 'category'));
     }
 
     public function create()
