@@ -118,7 +118,6 @@
                         window.location.href = "{{ route('admin.commerce.category.index') }}";
                     })
                     .catch(function (error) {
-                        console.log(error.response)
                         if (error.response.status === 400) {
                             const errorData = error.response.data;
                             for (const k in errorData) {

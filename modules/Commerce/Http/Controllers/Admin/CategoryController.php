@@ -24,11 +24,7 @@ class CategoryController extends BaseAdminController
         $this->seo()->setTitle(__('commerce::category.title.Categories'));
         $this->breadcrumb->addItem(__('commerce::category.title.Categories'));
 
-        $items = $this->categoryRepository->getTree();
-        $categories = array_map(function ($item) {
-            $item->name = ($item->depth ? str_repeat("-", $item->depth) . " " : '') . $item->name;
-            return $item;
-        }, $items);
+        $categories = $this->categoryRepository->getTree();
         $category = null;
         if ($request->get('id') !== null) {
             $category = $this->categoryRepository->find($request->get('id'));

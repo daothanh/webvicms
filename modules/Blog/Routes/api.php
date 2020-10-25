@@ -97,5 +97,10 @@ Route::group(['prefix' => 'blog'], function () {
             'as' => 'api.blog.category.toggle_status',
             'uses' => 'CategoryController@toggleStatus',
         ]);
+        Route::post('update-position', [
+            'as' => 'api.blog.category.update_position',
+            'uses' => 'CategoryController@updatePosition',
+        ])
+            ->middleware('api.permission:blog.post_category.create category|blog.post_category.edit category');
     });
 });

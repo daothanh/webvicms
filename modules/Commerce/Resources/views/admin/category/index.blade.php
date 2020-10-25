@@ -186,7 +186,6 @@
                 pid = pid || 0
                 var items = []
                 elements.each((k, item) => {
-                    console.log(item)
                     if ($(item).data('id')) {
                         items.push({id: $(item).data('id'), order: items.length + 1, pid: pid})
                         if ($(item).find('.nested>li')) {

@@ -2,6 +2,8 @@
 
 namespace Modules\Blog\Http\Controllers\Api;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Modules\Blog\Transformers\FullCategoryTransformer;
 use Modules\Blog\Repositories\CategoryRepository;
 use Modules\Core\Http\Controllers\ApiController;
@@ -31,7 +33,95 @@ class CategoryController extends ApiController
         }
         return FullCategoryTransformer::collection($this->categoryRepository->serverPagingFor($request));
     }
+    public function store(Request $request)
+    {
+        $languages = locales();
+        $data = $request->all();
+        $rules = [
+//            'status' => 'required'
+        ];
+        $attributeNames = [
+            'template' => __('commerce::category.labels.Template')
+        ];
 
+        $translatedRules = [
+            'name' => 'required|string',
+            /*'slug' => [
+                'required',
+                Rule::unique('category_translations', 'slug')
+            ],*/
+        ];
+
+        $translatedAttributeNames = [
+            'name' => 'commerce::category.labels.Title',
+            'body' => 'commerce::category.labels.Body',
+            'slug' => 'Slug',
+            'status' => 'commerce::category.labels.Status',
+        ];
+
+        foreach ($translatedRules as $ruleKey => $rule) {
+            foreach ($languages as $lang) {
+                $rules["{$lang}.{$ruleKey}"] = $rule;
+            }
+        }
+
+        foreach ($translatedAttributeNames as $attributeKey => $attributeName) {
+            foreach ($languages as $lang) {
+                $attributeNames["{$lang}.{$attributeKey}"] = trans($attributeName, [], $lang);
+            }
+        }
+
+        /*if (Arr::get($data, 'id') !== null) {
+            $rules[$locale . '.slug'] = [
+                'required',
+                Rule::unique('category_translations', 'slug')->ignore(Arr::get($data, 'id'), 'category_id')
+            ];
+        }*/
+        foreach ($languages as $lang) {
+            if (empty($data[$lang]['slug'])) {
+                $data[$lang]['slug'] = Str::slug($data[$lang]['name']);
+            }
+            $countSlug = \DB::table('commerce__category_translations')->where('slug', '=', $data[$lang]['slug']);
+            if (Arr::get($data, 'id') !== null) {
+                $countSlug->where('category_id', '<>', Arr::get($data, 'id'));
+            }
+            $countSlug = $countSlug->count();
+            if ($countSlug) {
+                $data[$lang]['slug'] .= "-" . ($countSlug + 1);
+            }
+        }
+
+        $validator = \Validator::make($data, $rules);
+        $validator->setAttributeNames($attributeNames);
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 400);
+        }
+
+        $msg = __('commerce::category.messages.Category was created!');
+        if (Arr::get($data, 'id') === null) {
+            if (!empty($data['pid'])) {
+                $order = $this->categoryRepository
+                    ->newQueryBuilder()
+                    ->where('pid', '=', $data['pid'])
+                    ->count();
+                $data['order'] = $order + 1;
+            }
+
+            $category = $this->categoryRepository->create($data);
+        } else {
+            $category = $this->categoryRepository->find($data['id']);
+            if (!empty($data['pid']) && $data['pid'] !== $category->pid) {
+                $order = $this->categoryRepository
+                    ->newQueryBuilder()
+                    ->where('pid', '=', $data['pid'])
+                    ->count();
+                $data['order'] = $order + 1;
+            }
+            $this->categoryRepository->update($category, $data);
+            $msg = __('commerce::category.messages.Category was updated!');
+        }
+        return response()->json(['success' => $msg]);
+    }
     public function destroy($id)
     {
         $category = $this->categoryRepository->find($id);
@@ -106,5 +196,21 @@ class CategoryController extends ApiController
             $category->save();
         }
         return response()->json(['error' => false]);
+    }
+
+    public function updatePosition(Request $request)
+    {
+        $items = $request->get('items');
+        if ($items) {
+            foreach ($items as $item) {
+                $this->categoryRepository
+                    ->newQueryBuilder()
+                    ->where('id', '=', $item['id'])
+                    ->update([
+                        'order' => $item['order'],
+                        'pid' => $item['pid']
+                    ]);
+            }
+        }
     }
 }
