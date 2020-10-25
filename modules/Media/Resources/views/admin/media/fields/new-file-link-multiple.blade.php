@@ -11,7 +11,7 @@ use Modules\Media\Entities\Media;
     {!! Form::label($zone, $name) !!}
     <div class="clearfix"></div>
     <button type="button" class="btn btn-primary btn-upload" onclick="openMediaWindowMultiple(event, '{{ $zone }}')">
-        <i class="icon ion-md-image"></i>
+        <i class="icon ion-md-images"></i>
         {{ trans('media::media.Browse') }}
     </button>
     <div class="clearfix"></div>

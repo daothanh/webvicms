@@ -1,92 +1,160 @@
 @extends('admin::layouts.master')
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">{{ \SEO::getTitle() }}</div>
-            <div class="card-tools">
-                <a href="{{ route('admin.commerce.category.create') }}" class="btn"><i
-                        class="icon ion-md-add"></i> {{ __('commerce::category.title.Create a category') }}</a>
-            </div>
+    <div class="row">
+        <div class="col-4">
+            @include("commerce::admin.category._form")
         </div>
-        <div class="card-body">
-            <button class="btn btn-danger btn-sm" id="delete-all" disabled><i
-                    class="icon ion-md-trash"></i> {{ __('Delete') }}
-            </button>
-            <button class="btn btn-info btn-sm" id="restore-all" style="display: none" disabled><i
-                    class="icon ion-md-refresh"></i> {{ __('Restore') }}
-            </button>
-            <table id="data-table1" class="table table-striped">
-                <thead class="thead-default">
-                <tr>
-                    <th width="60"> {{ __('commerce::category.labels.Image') }}</th>
-                    <th>{{ __('commerce::category.labels.Title') }}</th>
-                    <th width="200">{{ __('commerce::category.labels.Excerpt') }}</th>
-                    <th width="200">{{ __('Slug') }}</th>
-                    <th width="100">{{ __('commerce::category.labels.Status') }}</th>
-                    <th width="120">{{ __('Actions') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if(count($categories))
-                    @foreach($categories as $category)
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{ \SEO::getTitle() }}</div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="thead-default">
                         <tr>
-                            <td width="80">
-                                <img class="w-100"
-                                     src="{{ $category->image ? $category->image->path : asset('uploads/media/no-image.jpg') }}"
-                                     alt="{{ $category->name }}"></td>
-                            <td>{{ $category->name }}</td>
-                            <td>{{ $category->excerpt }}</td>
-                            <td>{{ $category->slug }}</td>
-                            <td>
-                                <div class="custom-control custom-switch text-center">
-                                    <input data-id="{{ $category->id }}" @if($category->status === 1) checked
-                                           @endif type="checkbox" class="custom-control-input toggle-status"
-                                           id="customSwitch1">
-                                    <label class="custom-control-label" for="customSwitch1"></label>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="{{ $category->getEditUrl() }}" class="btn btn-primary btn-sm"
-                                   data-toggle="tooltip"
-                                   data-category="{{ __("Edit") }}"><i class="icon ion-md-create"></i></a>
-                                <a href="{{ $category->getDeleteUrl() }}" class="btn btn-danger btn-sm delete"
-                                   data-toggle="tooltip" data-category="{{ __("Delete") }}"><i
-                                        class="icon ion-md-trash"></i></a>
-                            </td>
+                            <th width="60"> {{ __('blog::category.labels.Image') }}</th>
+                            <th>{{ __('blog::category.labels.Title') }}</th>
+                            <th width="200">{{ __('blog::category.labels.Excerpt') }}</th>
+                            <th width="200">{{ __('Slug') }}</th>
+                            <th width="120">{{ __('Actions') }}</th>
                         </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            <svg width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg">
-                                <g transform="translate(0 1)" fill="none" fillRule="evenodd">
-                                    <ellipse fill="#F5F5F5" cx="32" cy="33" rx="32" ry="7"></ellipse>
-                                    <g fillRule="nonzero" stroke="#D9D9D9">
-                                        <path
-                                            d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"></path>
-                                        <path
-                                            d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z"
-                                            fill="#FAFAFA"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                            <br>
-                            <div>Chưa có danh mục</div>
-                        </td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
+                        </thead>
+                    </table>
+                    <ul class="categories">
+                        @if(count($categories))
+                            <?php
+                            $prevCategory = null;
+                            ?>
+                            @foreach($categories as $k => $category)
+
+
+                                <li data-id="{{ $category->id }}" data-pid="{{ $category->pid }}"
+                                    class="depth-{{ $category->depth }}">
+                                    <div>
+                                        <div class="image">
+                                            <img class="w-100"
+                                                 src="{{ $category->image ? $category->image->path : asset('uploads/media/no-image.jpg') }}"
+                                                 alt="{{ $category->name }}"></div>
+                                        <div class="name">{{ $category->name }}</div>
+                                        <div class="excerpt">{{ $category->excerpt }}</div>
+                                        <div class="slug">{{ $category->slug }}</div>
+                                        <div class="actions">
+                                            <a href="?id={{ $category->id }}" class="btn btn-primary btn-sm"
+                                               data-toggle="tooltip"
+                                               data-category="{{ __("Edit") }}"><i
+                                                    class="icon ion-md-create"></i></a>
+                                            <a href="{{ $category->getDeleteUrl() }}"
+                                               class="btn btn-danger btn-sm delete"
+                                               data-toggle="tooltip" data-category="{{ __("Delete") }}"><i
+                                                    class="icon ion-md-trash"></i></a>
+                                        </div>
+                                    </div>
+                                    <?php $nextCategory = !empty($categories[$k + 1]) ? $categories[$k + 1] : null ?>
+                                    @if($nextCategory !== null && $category->depth < $nextCategory->depth)
+                                        <ul class="nested">
+                                            @endif
+                                            @if((!empty($nextCategory) && $category->depth > $nextCategory->depth))
+
+                                        </ul>
+                                </li>
+                                @elseif($nextCategory === null || ($nextCategory->depth === $category->depth))
+                                    <ul class="nested"></ul>
+                                    </li>
+                                @endif
+
+                                <?php
+                                $prevCategory = $category;
+                                ?>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
+@push('css-stack')
+    {!! Theme::css('js/jquery-ui/jquery-ui.css') !!}
+    <style>
+        .categories {
+            display: block;
+            width: 100%;
+            padding-left: 0;
+        }
+
+        .categories li {
+            list-style: none;
+            width: 100%;
+        }
+
+        .categories li.placeholder {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        .categories li.placeholder:before {
+            position: absolute;
+            content: "";
+            width: 0;
+            height: 0;
+            margin-top: -5px;
+            left: -5px;
+            top: -4px;
+            border: 5px solid transparent;
+            border-left-color: red;
+            border-right: none;
+        }
+
+        .categories li > div {
+            text-align: left;
+            display: grid;
+            grid-template-areas: "a b c d e";
+            grid-template-columns: 1fr 3fr 3fr 3fr 1fr;
+            grid-template-rows: 1fr;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .categories li div > div {
+            display: table-cell;
+        }
+
+        .categories li ul {
+            padding-left: 15px;
+        }
+
+        .categories li img {
+            max-width: 50px;
+        }
+
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+
+        ul.categories li.placeholder {
+            position: relative;
+        }
+
+        ul.categories li.placeholder:before {
+            position: absolute;
+        }
+    </style>
+@endpush
 @push('js-stack')
+    {!! Theme::js('js/jquery-sortable.js') !!}
     <script>
         $(function () {
-            $('body').on('click', '.toggle-status', function () {
-                axios.post('{{ route("api.commerce.category.toggle_status") }}', {id: $(this).data('id')});
-            }).on('click', '.delete', function (e) {
+            $('body').on('click', '.delete', function (e) {
                 e.preventDefault();
                 let url = $(this).attr('href');
                 swal({
@@ -102,18 +170,71 @@
                     if (result.value) {
                         axios.delete(url)
                             .then(rs => {
-                                if (rs.data.error === false) {
-                                    categoryTable.ajax.reload();
-                                    notify('{{ __("Notification") }}', '{{ __("It was moved to the trash!") }}', 'success');
-                                } else {
-                                    notify('{{ __("Alert") }}', rs.data.error, 'error');
-                                }
+                                notify('{{ __("Notification") }}', '{{ __("It was moved to the trash!") }}', 'success');
+                                setTimeout(function () {
+                                    window.location.reload(true);
+                                }, 1000)
                             })
                             .catch(function (error) {
                                 notify('{{ __("Alert") }}', error.response.data.message, 'error');
                             });
                     }
                 });
+            });
+
+            function updateItems(elements, pid) {
+                pid = pid || 0
+                var items = []
+                elements.each((k, item) => {
+                    console.log(item)
+                    if ($(item).data('id')) {
+                        items.push({id: $(item).data('id'), order: items.length + 1, pid: pid})
+                        if ($(item).find('.nested>li')) {
+                            updateItems($(item).find('.nested>li'), $(item).data('id'));
+                        }
+                    }
+                });
+                axios.post("{{ route('api.commerce.category.update_position') }}", {items: items})
+                return items;
+            }
+
+            var adjustment;
+            $("ul.categories").sortable({
+                group: 'nested',
+                pullPlaceholder: true,
+
+                // animation on drop
+                onDrop: function ($item, container, _super) {
+                    var $clonedItem = $('<li/>').css({height: 0});
+                    $item.before($clonedItem);
+                    $clonedItem.animate({
+                        'height': $item.height()
+                    });
+
+                    $item.animate($clonedItem.position(), function () {
+                        $clonedItem.detach();
+                        _super($item, container);
+                    });
+                    updateItems($("ul.categories>li"));
+                },
+                // set $item relative to cursor position
+                onDragStart: function ($item, container, _super) {
+                    var offset = $item.offset(),
+                        pointer = container.rootGroup.pointer;
+
+                    adjustment = {
+                        left: pointer.left - offset.left,
+                        top: pointer.top - offset.top
+                    };
+                    _super($item, container);
+                },
+
+                onDrag: function ($item, position) {
+                    $item.css({
+                        left: position.left - adjustment.left,
+                        top: position.top - adjustment.top
+                    });
+                }
             });
         });
     </script>

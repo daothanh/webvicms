@@ -29,7 +29,7 @@
     </style>
 </head>
 <body>
-<div class="main">
+<div class="main media-window">
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">

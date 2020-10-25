@@ -1,1 +1,274 @@
-!function(e){var t={};function n(a){if(t[a])return t[a].exports;var i=t[a]={i:a,l:!1,exports:{}};return e[a].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,a){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:a})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(n.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(a,i,function(t){return e[t]}.bind(null,i));return a},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="/",n(n.s=45)}({45:function(e,t,n){e.exports=n(46)},46:function(e,t){$(document).ready((function(){var e=null,t=[],n=null!==window.opener&&!window.opener.single;function a(a){var i=!1;return n?t.length>0&&$.each(t,(function(e,t){t.id===a&&(i=!0)})):null!==e&&(i=a===e.id),i}$.ajaxSetup({headers:{Authorization:AuthorizationHeaderValue}}),$(".jsShowUploadForm").on("click",(function(e){e.preventDefault(),$("#my-dropzone").fadeToggle()})),$("body").on("click",".jsInsertImage",(function(n){n.preventDefault(),window.opener.old?window.opener.single?(null!==e&&window.opener.includeMediaSingleOld(e.id,e.path),window.close()):$.each(t,(function(e,t){window.opener.includeMediaMultiple(t.id,t.path,t.type,t.mimetype)})):window.opener.single?(null!==e&&window.opener.includeMediaSingle(e.id,e.path,e.type,e.mimetype),window.close()):($.each(t,(function(e,t){window.opener.includeMediaMultiple(t.id,t.path,t.type,t.mimetype)})),window.close())})),$("body").on("click","#thumbnails li",(function(a){var i={id:$(this).data("id"),path:$(this).data("file-path"),type:$(this).data("mediaType"),mimetype:$(this).data("mimetype")};n?($(this).hasClass("active")?($(this).removeClass("active"),t.length>0?t=$.grep(t,(function(e){return e.id!=i.id})):t.push(i)):($(this).addClass("active"),t.push(i)),$("#selected-count").html(t.length>0?t.length:0),0===t.length?$(".jsInsertImage").attr("disabled","disabled"):$(".jsInsertImage").removeAttr("disabled")):($(this).hasClass("active")?($(this).removeClass("active"),e=null):($("#thumbnails li").removeClass("active"),$(this).addClass("active"),e=i),$("#selected-count").html(null!==e?1:0),null===e?$(".jsInsertImage").attr("disabled","disabled"):$(".jsInsertImage").removeAttr("disabled"))}));var i=1,l=1;function o(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"";e=parseInt(e),axios.get("".concat(MediaUrls.mediaGridSelectUrl,"?page=").concat(e,"&per_page=").concat(16,"&search=").concat(t)).then((function(t){var n=t.data.data;void 0!==n&&n.length>0?((i=e-1)<1&&(i=1),lastPage=Math.ceil(t.data.recordsTotal/16),l=e+1,console.log(l,lastPage),l>lastPage&&(l=lastPage),$("#chevron-left").attr("data-page",i),$("#chevron-right").attr("data-page",l),$("#cr-page").html("".concat(e,"/").concat(lastPage)),$("#thumbnails").html(""),$.each(n,(function(e,t){var n=a(t.id)?"active":"",i='<li title="'.concat(t.filename,'" class="').concat(n,'" data-id="').concat(t.id,'" data-file-path="').concat(t.thumbnail,'" data-mimetype="').concat(t.mimetype,'" data-media-type="').concat(t.media_type,'"><div class="preview">\n            <button><span class="fa fa-check"></span></button>\n            <div class="thumbnail">\n            <div class="centered">').concat("image"===t.media_type?'<img src="'.concat(t.thumbnail,'"/>'):'<div class="file"><i class="far fa-file"></i></div>','\n          </div>\n\n          </div>\n          </div>\n          <div class="file-name">').concat(t.filename,"</div>\n          </li>");$("#thumbnails").append(i)}))):$("#thumbnails").html("Không tìm thấy file nào")})).catch((function(e){console.log(e)}))}o(),$(".load-media").click((function(){o($(this).attr("data-page"))})),$("#search-file").keyup((function(){o(1,$(this).val())}))}))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./resources/js/general-grid.js":
+/*!**************************************!*\
+  !*** ./resources/js/general-grid.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var selectedItem = null;
+  var selectedItems = [];
+  var isMultiple = window.opener !== null && !window.opener.single;
+  $.ajaxSetup({
+    headers: {
+      Authorization: AuthorizationHeaderValue
+    }
+  });
+  $('.jsShowUploadForm').on('click', function (event) {
+    event.preventDefault();
+    $('#my-dropzone').fadeToggle();
+  });
+  $('body').on('click', '.jsInsertImage', function (e) {
+    e.preventDefault();
+
+    if (window.opener.old) {
+      if (window.opener.single) {
+        if (selectedItem !== null) {
+          window.opener.includeMediaSingleOld(selectedItem.id, selectedItem.path);
+        }
+
+        window.close();
+      } else {
+        $.each(selectedItems, function (index, item) {
+          window.opener.includeMediaMultiple(item.id, item.path, item.type, item.mimetype);
+        });
+      }
+    } else if (window.opener.single) {
+      if (selectedItem !== null) {
+        window.opener.includeMediaSingle(selectedItem.id, selectedItem.path, selectedItem.type, selectedItem.mimetype);
+      }
+
+      window.close();
+    } else {
+      $.each(selectedItems, function (index, item) {
+        window.opener.includeMediaMultiple(item.id, item.path, item.type, item.mimetype);
+      });
+      window.close();
+    }
+  });
+  $('body').on('click', '#thumbnails li', function (e) {
+    var item = {
+      id: $(this).data('id'),
+      path: $(this).data('file-path'),
+      type: $(this).data('mediaType'),
+      mimetype: $(this).data('mimetype')
+    };
+
+    if (isMultiple) {
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+
+        if (selectedItems.length > 0) {
+          selectedItems = $.grep(selectedItems, function (value) {
+            return value.id != item.id;
+          });
+        } else {
+          selectedItems.push(item);
+        }
+      } else {
+        $(this).addClass('active');
+        selectedItems.push(item);
+      }
+
+      $('#selected-count').html(selectedItems.length > 0 ? selectedItems.length : 0);
+
+      if (selectedItems.length === 0) {
+        $('.jsInsertImage').attr('disabled', 'disabled');
+      } else {
+        $('.jsInsertImage').removeAttr('disabled');
+      }
+    } else {
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        selectedItem = null;
+      } else {
+        $('#thumbnails li').removeClass('active');
+        $(this).addClass('active');
+        selectedItem = item;
+      }
+
+      $('#selected-count').html(selectedItem !== null ? 1 : 0);
+
+      if (selectedItem === null) {
+        $('.jsInsertImage').attr('disabled', 'disabled');
+      } else {
+        $('.jsInsertImage').removeAttr('disabled');
+      }
+    }
+  });
+
+  function isSelectedItem(id) {
+    var isIn = false;
+
+    if (isMultiple) {
+      if (selectedItems.length > 0) {
+        $.each(selectedItems, function (index, item) {
+          if (item.id === id) {
+            isIn = true;
+          }
+        });
+      }
+    } else if (selectedItem !== null) {
+      isIn = id === selectedItem.id;
+    }
+
+    return isIn;
+  }
+
+  var cPage = 1;
+  var prevPage = 1;
+  var nextPage = 1;
+  var per_page = 16;
+
+  function loadMedias() {
+    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    page = parseInt(page);
+    axios.get("".concat(MediaUrls.mediaGridSelectUrl, "?page=").concat(page, "&per_page=").concat(per_page, "&search=").concat(search)).then(function (rs) {
+      var items = rs.data.data;
+
+      if (items !== undefined && items.length > 0) {
+        prevPage = page - 1;
+
+        if (prevPage < 1) {
+          prevPage = 1;
+        }
+
+        lastPage = Math.ceil(rs.data.recordsTotal / per_page);
+        nextPage = page + 1;
+        console.log(nextPage, lastPage);
+
+        if (nextPage > lastPage) {
+          nextPage = lastPage;
+        }
+
+        $('#chevron-left').attr('data-page', prevPage);
+        $('#chevron-right').attr('data-page', nextPage);
+        $('#cr-page').html("".concat(page, "/").concat(lastPage));
+        $('#thumbnails').html('');
+        $.each(items, function (index, item) {
+          var cls = isSelectedItem(item.id) ? 'active' : '';
+          var ele = "<li title=\"".concat(item.filename, "\" class=\"").concat(cls, "\" data-id=\"").concat(item.id, "\" data-file-path=\"").concat(item.thumbnail, "\" data-mimetype=\"").concat(item.mimetype, "\" data-media-type=\"").concat(item.media_type, "\"><div class=\"preview\">\n            <button><span class=\"fa fa-check\"></span></button>\n            <div class=\"thumbnail\">\n            <div class=\"centered\">").concat(item.media_type === 'image' ? "<img src=\"".concat(item.thumbnail, "\"/>") : "<div class=\"file\"><i class=\"far fa-file\"></i></div>", "\n          </div>\n\n          </div>\n          </div>\n          <div class=\"file-name\">").concat(item.filename, "</div>\n          </li>");
+          $('#thumbnails').append(ele);
+        });
+      } else {
+        $('#thumbnails').html('Không tìm thấy file nào');
+      }
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }
+
+  loadMedias();
+  $('.load-media').click(function () {
+    var page = $(this).attr('data-page');
+    loadMedias(page);
+  });
+  $('#search-file').keyup(function () {
+    loadMedias(1, $(this).val());
+  });
+});
+
+/***/ }),
+
+/***/ 2:
+/*!********************************************!*\
+  !*** multi ./resources/js/general-grid.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! /Users/dao/www/webvicms/themes/Admin/resources/js/general-grid.js */"./resources/js/general-grid.js");
+
+
+/***/ })
+
+/******/ });

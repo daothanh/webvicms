@@ -100,5 +100,10 @@ Route::group(['prefix' => 'commerce'], function () {
             'uses' => 'CategoryController@toggleStatus',
         ])
             ->middleware('api.permission:commerce.product_category.create product category|commerce.product_category.edit product category');
+        Route::post('update-position', [
+            'as' => 'api.commerce.category.update_position',
+            'uses' => 'CategoryController@updatePosition',
+        ])
+            ->middleware('api.permission:commerce.product_category.create product category|commerce.product_category.edit product category');
     });
 });

@@ -18,8 +18,32 @@
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
-        <testsuite name="Blog">
-            <directory>./modules/Blog/Tests/</directory>
+        <testsuite name="Core">
+            <directory>./modules/Core/Tests/</directory>
+        </testsuite>
+        <testsuite name="Page">
+            <directory>./modules/Page/Tests/</directory>
+        </testsuite>
+        <testsuite name="Commerce">
+            <directory>./modules/Commerce/Tests/</directory>
+        </testsuite>
+        <testsuite name="Media">
+            <directory>./modules/Media/Tests/</directory>
+        </testsuite>
+        <testsuite name="Page">
+            <directory>./modules/Page/Tests/</directory>
+        </testsuite>
+        <testsuite name="Slider">
+            <directory>./modules/Slider/Tests/</directory>
+        </testsuite>
+        <testsuite name="Tag">
+            <directory>./modules/Tag/Tests/</directory>
+        </testsuite>
+        <testsuite name="Testimonial">
+            <directory>./modules/Testimonial/Tests/</directory>
+        </testsuite>
+        <testsuite name="User">
+            <directory>./modules/User/Tests/</directory>
         </testsuite>
     </testsuites>
     <filter>

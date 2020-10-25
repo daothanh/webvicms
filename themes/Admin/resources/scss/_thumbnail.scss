@@ -1,138 +1,153 @@
 .dropzone {
-    border-style: dotted;
+  border-style: dotted;
 }
-.card-body {
+
+.media-window {
+  .card-body {
     padding-bottom: 70px;
-}
-.card-footer {
+  }
+  .card-footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 9999;
-    background:#eee;
+    background: #eee;
+  }
 }
+
 #thumbnails {
-    display: block;
-    width: 100%;
-    padding: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  li {
+    width: 20%;
+    /*height: 150px;*/
+    display: inline-block;
+    position: relative;
+    padding: 8px;
     margin: 0;
+    color: #444;
+    cursor: pointer;
+    list-style: none;
+    text-align: center;
+    box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 7px #ccc;
 
-    li {
-        width: 20%;
-        /*height: 150px;*/
-        display: inline-block;
-        position: relative;
-        padding: 8px;
-        margin: 0;
-        color: #444;
-        cursor: pointer;
-        list-style: none;
-        text-align: center;
-        box-shadow: inset 0 0 0 5px #fff, inset 0 0 0 7px #ccc;
+    .preview {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, .1), inset 0 0 0 1px rgba(0, 0, 0, .05);
+      background: #eee;
+      cursor: pointer;
 
-        .preview {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            box-shadow: inset 0 0 15px rgba(0,0,0,.1), inset 0 0 0 1px rgba(0,0,0,.05);
-            background: #eee;
-            cursor: pointer;
-            &::before {
-                content: "";
-                display: block;
-                padding-top: 100%;
-            }
-        }
-        .thumbnail {
-            overflow: hidden;
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            opacity: 1;
-            transition: opacity .1s;
-            &::after {
-                content: "";
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
-                overflow: hidden;
-            }
-        }
-        .centered {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform: translate(50%,50%);
-            img,video,audio,.file {
-                position: absolute;
-                top: 0;
-                left: 0;
-                transform: translate(-50%, -50%);
-            }
-        }
-        .file-name {
-            overflow: hidden;
-            height: 32px;
-            width: 100%;
-            text-align: center;
-            padding: 5px;
-        }
+      &::before {
+        content: "";
+        display: block;
+        padding-top: 100%;
+      }
+    }
 
-        button {
-            display: none;
-            height: 24px;
-            width: 24px;
-            padding: 0;
-            border: 0;
-            position: absolute;
-            z-index: 10;
-            top: -6px;
-            right: -6px;
-            outline: 0;
-            background: #eee;
-            cursor: pointer;
-            box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba(0,0,0,.15);
-            &.jsRemoveLink,&.jsRemoveSimpleLink {
-                &:hover {
-                    color: #ff0000;
-                }
-            }
-        }
+    .thumbnail {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 1;
+      transition: opacity .1s;
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+        overflow: hidden;
+      }
+    }
+
+    .centered {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: translate(50%, 50%);
+
+      img, video, audio, .file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .file-name {
+      overflow: hidden;
+      height: 32px;
+      width: 100%;
+      text-align: center;
+      padding: 5px;
+    }
+
+    button {
+      display: none;
+      height: 24px;
+      width: 24px;
+      padding: 0;
+      border: 0;
+      position: absolute;
+      z-index: 10;
+      top: -6px;
+      right: -6px;
+      outline: 0;
+      background: #eee;
+      cursor: pointer;
+      box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba(0, 0, 0, .15);
+
+      &.jsRemoveLink, &.jsRemoveSimpleLink {
         &:hover {
-            button {
-                &.jsRemoveLink,&.jsRemoveSimpleLink {
-                    display: block;
-                }
-            }
+          color: #ff0000;
         }
-        &.active {
-            z-index: 10;
-            box-shadow: inset 0 0 0 3px #ffffff, inset 0 0 0 7px #0073aa;
-            .thumbnail {
-                opacity: 1;
-            }
+      }
+    }
 
-            button {
-                display: block;
-                background-color: #0073aa;
-                box-shadow: 0 0 0 1px #fff, 0 0 0 2px #0073aa;
-                color: #fff;
-            }
+    &:hover {
+      button {
+        &.jsRemoveLink, &.jsRemoveSimpleLink {
+          display: block;
         }
+      }
     }
-    &.jsSingleThumbnailWrapper {
-        li {
-            width: 100%;
-            max-width: 200px;
-        }
+
+    &.active {
+      z-index: 10;
+      box-shadow: inset 0 0 0 3px #ffffff, inset 0 0 0 7px #0073aa;
+
+      .thumbnail {
+        opacity: 1;
+      }
+
+      button {
+        display: block;
+        background-color: #0073aa;
+        box-shadow: 0 0 0 1px #fff, 0 0 0 2px #0073aa;
+        color: #fff;
+      }
     }
+  }
+
+  &.jsSingleThumbnailWrapper {
+    li {
+      width: 100%;
+      max-width: 200px;
+    }
+  }
 }

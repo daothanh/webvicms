@@ -4,7 +4,7 @@
 
     <button type="button" class="btn btn-primary btn-browse"
             onclick="openMediaWindowSingle(event, '{{ $zone }}');" <?php echo (isset($media->path)) ? 'style="display:none;"' : '' ?>>
-        <i class="la la-image"></i>
+        <i class="icon ion-md-image"></i>
         {{ trans('media::media.Browse') }}
     </button>
 

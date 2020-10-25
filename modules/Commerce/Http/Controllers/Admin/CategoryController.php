@@ -19,7 +19,7 @@ class CategoryController extends BaseAdminController
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->seo()->setTitle(__('commerce::category.title.Categories'));
         $this->breadcrumb->addItem(__('commerce::category.title.Categories'));
@@ -29,8 +29,12 @@ class CategoryController extends BaseAdminController
             $item->name = ($item->depth ? str_repeat("-", $item->depth) . " " : '') . $item->name;
             return $item;
         }, $items);
+        $category = null;
+        if ($request->get('id') !== null) {
+            $category = $this->categoryRepository->find($request->get('id'));
+        }
 
-        return $this->view('commerce::admin.category.index', compact('categories'));
+        return $this->view('commerce::admin.category.index', compact('categories', 'category'));
     }
 
     public function create()

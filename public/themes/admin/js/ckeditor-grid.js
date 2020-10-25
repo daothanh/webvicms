@@ -1,1 +1,234 @@
-!function(t){var e={};function a(n){if(e[n])return e[n].exports;var i=e[n]={i:n,l:!1,exports:{}};return t[n].call(i.exports,i,i.exports,a),i.l=!0,i.exports}a.m=t,a.c=e,a.d=function(t,e,n){a.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},a.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.t=function(t,e){if(1&e&&(t=a(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(a.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)a.d(n,i,function(e){return t[e]}.bind(null,i));return n},a.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return a.d(e,"a",e),e},a.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},a.p="/",a(a.s=47)}({47:function(t,e,a){t.exports=a(48)},48:function(t,e){$(document).ready((function(){var t=null;function e(e){var a=!1;return null!==t&&(a=e===t.id),a}$.ajaxSetup({headers:{Authorization:AuthorizationHeaderValue}}),$(".jsShowUploadForm").on("click",(function(t){t.preventDefault(),$("#my-dropzone").fadeToggle()})),$("body").on("click",".jsInsertImage",(function(e){e.preventDefault();var a,n,i=(a=new RegExp("(?:[?&]|&)"+"CKEditorFuncNum"+"=([^&]+)","i"),(n=window.location.search.match(a))&&n.length>1?n[1]:null);window.opener.CKEDITOR.tools.callFunction(i,t.path),window.close()})),$("body").on("click","#thumbnails li",(function(e){var a={id:$(this).data("id"),path:$(this).data("file-path"),type:$(this).data("mediaType"),mimetype:$(this).data("mimetype")};$(this).hasClass("active")?($(this).removeClass("active"),t=null):($("#thumbnails li").removeClass("active"),$(this).addClass("active"),t=a),$("#selected-count").html(null!==t?1:0),null===t?$(".jsInsertImage").attr("disabled","disabled"):$(".jsInsertImage").removeAttr("disabled")}));var a=1,n=1;function i(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1,i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"";t=parseInt(t),axios.get("".concat(MediaUrls.mediaGridSelectUrl,"?page=").concat(t,"&per_page=").concat(25,"&search=").concat(i)).then((function(i){var o=i.data.data;void 0!==o&&o.length>0?((a=t-1)<1&&(a=1),lastPage=Math.ceil(i.data.recordsTotal/25),n=t+1,console.log(n,lastPage),n>lastPage&&(n=lastPage),$("#chevron-left").attr("data-page",a),$("#chevron-right").attr("data-page",n),$("#cr-page").html("".concat(t,"/").concat(lastPage)),$("#thumbnails").html(""),$.each(o,(function(t,a){var n=e(a.id)?"active":"",i='<li title="'.concat(a.filename,'" class="').concat(n,'" data-id="').concat(a.id,'" data-file-path="').concat(a.thumbnail,'" data-mimetype="').concat(a.mimetype,'" data-media-type="').concat(a.media_type,'"><div class="preview">\n            <button><span class="fa fa-check"></span></button>\n            <div class="thumbnail">\n            <div class="centered">').concat("image"===a.media_type?'<img src="'.concat(a.thumbnail,'"/>'):'<div class="file"><i class="far fa-file"></i></div>','\n          </div>\n\n          </div>\n          </div>\n          <div class="file-name">').concat(a.filename,"</div>\n          </li>");$("#thumbnails").append(i)}))):$("#thumbnails").html("Không tìm thấy file nào")})).catch((function(t){console.log(t)}))}i(),$(".load-media").click((function(){i($(this).attr("data-page"))})),$("#search-file").keyup((function(){i(1,$(this).value)}))}))}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./resources/js/ckeditor-grid.js":
+/*!***************************************!*\
+  !*** ./resources/js/ckeditor-grid.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var selectedItem = null;
+  var selectedItems = [];
+  var isMultiple = false;
+  $.ajaxSetup({
+    headers: {
+      Authorization: AuthorizationHeaderValue
+    }
+  });
+  $('.jsShowUploadForm').on('click', function (event) {
+    event.preventDefault();
+    $('#my-dropzone').fadeToggle();
+  });
+  $('body').on('click', '.jsInsertImage', function (e) {
+    e.preventDefault();
+
+    function getUrlParam(paramName) {
+      var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i');
+      var match = window.location.search.match(reParam);
+      return match && match.length > 1 ? match[1] : null;
+    }
+
+    var funcNum = getUrlParam('CKEditorFuncNum');
+    window.opener.CKEDITOR.tools.callFunction(funcNum, selectedItem.path);
+    window.close();
+  });
+  $('body').on('click', '#thumbnails li', function (e) {
+    var item = {
+      id: $(this).data('id'),
+      path: $(this).data('file-path'),
+      type: $(this).data('mediaType'),
+      mimetype: $(this).data('mimetype')
+    };
+
+    if ($(this).hasClass('active')) {
+      $(this).removeClass('active');
+      selectedItem = null;
+    } else {
+      $('#thumbnails li').removeClass('active');
+      $(this).addClass('active');
+      selectedItem = item;
+    }
+
+    $('#selected-count').html(selectedItem !== null ? 1 : 0);
+
+    if (selectedItem === null) {
+      $('.jsInsertImage').attr('disabled', 'disabled');
+    } else {
+      $('.jsInsertImage').removeAttr('disabled');
+    }
+  });
+
+  function isSelectedItem(id) {
+    var isIn = false;
+
+    if (isMultiple) {
+      if (selectedItems.length > 0) {
+        $.each(selectedItems, function (index, item) {
+          if (item.id === id) {
+            isIn = true;
+          }
+        });
+      }
+    } else if (selectedItem !== null) {
+      isIn = id === selectedItem.id;
+    }
+
+    return isIn;
+  }
+
+  var cPage = 1;
+  var prevPage = 1;
+  var nextPage = 1;
+  var per_page = 25;
+
+  function loadMedias() {
+    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var search = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    page = parseInt(page);
+    axios.get("".concat(MediaUrls.mediaGridSelectUrl, "?page=").concat(page, "&per_page=").concat(per_page, "&search=").concat(search)).then(function (rs) {
+      var items = rs.data.data;
+
+      if (items !== undefined && items.length > 0) {
+        prevPage = page - 1;
+
+        if (prevPage < 1) {
+          prevPage = 1;
+        }
+
+        lastPage = Math.ceil(rs.data.recordsTotal / per_page);
+        nextPage = page + 1;
+        console.log(nextPage, lastPage);
+
+        if (nextPage > lastPage) {
+          nextPage = lastPage;
+        }
+
+        $('#chevron-left').attr('data-page', prevPage);
+        $('#chevron-right').attr('data-page', nextPage);
+        $('#cr-page').html("".concat(page, "/").concat(lastPage));
+        $('#thumbnails').html('');
+        $.each(items, function (index, item) {
+          var cls = isSelectedItem(item.id) ? 'active' : '';
+          var ele = "<li title=\"".concat(item.filename, "\" class=\"").concat(cls, "\" data-id=\"").concat(item.id, "\" data-file-path=\"").concat(item.thumbnail, "\" data-mimetype=\"").concat(item.mimetype, "\" data-media-type=\"").concat(item.media_type, "\"><div class=\"preview\">\n            <button><span class=\"fa fa-check\"></span></button>\n            <div class=\"thumbnail\">\n            <div class=\"centered\">").concat(item.media_type === 'image' ? "<img src=\"".concat(item.thumbnail, "\"/>") : "<div class=\"file\"><i class=\"far fa-file\"></i></div>", "\n          </div>\n\n          </div>\n          </div>\n          <div class=\"file-name\">").concat(item.filename, "</div>\n          </li>");
+          $('#thumbnails').append(ele);
+        });
+      } else {
+        $('#thumbnails').html('Không tìm thấy file nào');
+      }
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }
+
+  loadMedias();
+  $('.load-media').click(function () {
+    var page = $(this).attr('data-page');
+    loadMedias(page);
+  });
+  $('#search-file').keyup(function () {
+    loadMedias(1, $(this).value);
+  });
+});
+
+/***/ }),
+
+/***/ 3:
+/*!*********************************************!*\
+  !*** multi ./resources/js/ckeditor-grid.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! /Users/dao/www/webvicms/themes/Admin/resources/js/ckeditor-grid.js */"./resources/js/ckeditor-grid.js");
+
+
+/***/ })
+
+/******/ });
