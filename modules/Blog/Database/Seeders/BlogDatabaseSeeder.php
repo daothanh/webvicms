@@ -9,7 +9,7 @@ use Modules\User\Entities\Permission;
 class BlogDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

@@ -11,7 +11,7 @@ use Modules\Core\Entities\Province;
 class CoreDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
@@ -26,7 +26,7 @@ class CoreDatabaseSeeder extends Seeder
 class ProvinceAndDistrictTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
