@@ -16,14 +16,14 @@ trait RouteServiceProviderTrait
         $locale = locale_prefix();
         if ($locale !== null) {
             Route::group(['prefix' => $locale], function () {
-                $this->routes();
+                $this->mapRoutes();
             });
         } else {
-            $this->routes();
+            $this->mapRoutes();
         }
     }
 
-    protected function routes()
+    protected function mapRoutes()
     {
         $this->mapApiRoutes();
         $this->mapWebAdminRoutes();
