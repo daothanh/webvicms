@@ -7,5 +7,6 @@
     "User": true,
     "Slider": true,
     "Page": true,
-    "Testimonial": true
+    "Testimonial": true,
+    "TestA": true
 }

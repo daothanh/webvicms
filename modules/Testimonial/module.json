@@ -3,8 +3,7 @@
     "alias": "testimonial",
     "description": "",
     "keywords": [],
-    "active": 1,
-    "order": 100,
+    "priority": 100,
     "providers": [
         "Modules\\Testimonial\\Providers\\TestimonialServiceProvider"
     ],

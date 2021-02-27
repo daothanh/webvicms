@@ -3,8 +3,7 @@
     "alias": "blog",
     "description": "",
     "keywords": [],
-    "active": 1,
-    "order": 6,
+    "priority": 6,
     "providers": [
         "Modules\\Blog\\Providers\\BlogServiceProvider"
     ],

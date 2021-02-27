@@ -3,8 +3,7 @@
     "alias": "slider",
     "description": "",
     "keywords": [],
-    "active": 1,
-    "order": 8,
+    "priority": 8,
     "providers": [
         "Modules\\Slider\\Providers\\SliderServiceProvider"
     ],

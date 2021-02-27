@@ -3,8 +3,7 @@
     "alias": "media",
     "description": "",
     "keywords": [],
-    "active": 1,
-    "order": 4,
+    "priority": 4,
     "providers": [
         "Modules\\Media\\Providers\\MediaServiceProvider"
     ],
